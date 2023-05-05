@@ -40,7 +40,7 @@ body {
 .Header, .Footer {
   width: 100%;
   background-color: skyblue;
-  padding: 1rem;
+  padding: .25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,7 +48,7 @@ body {
 }
 
 .Header h1 {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .Header svg {
@@ -56,7 +56,7 @@ body {
 }
 
 .Footer {
-  padding: 0.75rem;
+  padding: 0.25rem;
   display: grid;
 }
 
@@ -98,12 +98,12 @@ body {
 }
 
 .Nav li {
-  padding: 1rem;
+  padding: .5rem;
 }
 
 .Nav li:hover, 
 .Nav li:focus {
-  padding: 1rem;
+  padding: .5rem;
 }
 
 .Nav li a {
@@ -124,7 +124,7 @@ body {
   cursor: pointer;
 }
 
-.Projects, .Customers, .SqFt, .Estimate, .Invoice, .ErrorPage {
+.Projects, .Customers, .SqFt, .Estimate, .Invoice, .ErrorPage, .CustomerPage {
   width: 100%;
   flex-grow: 1;
   padding: 1rem;
@@ -132,35 +132,35 @@ body {
   background-color: #fff;
 }
 
-.post {
+.customer {
   margin-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid lightgray;
 }
 
-.Projects .post a {
+.Projects .customer a {
   text-decoration: none;
 }
 
-.Projects .post a, 
-.Projects .post a:visited {
+.Projects .customer a, 
+.Projects .customer a:visited {
   color: #000;
 }
 
-.post:first-child {
+.customer:first-child {
   margin-top: 0;
 }
 
-.post:last-child {
+.customer:last-child {
   border-bottom: none;
 }
 
-.postDate {
+.customerDate {
   font-size: 0.75rem;
   margin-top: 0.25rem;
 }
 
-.postBody {
+.customerBody {
   margin: 1rem 0;
 }
 
@@ -177,6 +177,7 @@ body {
 .CustomersForm textarea {
   font-family: 'Open Sans', sans-serif;
   width: 100%;
+  max-width: 400px;
   min-height: 48px;
   font-size: 1rem;
   padding: 0.25rem;
@@ -193,6 +194,7 @@ body {
   margin-top: 1rem;
   height: 48px;
   min-width: 48px;
+  max-width: 400px;
   border-radius: 10px;
   padding: 0.5rem;
   font-size: 1rem;
