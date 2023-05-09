@@ -124,7 +124,7 @@ body {
   cursor: pointer;
 }
 
-.Projects, .Customers, .SqFt, .Estimate, .Invoice, .ErrorPage, .CustomerPage {
+.Projects, .Customers, .SqFt, .Estimate, .Invoice, .ErrorPage, .CustomerPage, .ProjectPage {
   width: 100%;
   flex-grow: 1;
   padding: 1rem;
@@ -138,13 +138,28 @@ body {
   border-bottom: 1px solid lightgray;
 }
 
-.Projects .customer a {
+.customer a {
   text-decoration: none;
 }
 
-.Projects .customer a, 
-.Projects .customer a:visited {
+.customer a, 
+.customer a:visited {
   color: #000;
+}
+
+.project {
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid lightgray;
+}
+
+.project a {
+  text-decoration: none;
+}
+
+.project a, 
+.project a:visited {
+  color: black;
 }
 
 .customer:first-child {
@@ -155,24 +170,20 @@ body {
   border-bottom: none;
 }
 
-.customerDate {
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-}
-
-.customerBody {
-  margin: 1rem 0;
-}
-
+.ProjectForm,
 .CustomersForm {
   display: flex;
   flex-direction: column;
 }
 
+.ProjectForm label,
 .CustomersForm label {
   margin-top: 1rem;
 }
 
+.ProjectForm input[type='text'], 
+.ProjectForm input[type='date'],
+.ProjectForm textarea,
 .CustomersForm input[type='text'], 
 .CustomersForm textarea {
   font-family: 'Open Sans', sans-serif;
@@ -186,10 +197,24 @@ body {
   outline: none;
 }
 
+.ProjectForm select {
+  font-family: 'Open Sans', sans-serif;
+  width: 100%;
+  max-width: 400px;
+  min-height: 48px;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  margin-right: 0.25rem;
+  outline: none;
+}
+
+.ProjectForm textarea,
 .CustomersForm textarea {
   height: 100px;
 }
 
+.ProjectForm button, 
 .CustomersForm button {
   margin-top: 1rem;
   height: 48px;
@@ -201,15 +226,17 @@ body {
   cursor: pointer;
 }
 
-.Missing p, .SqFt p, .Customers p {
+.Missing p, .SqFt p, .Customers .Projects p {
   margin-top: 1rem;
 }
 
-.SqFt button {
+.ProjectPage button,
+.CustomerPage button {
   height: 48px;
   min-width: 48px;
   border-radius: 0.25rem;
-  padding: 0.5rem;
+  padding: .5rem;
+  margin-top: 0.5rem;
   margin-right: 0.5rem;
   font-size: 1rem;
   color: #fff;
@@ -221,7 +248,7 @@ body {
 }
 
 .editButton {
-  background-color: #333;
+  background-color: blue;
 }
 
 .statusMsg {

@@ -13,7 +13,7 @@ const Customers = ( { customerList }) => {
         <CustomerFeed customerList={customerList} />
       ) : (
         <p style={{ marginTop: "2rem"}}>
-          No Customers yet!
+          No Customers Yet
         </p>
       )}
     </main>
