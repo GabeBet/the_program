@@ -26,7 +26,7 @@ const AddProject = ( { customerList, descriptionList, handleSubmit, description,
                         <option key={item}>{item}</option>
                     ))}
             </select>
-            <label htmlFor='ProejctCustomer'>Customer:</label>
+            <label htmlFor='ProjectCustomer'>Customer:</label>
             <select 
                 id='ProjectCustomer'
                 type='text'

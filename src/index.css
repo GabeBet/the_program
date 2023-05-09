@@ -132,6 +132,10 @@ body {
   background-color: #fff;
 }
 
+.SqFt textarea {
+  resize: none;
+}
+
 .CustomerPage ul{
   margin-left: 4.25rem;
 }

@@ -320,7 +320,11 @@ function App() {
             />} />
         </Route>
         <Route path="sqft">
-          <Route index element={<SqFt />} />
+          <Route index element={<SqFt 
+            descriptionList={descriptionList}
+            projectList={projectList}
+            customerList={customerList}
+            />} />
         </Route>
         <Route path="estimate">
           <Route index element={<Estimate />} />
