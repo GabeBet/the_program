@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams, Link } from 'react-router-dom';
 
-const CustomerPage = ({ customerList, handleDelete }) => {
+const CustomerPage = ({ customerList, projectList, handleDelete }) => {
     const { id } = useParams();
     const customer = customerList.find(customer => (customer.id).toString() === id);
     return (
@@ -13,8 +13,12 @@ const CustomerPage = ({ customerList, handleDelete }) => {
                         <p className="customerAddress"><b>Address:</b> {customer.address}</p>
                         <p className="customerPhone"><b>Phone:</b> {customer.phone}</p>
                         <p className="customerEmail"><b>Email:</b> {customer.email}</p>
-                        
-                        {/*Add in all projects belonging to this customer*/}
+
+                        <p className="customerProjects"><b>Projects: </b> 
+                            {projectList.map(project => (
+                                <ul>{(project.customer === customer.name ? `${project.projectNumber} - ${project.description}`  : "")}</ul>
+                            ))}
+                        </p>
 
                         <Link to={`/customers/edit/${customer.id}`}><button className='editButton'>
                             Edit Customer

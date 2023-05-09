@@ -132,6 +132,10 @@ body {
   background-color: #fff;
 }
 
+.CustomerPage ul{
+  margin-left: 4.25rem;
+}
+
 .customer {
   margin-top: 1rem;
   padding-bottom: 1rem;

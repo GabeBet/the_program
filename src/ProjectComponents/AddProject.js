@@ -1,5 +1,3 @@
-import Select from 'react-select';
-
 const AddProject = ( { customerList, descriptionList, handleSubmit, description, setDescription, 
     projCustomer, setProjCustomer, invoiceNumber, setInvoiceNumber, projectNumber, 
     setProjectNumber, startDate, setStartDate, endDate, setEndDate }) => {
@@ -16,19 +14,18 @@ const AddProject = ( { customerList, descriptionList, handleSubmit, description,
                 value={projectNumber}
                 onChange={(e) => setProjectNumber(e.target.value)}
             />
-
             <label htmlFor='ProjectDescription'>Description:</label>
-            <Select
+            <select 
                 id='ProjectDescription'
                 type='text'
                 required
-                defaultValue={{label:"Select Project Description...", value:""}}
-                options={descriptionList}
-                onChange={(e) => {
-                    setDescription( e.value );
-                }}
-            />
-
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}>
+                    <option value="" disabled defaultValue={""}>Select Project Description...</option>
+                    {descriptionList.map(item => (
+                        <option key={item}>{item}</option>
+                    ))}
+            </select>
             <label htmlFor='ProejctCustomer'>Customer:</label>
             <select 
                 id='ProjectCustomer'

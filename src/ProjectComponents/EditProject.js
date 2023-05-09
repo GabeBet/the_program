@@ -1,6 +1,5 @@
 import { useEffect} from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Select from 'react-select';
 
 const EditProject = ({ projectList, customerList, descriptionList, handleEdit, editDescription, setEditDescription, 
     editProjCustomer, setEditProjCustomer, editProjectNumber, setEditProjectNumber, 
@@ -35,17 +34,18 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
                         onChange={(e) => setEditProjectNumber(e.target.value)}
                     />
 
-                <label htmlFor='ProjectDescription'>Description:</label>
-                <Select
-                    id='ProjectDescription'
-                    type='text'
-                    required
-                    defaultValue={{label:editDescription, value:editDescription}}
-                    options={descriptionList}
-                    onChange={(e) => {
-                        setEditDescription( e.value );
-                    }}
-                />
+                    <label htmlFor='ProjectDescription'>Description:</label>
+                    <select 
+                        id='ProjectDescription'
+                        type='text'
+                        required
+                        value={editDescription}
+                        onChange={(e) => setEditDescription(e.target.value)}>
+                        <option value="" disabled defaultValue={""}>Select Project Description...</option>
+                        {descriptionList.map(item => (
+                            <option key={item}>{item}</option>
+                        ))}
+                    </select>
 
                     <label htmlFor='ProjectCustomer'>Customer:</label>
                     <select 
