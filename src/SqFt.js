@@ -5,9 +5,32 @@ const SqFt = ({ descriptionList, projectList, customerList }) => {
   const [inputFields, setInputFields] = useState([
     {description: '', length: '', width: '', total: ''}
   ])
-  
+  const [projectNumber, setProjectNumber] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [grandTotal, setGrandTotal] = useState('');
+
+  const [sqFtData, setSqFtData] = useState([
+    {
+      projectNumber: "PRY-100",
+      inputFields: [{description: 'Closet Top', length: '144', width: '25', total: '25'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
+      grandTotal: '40',
+    },
+    {
+      projectNumber: "PRY-101",
+      inputFields: [{description: 'Coffee Table', length: '144', width: '20', total: '20'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
+      grandTotal: '35',
+    },
+    {
+      projectNumber: "PRY-102",
+      inputFields: [{description: 'Trip Charge', length: '144', width: '10', total: '10'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
+      grandTotal: '25',
+    },
+    {
+      projectNumber: "PRY-103",
+      inputFields: [{description: 'Vanity', length: '144', width: '15', total: '15'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
+      grandTotal: '30',
+    }
+  ]);
 
   const calculate = () => {
     inputFields?.forEach((row) => {
@@ -24,12 +47,22 @@ const SqFt = ({ descriptionList, projectList, customerList }) => {
   }
 
   const handleProjectChange = (e) => {
-    setCustomerName(e.target.value)
+    setProjectNumber(e.target.value);
+    projectList?.forEach((proj) => {
+      if (proj.projectNumber === e.target.value){
+        setCustomerName(proj.customer);
+      }
+      sqFtData?.forEach((proj) => {
+          if (proj.projectNumber === e.target.value){
+            setInputFields(proj.inputFields);
+            setGrandTotal(proj.grandTotal);
+          }
+      })
+    })
   }
 
   const addFields = () => {
     let newField = {description: '', length: '', width: '', total: ''}
-
     setInputFields([...inputFields, newField])
   }
 
@@ -39,17 +72,20 @@ const SqFt = ({ descriptionList, projectList, customerList }) => {
     setInputFields(data);
     calculate();
   }
+
+  // const saveSqFt = () => {
+  //
+  // }
   
   return (
     <div className='SqFt'>
-
       <select className="SqFt-ProjectNumber"
         name='projectNumber'
-        value={customerName}
+        value={projectNumber}
         onChange={(e) => handleProjectChange(e)}>
         <option value="" disabled>Select Project...</option>
           {projectList.map(project => (
-              <option key={project.id} value={project.customer}>{project.projectNumber}</option>
+              <option key={project.id} value={project.value}>{project.projectNumber}</option>
           ))}
       </select>
 
@@ -109,9 +145,9 @@ const SqFt = ({ descriptionList, projectList, customerList }) => {
             value={grandTotal}
             readOnly
         />
+        <br></br>
+        <button >Save Square Footage</button>
       </form>
-
-      
     </div>
   )
 }
