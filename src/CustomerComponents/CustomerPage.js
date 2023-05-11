@@ -14,11 +14,10 @@ const CustomerPage = ({ customerList, projectList, handleDelete }) => {
                         <p className="customerPhone"><b>Phone:</b> {customer.phone}</p>
                         <p className="customerEmail"><b>Email:</b> {customer.email}</p>
 
-                        <p className="customerProjects"><b>Projects: </b> 
-                            {projectList.map(project => (
-                                <ul>{(project.customer === customer.name ? `${project.projectNumber} - ${project.description}`  : "")}</ul>
-                            ))}
-                        </p>
+                        <p className="customerProjects"><b>Projects: </b></p>
+                        {projectList.map(project => (
+                            <Link to={`/projects/${project.id}`}><ul>{(project.customer === customer.name ? `${project.projectNumber} - ${project.description}`  : "")}</ul></Link>
+                        ))}
 
                         <Link to={`/customers/edit/${customer.id}`}><button className='editButton'>
                             Edit Customer

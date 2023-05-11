@@ -55,7 +55,7 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
                         value={editProjCustomer}
                         onChange={(e) => setEditProjCustomer(e.target.value)}>
                             {customerList.map(customer => (
-                                <option value={customer.name}>{customer.name}</option>
+                                <option key={customer.id} value={customer.name}>{customer.name}</option>
                             ))}
                     </select>
 

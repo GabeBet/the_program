@@ -79,8 +79,8 @@ function App() {
       description: "Kitchen Top",
       invoiceNumber: "23-100",
       projectNumber: "PRY-100",
-      startDate: "5/8/23",
-      endDate: "8/5/23"
+      startDate: "2023-05-08",
+      endDate: "2023-08-05"
     },
     {
       id: 2,
@@ -88,8 +88,8 @@ function App() {
       description: "Vanity",
       invoiceNumber: "23-101",
       projectNumber: "PRY-101",
-      startDate: "5/9/23",
-      endDate: "9/5/23"
+      startDate: "2023-05-09",
+      endDate: "2023-09-05"
     },
     {
       id: 3,
@@ -97,8 +97,8 @@ function App() {
       description: "Bathroom",
       invoiceNumber: "23-102",
       projectNumber: "PRY-102",
-      startDate: "5/10/23",
-      endDate: "10/5/23"
+      startDate: "2023-05-10",
+      endDate: "2023-10-05"
     },
     {
       id: 4,
@@ -106,8 +106,8 @@ function App() {
       description: "Outdoor",
       invoiceNumber: "23-103",
       projectNumber: "PRY-103",
-      startDate: "5/11/23",
-      endDate: "11/5/23"
+      startDate: "2023-05-11",
+      endDate: "2023-11-05"
     }
   ])
 
@@ -172,6 +172,29 @@ function App() {
     "Vanity Sink - Oval",
     "Vanity Sink Rectangle"
   ])
+
+  const [sqFtData, setSqFtData] = useState([
+    {
+      projectNumber: "PRY-100",
+      inputFields: [{description: 'Closet Top', length: '43', width: '23', total: '7'}, {description: 'Decking', length: '61', width: '23', total: '10'}],
+      grandTotal: '17',
+    },
+    {
+      projectNumber: "PRY-101",
+      inputFields: [{description: 'Coffee Table', length: '38', width: '13', total: '4'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
+      grandTotal: '19',
+    },
+    {
+      projectNumber: "PRY-102",
+      inputFields: [{description: 'Trip Charge', length: '144', width: '10', total: '10'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
+      grandTotal: '25',
+    },
+    {
+      projectNumber: "PRY-103",
+      inputFields: [{description: 'Vanity', length: '144', width: '15', total: '15'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
+      grandTotal: '30',
+    }
+  ]);
 
   const handleSubmitCustomer = (e) => {
     e.preventDefault();
@@ -320,10 +343,11 @@ function App() {
             />} />
         </Route>
         <Route path="sqft">
-          <Route index element={<SqFt 
+          <Route index element={<SqFt
+            sqFtData={sqFtData}
+            setSqFtData={setSqFtData}
             descriptionList={descriptionList}
             projectList={projectList}
-            customerList={customerList}
             />} />
         </Route>
         <Route path="estimate">

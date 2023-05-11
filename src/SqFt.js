@@ -1,6 +1,9 @@
 import { useState } from "react"
+import { useLocation } from "react-router-dom";
 
-const SqFt = ({ descriptionList, projectList, customerList }) => {
+const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
+  
+  const [loaded, setLoaded] = useState(false);
 
   const [inputFields, setInputFields] = useState([
     {description: '', length: '', width: '', total: ''}
@@ -8,29 +11,6 @@ const SqFt = ({ descriptionList, projectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [grandTotal, setGrandTotal] = useState('');
-
-  const [sqFtData, setSqFtData] = useState([
-    {
-      projectNumber: "PRY-100",
-      inputFields: [{description: 'Closet Top', length: '144', width: '25', total: '25'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
-      grandTotal: '40',
-    },
-    {
-      projectNumber: "PRY-101",
-      inputFields: [{description: 'Coffee Table', length: '144', width: '20', total: '20'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
-      grandTotal: '35',
-    },
-    {
-      projectNumber: "PRY-102",
-      inputFields: [{description: 'Trip Charge', length: '144', width: '10', total: '10'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
-      grandTotal: '25',
-    },
-    {
-      projectNumber: "PRY-103",
-      inputFields: [{description: 'Vanity', length: '144', width: '15', total: '15'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
-      grandTotal: '30',
-    }
-  ]);
 
   const calculate = () => {
     inputFields?.forEach((row) => {
@@ -52,13 +32,38 @@ const SqFt = ({ descriptionList, projectList, customerList }) => {
       if (proj.projectNumber === e.target.value){
         setCustomerName(proj.customer);
       }
-      sqFtData?.forEach((proj) => {
-          if (proj.projectNumber === e.target.value){
-            setInputFields(proj.inputFields);
-            setGrandTotal(proj.grandTotal);
-          }
-      })
     })
+
+    if( !checkSqFtData(e) ) {
+      setInputFields([{description: '', length: '', width: '', total: ''}]);
+      setGrandTotal('0');
+    } else {
+      sqFtData?.forEach((proj) => {
+        if (proj.projectNumber === e.target.value){
+          setInputFields(proj.inputFields);
+          setGrandTotal(proj.grandTotal);
+        }
+      })
+    }
+  }
+
+  const handleProjectLoad = (projNumber) => {
+    projectList?.forEach((proj) => {
+      if (proj.projectNumber === projNumber){
+        setCustomerName(proj.customer);
+      }
+    })
+    if( !checkSqFtDataLoad(projNumber) ) {
+      setInputFields([{description: '', length: '', width: '', total: ''}]);
+      setGrandTotal('0');
+    } else {
+      sqFtData?.forEach((proj) => {
+        if (proj.projectNumber === projNumber){
+          setInputFields(proj.inputFields);
+          setGrandTotal(proj.grandTotal);
+        }
+      })
+    }
   }
 
   const addFields = () => {
@@ -73,9 +78,48 @@ const SqFt = ({ descriptionList, projectList, customerList }) => {
     calculate();
   }
 
-  // const saveSqFt = () => {
-  //
-  // }
+  const saveSqFt = (e) => {
+    e.preventDefault();
+    if( checkSqFtData(e) ) {
+      sqFtData?.forEach((sf) => {
+          sf.inputFields = inputFields;
+          sf.grandTotal = grandTotal;
+      })
+    } else {
+      const newSqFtData = { projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal};
+      const allSqFtData = [...sqFtData, newSqFtData];
+      setSqFtData(allSqFtData);
+    }
+    console.log(sqFtData)
+  }
+
+  const checkSqFtData = (e) => {
+    if( sqFtData.find(proj => proj.projectNumber === e.target.value )) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  const checkSqFtDataLoad = (e) => {
+    if( sqFtData.find(proj => proj.projectNumber === e )) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  try { 
+    const location = useLocation();
+    const { linkedNumber } = location.state;
+    if (!loaded){
+      setProjectNumber(linkedNumber);
+      setLoaded(true);
+      handleProjectLoad(linkedNumber);
+    }
+  } catch (err) {
+
+  }
   
   return (
     <div className='SqFt'>
@@ -146,8 +190,8 @@ const SqFt = ({ descriptionList, projectList, customerList }) => {
             readOnly
         />
         <br></br>
-        <button >Save Square Footage</button>
       </form>
+      <button onClick={saveSqFt}>Save Square Footage</button>
     </div>
   )
 }
