@@ -132,14 +132,8 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
               <option key={project.id} value={project.value}>{project.projectNumber}</option>
           ))}
       </select>
-
-      <textarea 
-        disabled
-        value={customerName}
-        placeholder="Customer...">
-          {customerName}
-      </textarea>
-
+      <h4>Customer: {customerName}</h4>
+          
       <form onSubmit={(e) => e.preventDefault()}>
         {inputFields.map((input, index) => {
           return (
