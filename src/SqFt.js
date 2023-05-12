@@ -90,7 +90,6 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
       const allSqFtData = [...sqFtData, newSqFtData];
       setSqFtData(allSqFtData);
     }
-    console.log(sqFtData)
   }
 
   const checkSqFtData = (e) => {

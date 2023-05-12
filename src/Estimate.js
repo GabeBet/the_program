@@ -9,11 +9,36 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
 
+  const [projectDescription, setProjectDescription] = useState('');
   const [date, setDate] = useState('');
+
+  const [subTotal, setSubTotal] = useState('');
 
   const [inputFields, setInputFields] = useState([
     {description: '', qty: '', unitPrice: '', amount: ''}
   ])
+
+  const [estimateData, setEstimateData] = useState([
+    {
+      projectNumber: 'PRY-100', 
+      inputFields: [{description: 'Closet Top', qty: '17', unitPrice: '26', amount: '442'}], 
+      subTotal: '422'
+    }
+  ])
+
+  const calculate = () => {
+    inputFields?.forEach((row) => {
+      row.amount = (Math.ceil(row.qty * row.unitPrice))
+    })
+    setSubTotal((inputFields.reduce((a,v) => a = a + v.amount, 0)))
+  }
+
+  const handleChange = (index, e) => {
+    let data = [...inputFields];
+    data[index][e.target.name] = e.target.value;
+    setInputFields(data);
+    calculate();
+  }
 
   const handleProjectChange = (e) => {
     setProjectNumber(e.target.value);
@@ -26,22 +51,45 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
             setPhone(cust.phone);
             setEmail(cust.email);
           }
-          setDate(proj.startDate)
+          setDate(proj.startDate);
+          setProjectDescription(proj.description);
         })
       }
     })
 
-    // if( !checkSqFtData(e) ) {
-    //   setInputFields([{description: '', length: '', width: '', total: ''}]);
-    //   setGrandTotal('0');
-    // } else {
-    //   sqFtData?.forEach((proj) => {
-    //     if (proj.projectNumber === e.target.value){
-    //       setInputFields(proj.inputFields);
-    //       setGrandTotal(proj.grandTotal);
-    //     }
-    //   })
-    // }
+    if( !checkEstimateData(e) ) {
+      setInputFields([{description: '', qty: '', unitPrice: '', amount: ''}]);
+      setSubTotal('0');
+    } else {
+      estimateData?.forEach((proj) => {
+        if (proj.projectNumber === e.target.value){
+          setInputFields(proj.inputFields);
+          setSubTotal(proj.subTotal);
+        }
+      })
+    }
+  }
+
+  const saveEstimate = (e) => {
+    e.preventDefault();
+    if( checkEstimateData(e) ) {
+      estimateData?.forEach((est) => {
+          est.inputFields = inputFields;
+          est.subTotal = subTotal;
+      })
+    } else {
+      const newEstimateData = { projectNumber: projectNumber, inputFields: inputFields, subTotal: subTotal};
+      const allEstimateData = [...estimateData, newEstimateData];
+      setEstimateData(allEstimateData);
+    }
+  }
+
+  const checkEstimateData = (e) => {
+    if( estimateData.find(proj => proj.projectNumber === e.target.value )) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   return (
@@ -75,8 +123,66 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
       <br></br>
 
       <div className='EstimateTable'>
-        <h4>Description &emsp;&emsp;&emsp; Qty &emsp;&emsp;&emsp; Unit Price &emsp;&emsp;&emsp; Amount</h4>
+        <h4>{projectDescription}</h4>
+        <table>
+          <tr>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Amount</th>
+          </tr>
+          {inputFields.map((input, index) => {
+            return (
+              <tr key={index}>
+                <td><select 
+                  name='description'
+                  type='text'
+                  value={input.description}
+                  onChange={(e) => handleChange(index, e)}>
+                    <option value="" disabled defaultValue={""}>Select Project Description...</option>
+                    {descriptionList.map(item => (
+                      <option key={item}>{item}</option>
+                    ))
+                  }
+                </select></td>
+                <td><input
+                  name='qty'
+                  type="number"
+                  placeholder="Qty"
+                  value={input.qty}
+                  onChange={(e) => handleChange(index, e)}
+                /></td>
+                <td><input
+                  name='unitPrice'
+                  type="number"
+                  placeholder="Unit Price"
+                  value={input.unitPrice}
+                  onChange={(e) => handleChange(index, e)}
+                /></td>
+                <td><input
+                  name='amount'
+                  type="display"
+                  placeholder="Amount"
+                  value={input.amount}
+                  readOnly
+                /></td>
+              </tr>
+            )
+          })}
+        </table>
+        <button onClick={saveEstimate}>Save Estimate</button>
+      </div>
 
+      <br></br>
+
+      <div className='EstimateFooter'>
+        <input
+            name='subTotal'
+            type="display"
+            placeholder="Sub Total"
+            value={subTotal}
+            readOnly
+        />
       </div>
     </main>
   )
