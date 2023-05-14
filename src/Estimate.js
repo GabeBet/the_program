@@ -13,6 +13,8 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
   const [date, setDate] = useState('');
 
   const [subTotal, setSubTotal] = useState('');
+  const [tax, setTax] = useState('');
+  const [total, setTotal] = useState('');
 
   const [inputFields, setInputFields] = useState([
     {description: '', qty: '', unitPrice: '', amount: ''}
@@ -22,7 +24,9 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
     {
       projectNumber: 'PRY-100', 
       inputFields: [{description: 'Closet Top', qty: '17', unitPrice: '26', amount: '442'}], 
-      subTotal: '422'
+      subTotal: '422',
+      tax: '34.82',
+      total: '456.82'
     }
   ])
 
@@ -31,6 +35,7 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
       row.amount = (Math.ceil(row.qty * row.unitPrice))
     })
     setSubTotal((inputFields.reduce((a,v) => a = a + v.amount, 0)))
+    setTotal(subTotal+tax)
   }
 
   const handleChange = (index, e) => {
@@ -60,14 +65,23 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
     if( !checkEstimateData(e) ) {
       setInputFields([{description: '', qty: '', unitPrice: '', amount: ''}]);
       setSubTotal('0');
+      setTax('0')
+      setTotal('0')
     } else {
       estimateData?.forEach((proj) => {
         if (proj.projectNumber === e.target.value){
           setInputFields(proj.inputFields);
           setSubTotal(proj.subTotal);
+          setTax(proj.tax);
+          setTotal(proj.total);
         }
       })
     }
+  }
+
+  const handleTaxChange = (e) => {
+    setTax(e.target.value);
+    calculate();
   }
 
   const saveEstimate = (e) => {
@@ -76,9 +90,11 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
       estimateData?.forEach((est) => {
           est.inputFields = inputFields;
           est.subTotal = subTotal;
+          est.tax = tax;
+          est.total = total;
       })
     } else {
-      const newEstimateData = { projectNumber: projectNumber, inputFields: inputFields, subTotal: subTotal};
+      const newEstimateData = { projectNumber: projectNumber, inputFields: inputFields, subTotal: subTotal, tax: tax, total: total};
       const allEstimateData = [...estimateData, newEstimateData];
       setEstimateData(allEstimateData);
     }
@@ -176,13 +192,29 @@ const Estimate = ( { sqFtData, descriptionList, projectList, customerList }) => 
       <br></br>
 
       <div className='EstimateFooter'>
-        <input
-            name='subTotal'
-            type="display"
-            placeholder="Sub Total"
-            value={subTotal}
-            readOnly
-        />
+          <p>
+            <input
+              name='subTotal'
+              type="display"
+              placeholder="Sub Total"
+              value={subTotal}
+              readOnly
+            /><br></br>
+            <input
+              name='tax'
+              type="number"
+              placeholder="Tax"
+              value={tax}
+              onChange={(e) => handleTaxChange(e)}
+            /><br></br>
+            <input
+              name='total'
+              type="display"
+              placeholder="Total"
+              value={total}
+              readOnly
+            />
+          </p>
       </div>
     </main>
   )
