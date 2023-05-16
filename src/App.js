@@ -196,6 +196,30 @@ function App() {
     }
   ]);
 
+  const [estimateData, setEstimateData] = useState([
+    {
+      projectNumber: 'PRY-100', 
+      date: '2023-05-15',
+      inputFields: [{description: 'Closet Top', qty: '17', unitPrice: '26', amount: '442'}, 
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''}],
+      subTotal: '422',
+      tax: '34.82',
+      total: '456.82',
+      deposit: '200',
+      balance: '256.82'
+    }
+    
+  ])
+
   const handleSubmitCustomer = (e) => {
     e.preventDefault();
     const id = customerList.length ? customerList[customerList.length - 1].id + 1 : 1;
@@ -352,14 +376,20 @@ function App() {
         </Route>
         <Route path="estimate">
           <Route index element={<Estimate 
-            sqFtData={sqFtData}
+            estimateData={estimateData}
+            setEstimateData={setEstimateData}
             descriptionList={descriptionList}
             projectList={projectList}
             customerList={customerList}
           />} />
         </Route>
         <Route path="invoice">
-          <Route index element={<Invoice />} />
+          <Route index element={<Invoice
+            estimateData={estimateData}
+            descriptionList={descriptionList}
+            projectList={projectList}
+            customerList={customerList}
+          />} />
         </Route>
           <Route path="*" element={<ErrorPage />} />
       </Route>

@@ -169,11 +169,11 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
                 value={input.total}
                 readOnly
               />
-              <button onClick={() => removeFields(index)}>Remove</button>
+              <button className="deleteButton" onClick={() => removeFields(index)}>Remove</button>
             </div>
           )
         })}
-        <button onClick={addFields}>Add New Row...</button>
+        <button className="addButton" onClick={addFields}>Add New Row...</button>
         <p></p>
         <input
             name='grandTotal'
@@ -184,7 +184,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
         />
         <br></br>
       </form>
-      <button onClick={saveSqFt}>Save Square Footage</button>
+      <button className="saveButton" onClick={saveSqFt}>Save Square Footage</button>
     </div>
   )
 }

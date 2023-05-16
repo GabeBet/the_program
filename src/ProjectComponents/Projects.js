@@ -5,7 +5,7 @@ const Projects = ({ projectList }) => {
   return (
     <main className='Projects'>
       <h2>Projects</h2> 
-      <Link to={'/add-project'}><button className="addProjectsButton">Add Project</button></Link>
+      <Link to={'/add-project'}><button className="addButton">Add Project</button></Link>
 
       {projectList.length ? (
         <ProjectFeed projectList={projectList} />

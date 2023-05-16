@@ -16,7 +16,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
-  background-color: #efefef;
+  background-color: white;
 }
 
 #root {
@@ -33,8 +33,6 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border: 1px solid #333;
-  box-shadow: 0px 0px 15px gray;
 }
 
 .Header, .Footer {
@@ -67,26 +65,6 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-}
-
-.searchForm {
-  width: 80%;
-  padding: 1rem 0 0 0.75rem;
-}
-
-.searchForm input[type="text"] {
-  font-family: 'Open Sans', sans-serif;
-  width: 100%;
-  min-height: 48px;
-  font-size: 1rem;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  outline: none;
-}
-
-.searchForm label {
-  position: absolute;
-  left: -99999px;
 }
 
 .Nav ul {
@@ -124,7 +102,7 @@ body {
   cursor: pointer;
 }
 
-.Projects, .Customers, .SqFt, .Estimate, .Invoice, .ErrorPage, .CustomerPage, .ProjectPage {
+.Projects, .Customers, .SqFt, .ErrorPage, .CustomerPage, .ProjectPage {
   width: 100%;
   flex-grow: 1;
   padding: 1rem;
@@ -238,8 +216,7 @@ body {
   margin-top: 1rem;
 }
 
-.ProjectPage button,
-.CustomerPage button {
+button {
   height: 48px;
   min-width: 48px;
   border-radius: 0.25rem;
@@ -259,56 +236,117 @@ body {
   background-color: blue;
 }
 
+.saveButton {
+  background-color: green;
+}
+
+.addButton {
+  background-color: blue;
+}
+
 .statusMsg {
   margin-top: 2rem;
 }
 
-@media only screen and (min-width: 610px) {
-  html {
-    font-size: 22px;
-  }
-
-  .Header h1 {
-    font-size: 2rem;
-  }
-
-  .Nav {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .Nav ul {
-    text-align: right;
-  }
-
-  .Nav li:hover, 
-  .Nav li:focus, 
-  .Nav li:hover a, 
-  .Nav li:focus a  {
-    background-color: #eee;
-    color: #333;
-  }
-
-  .searchForm {
-    width: 50%;
-    padding: .5rem 0;
-  }
- 
-  .searchForm input[type="text"] {
-    margin-left: 0.5rem;
-  }
-
-  .CustomersForm textarea {
-    height: 300px;
-  }
+.Estimate,
+.Invoice {
+  width: 100%;
+  flex-grow: 1;
+  padding: 1rem;
+  background-color: #fff;
 }
 
-@media only screen and (min-width: 992px) {
+.EstimateHeading,
+.InvoiceHeading {
+  font-weight: bold;
+  font-size: x-large;
+}
 
-  .Header svg {
-    font-size: 3rem;
-  }
+.EstimateHeading select, .EstimateHeading input,
+.InvoiceHeading select, .InvoiceHeading input{
+  font-size: small;
+  font-family: 'Open Sans', sans-serif;
+  width: flex;
+  outline: none;
+} 
+
+.EstimateCustomer,
+.InvoiceCustomer {
+  background-color: #eee;
+  font-size: large;
+}
+
+.EstimateDescription,
+.InvoiceDescription {
+  text-align: center;
+  color: #fff;
+  background-color: #000;
+}
+
+.Estimate th,
+.Invoice th {
+  border: 1px solid;
+  width: 100%;
+}
+
+.EstimateTable select,
+.InvoiceTable select{
+  font-family: 'Open Sans', sans-serif;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.25rem;
+  outline: none;
+}
+
+.EstimateTable input,
+.InvoiceTable input {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  width: flex;
+  padding: 0.25rem;
+  outline: none;
+}
+
+.rightFooter input{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  padding: 0.25rem;
+  outline: none;
+}
+
+.Estimate label {
+  font-weight: bold;
+}
+
+.leftTitle {
+  float: left;
+  font-size: x-large;
+}
+
+.leftSubTitle {
+  float: left;
+  font-size: medium;
+}
+
+.rightTitle {
+  float: right;
+  margin-right: 2rem;
+  font-size: x-large;
+}
+
+.rightSubTitle {
+  float: right;
+  margin-right: 1rem;
+  font-size: medium;
+}
+
+.rightFooter {
+  float: right;
+  text-align: right;
+}
+
+.centerFooter {
+  text-align: center;
+  margin-top: 1rem;
 
 }
