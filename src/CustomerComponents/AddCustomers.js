@@ -39,7 +39,7 @@ const AddCustomers = ( { handleSubmit, name, setName, address, setAddress, phone
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             />
-            <button type="submit">Submit</button>
+            <button className="addButton" type="submit">Submit</button>
         </form>
         </main>
     )

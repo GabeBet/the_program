@@ -52,7 +52,7 @@ const EditCustomer = ({ customerList, handleEdit, editName, setEditName, editAdd
                   value={editEmail}
                   onChange={(e) => setEditEmail(e.target.value)}
                   />
-                  <button type="button" onClick={() => handleEdit(customer.id)}>Submit</button>
+                  <button className='saveButton' type="button" onClick={() => handleEdit(customer.id)}>Submit</button>
                 </form>
             </>
         }

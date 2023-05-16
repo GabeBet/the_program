@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
 
-const Invoice = ( { estimateData, descriptionList, projectList, customerList }) => {
+const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, projectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
   const [loaded, setLoaded] = useState(false);
 
@@ -31,29 +31,6 @@ const Invoice = ( { estimateData, descriptionList, projectList, customerList }) 
     {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''}
-  ])
-
-  const [invoiceData, setInvoiceData] = useState([
-    {
-      // projectNumber: 'PRY-100', 
-      // date: '2023-05-15',
-      // inputFields: [{description: 'Closet Top', qty: '17', unitPrice: '26', amount: '442'}, 
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''},
-      // {description: '', qty: '', unitPrice: '', amount: ''}],
-      // subTotal: '422',
-      // tax: '34.82',
-      // total: '456.82',
-      // deposit: '200',
-      // balance: '256.82'
-    }
   ])
 
   useEffect(() => {
@@ -90,6 +67,7 @@ const Invoice = ( { estimateData, descriptionList, projectList, customerList }) 
     if( checkInvoiceData(e) ) {
       invoiceData?.forEach((proj) => {
         if (proj.projectNumber === e.target.value){
+          console.log('invoice')
           setDate(proj.date);
           setInputFields(proj.inputFields);
           setSubTotal(proj.subTotal);
@@ -102,6 +80,7 @@ const Invoice = ( { estimateData, descriptionList, projectList, customerList }) 
     } else if ( checkEstimateData(e) ) {
       estimateData?.forEach((proj) => {
         if (proj.projectNumber === e.target.value){
+          console.log('estimate')
           setDate(proj.date);
           setInputFields(proj.inputFields);
           setSubTotal(proj.subTotal);
@@ -238,9 +217,9 @@ const Invoice = ( { estimateData, descriptionList, projectList, customerList }) 
     <main className='Invoice'>
       <div className='InvoiceHeading'>
         {/* <img src={logo} className="CompanyLogo" alt="logo" /> */}
-        <span class="leftTitle">Beta Granite Solutions</span> <span class="rightTitle"> Invoice </span> 
+        <span className="leftTitle">Beta Granite Solutions</span> <span className="rightTitle"> Invoice </span> 
         <br></br>
-        <span class="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span> <span class="rightSubTitle">Date:&ensp;
+        <span className="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span> <span className="rightSubTitle">Date:&ensp;
           <input className='rightSubTitle'
             id='InvoiceDate'
             type='date'
@@ -248,7 +227,7 @@ const Invoice = ( { estimateData, descriptionList, projectList, customerList }) 
             value={date}
             onChange={(e) => setDate(e.target.value)}
           /></span> 
-        <span class="rightSubTitle">Project: &ensp;
+        <span className="rightSubTitle">Project: &ensp;
           <select className="rightSubTitle"
             name='projectNumber'
             value={projectNumber}
@@ -274,48 +253,50 @@ const Invoice = ( { estimateData, descriptionList, projectList, customerList }) 
           
       <div className='InvoiceTable'>
         <table>
-          <tr>
-            <th>Description</th>
-            <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Amount</th>
-          </tr>
-          {inputFields.map((input, index) => {
-            return (
-              <tr key={index}>
-                <td><select 
-                  name='description'
-                  type='text'
-                  value={input.description}
-                  onChange={(e) => handleChange(index, e)}>
-                    <option value="" disabled defaultValue={""}></option>
-                    {descriptionList.map(item => (
-                      <option key={item}>{item}</option>
-                    ))
-                  }
-                </select></td>
-                <td><input
-                  name='qty'
-                  type="number"
-                  value={input.qty}
-                  onChange={(e) => handleChange(index, e)}
-                /></td>
-                <td><input
-                  name='unitPrice'
-                  type="number"
-                  value={input.unitPrice}
-                  onChange={(e) => handleChange(index, e)}
-                /></td>
-                <td><input
-                  name='amount'
-                  type="display"
-                  value={input.amount}
-                  readOnly
-                /></td>
-              </tr>
-              
-            )
-          })}
+          <tbody>
+            <tr>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th>Amount</th>
+            </tr>
+            {inputFields.map((input, index) => {
+              return (
+                <tr key={index}>
+                  <td><select 
+                    name='description'
+                    type='text'
+                    value={input.description}
+                    onChange={(e) => handleChange(index, e)}>
+                      <option value="" disabled defaultValue={""}></option>
+                      {descriptionList.map(item => (
+                        <option key={item}>{item}</option>
+                      ))
+                    }
+                  </select></td>
+                  <td><input
+                    name='qty'
+                    type="number"
+                    value={input.qty}
+                    onChange={(e) => handleChange(index, e)}
+                  /></td>
+                  <td><input
+                    name='unitPrice'
+                    type="number"
+                    value={input.unitPrice}
+                    onChange={(e) => handleChange(index, e)}
+                  /></td>
+                  <td><input
+                    name='amount'
+                    type="display"
+                    value={input.amount}
+                    readOnly
+                  /></td>
+                </tr>
+                
+              )
+            })}
+          </tbody>
         </table>
         <button className='saveButton' onClick={saveInvoice}>Save Invoice</button>
       </div>

@@ -1,0 +1,293 @@
+{
+  "projectList": [
+    {
+      "id": 2,
+      "customer": "Patricia Betancourt",
+      "description": "Vanity",
+      "invoiceNumber": "23-101",
+      "projectNumber": "PRY-101",
+      "startDate": "2023-05-09",
+      "endDate": "2023-09-05"
+    },
+    {
+      "id": 4,
+      "customer": "Jonathan Betancourt",
+      "description": "Outdoor",
+      "invoiceNumber": "23-103",
+      "projectNumber": "PRY-103",
+      "startDate": "2023-05-11",
+      "endDate": "2023-11-05"
+    },
+    {
+      "id": 5,
+      "description": "Fireplace",
+      "customer": "Gabriel Betancourt",
+      "projectNumber": "PRY-104",
+      "invoiceNumber": "",
+      "startDate": "2023-05-16",
+      "endDate": ""
+    }
+  ],
+  "customerList": [
+    {
+      "id": 1,
+      "name": "Gabriel Betancourt",
+      "address": "3511 Maverly Crest Ct Katy, TX 77494",
+      "phone": "281-889-2800",
+      "email": "gabe.bet@hotmail.com"
+    },
+    {
+      "id": 2,
+      "name": "Patricia Betancourt",
+      "address": "3511 Maverly Crest Ct Katy, TX 77494",
+      "phone": "281-900-3285",
+      "email": "pbeta45@hotmail.com"
+    },
+    {
+      "id": 3,
+      "name": "Edgar Betancourt",
+      "address": "3511 Maverly Crest Ct Katy, TX 77494",
+      "phone": "346-446-8884",
+      "email": "embm65@hotmail.com"
+    },
+    {
+      "id": 5,
+      "name": "Geoffrey Betancourt",
+      "address": "3511 Maverly Crest Ct",
+      "phone": "2818892800",
+      "email": "geoffrey.betancourt@icloud.com"
+    }
+  ],
+  "estimateData": [
+    {
+      "projectNumber": "PRY-100",
+      "date": "2023-05-15",
+      "inputFields": [
+        {
+          "description": "Closet Top",
+          "qty": "17",
+          "unitPrice": "26",
+          "amount": "442"
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        }
+      ],
+      "subTotal": "422",
+      "tax": "34.82",
+      "total": "456.82",
+      "deposit": "200",
+      "balance": "256.82"
+    }
+  ],
+  "sqFtData": [
+    {
+      "projectNumber": "PRY-100",
+      "inputFields": [
+        {
+          "description": "Closet Top",
+          "length": "43",
+          "width": "23",
+          "total": "7"
+        },
+        {
+          "description": "Decking",
+          "length": "61",
+          "width": "23",
+          "total": "10"
+        }
+      ],
+      "grandTotal": "17"
+    },
+    {
+      "projectNumber": "PRY-101",
+      "inputFields": [
+        {
+          "description": "Coffee Table",
+          "length": "38",
+          "width": "13",
+          "total": "4"
+        },
+        {
+          "description": "Decking",
+          "length": "62",
+          "width": "34",
+          "total": "15"
+        }
+      ],
+      "grandTotal": "19"
+    },
+    {
+      "projectNumber": "PRY-102",
+      "inputFields": [
+        {
+          "description": "Trip Charge",
+          "length": "144",
+          "width": "10",
+          "total": "10"
+        },
+        {
+          "description": "Decking",
+          "length": "62",
+          "width": "34",
+          "total": "15"
+        }
+      ],
+      "grandTotal": "25"
+    },
+    {
+      "projectNumber": "PRY-103",
+      "inputFields": [
+        {
+          "description": "Vanity",
+          "length": "144",
+          "width": "15",
+          "total": "15"
+        },
+        {
+          "description": "Decking",
+          "length": "62",
+          "width": "34",
+          "total": "15"
+        }
+      ],
+      "grandTotal": "30"
+    }
+  ],
+  "invoiceData": [
+    {
+      "projectNumber": "PRY-100",
+      "date": "2023-05-15",
+      "inputFields": [
+        {
+          "description": "Closet Top",
+          "qty": "17",
+          "unitPrice": "36",
+          "amount": "612"
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        }
+      ],
+      "subTotal": "612",
+      "tax": "0",
+      "total": "612",
+      "deposit": "200",
+      "balance": "412"
+    }
+  ]
+}

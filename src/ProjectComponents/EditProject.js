@@ -85,7 +85,7 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
                         value={editEndDate}
                         onChange={(e) => setEditEndDate(e.target.value)}
                     />
-                    <button type="button" onClick={() => handleEdit(project.id)}>Submit</button>
+                    <button className='saveButton' type="button" onClick={() => handleEdit(project.id)}>Submit</button>
                 </form>
             </>
         }

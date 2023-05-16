@@ -196,9 +196,9 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
     <main className='Estimate'>
       <div className='EstimateHeading'>
         {/* <img src={logo} className="CompanyLogo" alt="logo" /> */}
-        <span class="leftTitle">Beta Granite Solutions</span> <span class="rightTitle"> Estimate </span> 
+        <span className="leftTitle">Beta Granite Solutions</span> <span className="rightTitle"> Estimate </span> 
         <br></br>
-        <span class="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span> <span class="rightSubTitle">Date:&ensp;
+        <span className="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span> <span className="rightSubTitle">Date:&ensp;
           <input className='rightSubTitle'
             id='EstimateDate'
             type='date'
@@ -206,7 +206,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
             value={date}
             onChange={(e) => setDate(e.target.value)}
           /></span> 
-        <span class="rightSubTitle">Project: &ensp;
+        <span className="rightSubTitle">Project: &ensp;
           <select className="rightSubTitle"
             name='projectNumber'
             value={projectNumber}
@@ -232,48 +232,50 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
           
       <div className='EstimateTable'>
         <table>
-          <tr>
-            <th>Description</th>
-            <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Amount</th>
-          </tr>
-          {inputFields.map((input, index) => {
-            return (
-              <tr key={index}>
-                <td><select 
-                  name='description'
-                  type='text'
-                  value={input.description}
-                  onChange={(e) => handleChange(index, e)}>
-                    <option value="" disabled defaultValue={""}></option>
-                    {descriptionList.map(item => (
-                      <option key={item}>{item}</option>
-                    ))
-                  }
-                </select></td>
-                <td><input
-                  name='qty'
-                  type="number"
-                  value={input.qty}
-                  onChange={(e) => handleChange(index, e)}
-                /></td>
-                <td><input
-                  name='unitPrice'
-                  type="number"
-                  value={input.unitPrice}
-                  onChange={(e) => handleChange(index, e)}
-                /></td>
-                <td><input
-                  name='amount'
-                  type="display"
-                  value={input.amount}
-                  readOnly
-                /></td>
-              </tr>
-              
-            )
-          })}
+          <tbody>
+            <tr>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th>Amount</th>
+            </tr>
+            {inputFields.map((input, index) => {
+              return (
+                <tr key={index}>
+                  <td><select 
+                    name='description'
+                    type='text'
+                    value={input.description}
+                    onChange={(e) => handleChange(index, e)}>
+                      <option value="" disabled defaultValue={""}></option>
+                      {descriptionList.map(item => (
+                        <option key={item}>{item}</option>
+                      ))
+                    }
+                  </select></td>
+                  <td><input
+                    name='qty'
+                    type="number"
+                    value={input.qty}
+                    onChange={(e) => handleChange(index, e)}
+                  /></td>
+                  <td><input
+                    name='unitPrice'
+                    type="number"
+                    value={input.unitPrice}
+                    onChange={(e) => handleChange(index, e)}
+                  /></td>
+                  <td><input
+                    name='amount'
+                    type="display"
+                    value={input.amount}
+                    readOnly
+                  /></td>
+                </tr>
+                
+              )
+            })}
+          </tbody>
         </table>
         <button className='saveButton' onClick={saveEstimate}>Save Estimate</button>
       </div>

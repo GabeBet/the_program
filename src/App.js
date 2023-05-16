@@ -12,7 +12,8 @@ import AddProject from "./ProjectComponents/AddProject";
 import ProjectPage from "./ProjectComponents/ProjectPage";
 import EditProject from "./ProjectComponents/EditProject";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from './api/projects';
 
 function App() {
   const [name, setName] = useState('');
@@ -41,75 +42,9 @@ function App() {
 
   const navigation = useNavigate();
 
-  const [customerList, setCustomerList] = useState([
-    {
-      id: 1,
-      name: "Gabriel Betancourt",
-      address: "3511 Maverly Crest Ct Katy, TX 77494",
-      phone: "281-889-2800",
-      email: "gabe.bet@hotmail.com"
-    },
-    {
-      id: 2,
-      name: "Patricia Betancourt",
-      address: "3511 Maverly Crest Ct Katy, TX 77494",
-      phone: "281-900-3285",
-      email: "pbeta45@hotmail.com"
-    },
-    {
-      id: 3,
-      name: "Edgar Betancourt",
-      address: "3511 Maverly Crest Ct Katy, TX 77494",
-      phone: "346-446-8884",
-      email: "embm65@hotmail.com"
-    },
-    {
-      id: 4,
-      name: "Jonathan Betancourt",
-      address: "3511 Maverly Crest Ct Katy, TX 77494",
-      phone: "281-900-3278",
-      email: "jonathan.betancourt@outlook.com"
-    }
-  ])
+  const [customerList, setCustomerList] = useState([]);
 
-  const [projectList, setProjectList] = useState([
-    {
-      id: 1,
-      customer: "Gabriel Betancourt",
-      description: "Kitchen Top",
-      invoiceNumber: "23-100",
-      projectNumber: "PRY-100",
-      startDate: "2023-05-08",
-      endDate: "2023-08-05"
-    },
-    {
-      id: 2,
-      customer: "Patricia Betancourt",
-      description: "Vanity",
-      invoiceNumber: "23-101",
-      projectNumber: "PRY-101",
-      startDate: "2023-05-09",
-      endDate: "2023-09-05"
-    },
-    {
-      id: 3,
-      customer: "Edgar Betancourt",
-      description: "Bathroom",
-      invoiceNumber: "23-102",
-      projectNumber: "PRY-102",
-      startDate: "2023-05-10",
-      endDate: "2023-10-05"
-    },
-    {
-      id: 4,
-      customer: "Jonathan Betancourt",
-      description: "Outdoor",
-      invoiceNumber: "23-103",
-      projectNumber: "PRY-103",
-      startDate: "2023-05-11",
-      endDate: "2023-11-05"
-    }
-  ])
+  const [projectList, setProjectList] = useState([]);
 
   const [descriptionList] = useState([
     "Bath Tub Cut Out",
@@ -171,113 +106,191 @@ function App() {
     "Vanity Sink - Cut-Out",
     "Vanity Sink - Oval",
     "Vanity Sink Rectangle"
-  ])
-
-  const [sqFtData, setSqFtData] = useState([
-    {
-      projectNumber: "PRY-100",
-      inputFields: [{description: 'Closet Top', length: '43', width: '23', total: '7'}, {description: 'Decking', length: '61', width: '23', total: '10'}],
-      grandTotal: '17',
-    },
-    {
-      projectNumber: "PRY-101",
-      inputFields: [{description: 'Coffee Table', length: '38', width: '13', total: '4'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
-      grandTotal: '19',
-    },
-    {
-      projectNumber: "PRY-102",
-      inputFields: [{description: 'Trip Charge', length: '144', width: '10', total: '10'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
-      grandTotal: '25',
-    },
-    {
-      projectNumber: "PRY-103",
-      inputFields: [{description: 'Vanity', length: '144', width: '15', total: '15'}, {description: 'Decking', length: '62', width: '34', total: '15'}],
-      grandTotal: '30',
-    }
   ]);
 
-  const [estimateData, setEstimateData] = useState([
-    {
-      projectNumber: 'PRY-100', 
-      date: '2023-05-15',
-      inputFields: [{description: 'Closet Top', qty: '17', unitPrice: '26', amount: '442'}, 
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''},
-      {description: '', qty: '', unitPrice: '', amount: ''}],
-      subTotal: '422',
-      tax: '34.82',
-      total: '456.82',
-      deposit: '200',
-      balance: '256.82'
-    }
-    
-  ])
+  const [sqFtData, setSqFtData] = useState([]);
 
-  const handleSubmitCustomer = (e) => {
+  const [estimateData, setEstimateData] = useState([]);
+
+  const [invoiceData, setInvoiceData] = useState([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await api.get('/projectList');
+        setProjectList(response.data);
+      } catch (err) {
+        if (err.response) {
+          // Not in the 200 response range 
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
+    const fetchCustomers = async () => {
+      try {
+        const response = await api.get('/customerList');
+        setCustomerList(response.data);
+      } catch (err) {
+        if (err.response) {
+          // Not in the 200 response range 
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
+    const fetchSqFtData = async () => {
+      try {
+        const response = await api.get('/sqFtData');
+        setSqFtData(response.data);
+      } catch (err) {
+        if (err.response) {
+          // Not in the 200 response range 
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
+    const fetchEstimateData = async () => {
+      try {
+        const response = await api.get('/estimateData');
+        setEstimateData(response.data);
+      } catch (err) {
+        if (err.response) {
+          // Not in the 200 response range 
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
+    const fetchInvoiceData = async () => {
+      try {
+        const response = await api.get('/invoiceData');
+        setInvoiceData(response.data);
+      } catch (err) {
+        if (err.response) {
+          // Not in the 200 response range 
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
+    fetchProjects();
+    fetchCustomers();
+    fetchSqFtData();
+    fetchEstimateData();
+    fetchInvoiceData();
+  }, [])
+
+  const handleSubmitCustomer = async (e) => {
     e.preventDefault();
     const id = customerList.length ? customerList[customerList.length - 1].id + 1 : 1;
     const newCustomer = { id, name: name, address: address, phone: phone, email: email};
-    const allCustomers = [...customerList, newCustomer];
-    setCustomerList(allCustomers);
-    setName('');
-    setAddress('');
-    setPhone('');
-    setEmail('');
-    navigation('/customers');
+    try {
+      const response = await api.post('/customerList', newCustomer)
+      const allCustomers = [...customerList, response.data];
+      setCustomerList(allCustomers);
+      setName('');
+      setAddress('');
+      setPhone('');
+      setEmail('');
+      navigation('/customers');
+    } catch (err) {
+      console.log(`Error: ${err.message}`)
+    }
   }
 
-  const handleDeleteCustomer = (id) => {
-    const filteredCustomerList = customerList.filter(customer => customer.id !== id);
-    setCustomerList(filteredCustomerList);
-    navigation('/customers')
+  const handleDeleteCustomer = async (id) => {
+    try {
+      await api.delete(`/customerList/${id}`);
+      const filteredCustomerList = customerList.filter(customer => customer.id !== id);
+      setCustomerList(filteredCustomerList);
+      navigation('/customers')
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
   }
 
-  const handleEditCustomer = (id) => {
+  const handleEditCustomer = async (id) => {
     const updatedCustomer = { id, name: editName, address: editAddress, phone: editPhone, email: editEmail };
-    setCustomerList(customerList.map(customer => customer.id === id ? {...updatedCustomer } : customer));
-    setEditName('');
-    setEditAddress('');
-    setEditPhone('');
-    setEditEmail('');
-    navigation('/customers');
+    try {
+      const response = await api.put(`/customerList/${id}`, updatedCustomer);
+      setCustomerList(customerList.map(customer => customer.id === id ? {...response.data } : customer));
+      setEditName('');
+      setEditAddress('');
+      setEditPhone('');
+      setEditEmail('');
+      navigation('/customers');
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
   }
 
-  const handleSubmitProject = (e) => {
+  const handleSubmitProject = async (e) => {
     e.preventDefault();
     const id = projectList.length ? projectList[projectList.length - 1].id + 1 : 1;
     const newProject = { id, description: description, customer: projCustomer, projectNumber: projectNumber, invoiceNumber: invoiceNumber, startDate: startDate, endDate: endDate};
-    const allProjects = [...projectList, newProject];
-    setProjectList(allProjects);
-    setProjectNumber('');
-    setDescription('');
-    setInvoiceNumber('');
-    setStartDate('');
-    setEndDate('');
-    navigation('/');
+    try {
+      const response = await api.post('/projectList', newProject);
+      const allProjects = [...projectList, response.data];
+      setProjectList(allProjects);
+      setProjectNumber('');
+      setDescription('');
+      setInvoiceNumber('');
+      setStartDate('');
+      setEndDate('');
+      navigation('/');
+    }
+    catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
   }
 
-  const handleDeleteProject = (id) => {
-    const filteredProjectList = projectList.filter(project => project.id !== id);
-    setProjectList(filteredProjectList);
-    navigation('/')
+  const handleDeleteProject = async (id) => {
+    try {
+      await api.delete(`/projectList/${id}`);
+      const filteredProjectList = projectList.filter(project => project.id !== id);
+      setProjectList(filteredProjectList);
+      navigation('/')
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
   }
 
-  const handleEditProject = (id) => {
+  const handleEditProject = async (id) => {
     const updatedProject = { id, description: editDescription, customer: editProjCustomer, projectNumber: editProjectNumber, invoiceNumber: editInvoiceNumber, startDate: editStartDate, endDate: editEndDate};
-    setProjectList(projectList.map(project => project.id === id ? {...updatedProject } : project));
-    setEditProjectNumber('');
-    setEditDescription('');
-    setEditInvoiceNumber('');
-    setEditStartDate('');
-    setEditEndDate('');
-    navigation('/');
+    try {
+      const response = await api.put(`projectList/${id}`, updatedProject)
+      setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
+      setEditProjectNumber('');
+      setEditDescription('');
+      setEditInvoiceNumber('');
+      setEditStartDate('');
+      setEditEndDate('');
+      navigation('/');
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
   }
 
   return (
@@ -385,6 +398,8 @@ function App() {
         </Route>
         <Route path="invoice">
           <Route index element={<Invoice
+            invoiceData={invoiceData}
+            setInvoiceData={setInvoiceData}
             estimateData={estimateData}
             descriptionList={descriptionList}
             projectList={projectList}

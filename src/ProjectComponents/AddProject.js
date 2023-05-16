@@ -63,7 +63,7 @@ const AddProject = ( { customerList, descriptionList, handleSubmit, description,
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
             />
-            <button type="submit">Submit</button>
+            <button className="addButton" type="submit">Submit</button>
         </form>
         </main>
     )
