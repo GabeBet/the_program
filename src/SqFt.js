@@ -35,7 +35,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
       }
     })
 
-    if( !checkSqFtData(e) ) {
+    if( !sqFtData.find(proj => proj.projectNumber === e.target.value ) ) {
       setInputFields([{description: '', length: '', width: '', total: ''}]);
       setGrandTotal('0');
     } else {
@@ -54,7 +54,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
         setCustomerName(proj.customer);
       }
     })
-    if( !checkSqFtDataLoad(projNumber) ) {
+    if( !sqFtData.find(proj => proj.projectNumber === projNumber ) ) {
       setInputFields([{description: '', length: '', width: '', total: ''}]);
       setGrandTotal('0');
     } else {
@@ -67,7 +67,8 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
     }
   }
 
-  const addFields = () => {
+  const addFields = (e) => {
+    e.preventDefault();
     let newField = {description: '', length: '', width: '', total: ''}
     setInputFields([...inputFields, newField])
   }
@@ -79,33 +80,26 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
     calculate();
   }
 
-  const saveSqFt = (e) => {
+  const saveSqFt = async (e) => {
     e.preventDefault();
-    if( checkSqFtData(e) ) {
-      sqFtData?.forEach((sf) => {
-          sf.inputFields = inputFields;
-          sf.grandTotal = grandTotal;
-      })
-    } else {
-      const newSqFtData = { projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal};
-      const allSqFtData = [...sqFtData, newSqFtData];
+    const id = sqFtData.length ? sqFtData[sqFtData.length - 1].id + 1 : 1;
+    const newSqFtData = { id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal};
+    try {
+      const response = await api.post('/sqFtData', newSqFtData);
+      const allSqFtData = [...sqFtData, response.data];
       setSqFtData(allSqFtData);
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
     }
   }
 
-  const checkSqFtData = (e) => {
-    if( sqFtData.find(proj => proj.projectNumber === e.target.value )) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  const checkSqFtDataLoad = (e) => {
-    if( sqFtData.find(proj => proj.projectNumber === e )) {
-      return true;
-    } else {
-      return false;
+  const updateSqFt = async (id) => {
+    const updatedSqFt = { id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal };
+    try {
+      const response = await api.put(`/sqFtData/${id}`, updatedSqFt);
+      setSqFtData(sqFtData.map(sqft => sqft.id === id ? { ...response.data } : sqft));
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
     }
   }
 
@@ -118,9 +112,9 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
       handleProjectLoad(linkedNumber);
     }
   } catch (err) {
-
-  }
   
+  }
+
   return (
     <div className='SqFt'>
       <select className="SqFt-ProjectNumber"
@@ -134,7 +128,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
       </select>
       <h4>Customer: {customerName}</h4>
           
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form>
         {inputFields.map((input, index) => {
           return (
             <div key={index}>
@@ -185,7 +179,10 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
         />
         <br></br>
       </form>
-      <button className="saveButton" onClick={saveSqFt}>Save Square Footage</button>
+      {!(sqFtData.find(proj => proj.projectNumber === projectNumber)) 
+        ? <button className="saveButton" onClick={(e) => saveSqFt(e)}>Save Square Footage</button> 
+        : sqFtData.map(proj => (proj.projectNumber === projectNumber) ?
+        <button className="editButton" key={proj.id} onClick={() => updateSqFt(proj.id)}>Update Square Footage</button> : "")}
     </div>
   )
 }

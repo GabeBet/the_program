@@ -280,7 +280,7 @@ function App() {
   const handleEditProject = async (id) => {
     const updatedProject = { id, description: editDescription, customer: editProjCustomer, projectNumber: editProjectNumber, invoiceNumber: editInvoiceNumber, startDate: editStartDate, endDate: editEndDate};
     try {
-      const response = await api.put(`projectList/${id}`, updatedProject)
+      const response = await api.put(`/projectList/${id}`, updatedProject)
       setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
       setEditProjectNumber('');
       setEditDescription('');
@@ -379,7 +379,7 @@ function App() {
             setEditEmail={setEditEmail}
             />} />
         </Route>
-        <Route path="sqft">
+        <Route path="sqft/">
           <Route index element={<SqFt
             sqFtData={sqFtData}
             setSqFtData={setSqFtData}

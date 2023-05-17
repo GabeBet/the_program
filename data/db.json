@@ -139,6 +139,7 @@
   ],
   "sqFtData": [
     {
+      "id": 1,
       "projectNumber": "PRY-100",
       "inputFields": [
         {
@@ -157,6 +158,7 @@
       "grandTotal": "17"
     },
     {
+      "id": 2,
       "projectNumber": "PRY-101",
       "inputFields": [
         {
@@ -175,6 +177,7 @@
       "grandTotal": "19"
     },
     {
+      "id": 3,
       "projectNumber": "PRY-102",
       "inputFields": [
         {
@@ -193,22 +196,42 @@
       "grandTotal": "25"
     },
     {
+      "id": 4,
       "projectNumber": "PRY-103",
       "inputFields": [
         {
-          "description": "Vanity",
-          "length": "144",
-          "width": "15",
-          "total": "15"
+          "description": "Closet Top",
+          "length": "321",
+          "width": "123",
+          "total": 275
         },
         {
           "description": "Decking",
-          "length": "62",
-          "width": "34",
-          "total": "15"
+          "length": "321",
+          "width": "144",
+          "total": 321
         }
       ],
-      "grandTotal": "30"
+      "grandTotal": 596
+    },
+    {
+      "id": 5,
+      "projectNumber": "PRY-104",
+      "inputFields": [
+        {
+          "description": "Built in Cabinet",
+          "length": "123",
+          "width": "321",
+          "total": "275"
+        },
+        {
+          "description": "Countertops",
+          "length": "321",
+          "width": "123",
+          "total": "275"
+        }
+      ],
+      "grandTotal": "550"
     }
   ],
   "invoiceData": [
