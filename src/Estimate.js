@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
 import api from './api/projects'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
@@ -33,6 +35,27 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
     {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''}
   ])
+
+  const saveNotify = () => toast.success("Estimate Saved", {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+  const updateNotify = () => toast.success("Estimate Updated!", {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
 
   useEffect(() => {
     inputFields?.forEach((row) => {
@@ -148,6 +171,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
 
   const saveEstimate = async (e) => {
     e.preventDefault();
+    saveNotify();
     const id = estimateData.length ? estimateData[estimateData.length - 1].id + 1 : 1;
     const newEstimateData = { id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
       subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
@@ -161,6 +185,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
   }
 
   const updateEstimate = async (id) => {
+    updateNotify();
     const updatedEstimate = { id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
       subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
@@ -272,6 +297,18 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
         ? <button className="saveButton" onClick={(e) => saveEstimate(e)}>Save Estimate</button> 
         : estimateData.map(proj => (proj.projectNumber === projectNumber) ?
         <button className="editButton" key={proj.id} onClick={() => updateEstimate(proj.id)}>Update Estimate</button> : "")}
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
 
       <br></br>

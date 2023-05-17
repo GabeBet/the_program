@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
 import api from './api/projects'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, projectList, setProjectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
@@ -21,6 +23,27 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
   const [total, setTotal] = useState('');
   const [deposit, setDeposit] = useState('');
   const [balance, setBalance] = useState('');
+
+  const saveNotify = () => toast.success("Invoice Saved", {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+  const updateNotify = () => toast.success("Invoice Updated!", {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
 
   const [inputFields, setInputFields] = useState([ {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''},
@@ -176,6 +199,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
 
   const saveInvoice = async (e) => {
     e.preventDefault();
+    saveNotify();
     let id = invoiceData.length ? invoiceData[invoiceData.length - 1].id + 1 : 1;
     const newInvoiceData = { id, invoiceNumber: invoiceNumber, projectNumber: projectNumber, date: date, inputFields: inputFields, 
       subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
@@ -191,7 +215,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     projectList?.forEach((proj) => {
       if (proj.projectNumber === projectNumber){
         id = proj.id;
-        updatedProject = { id, description: proj.description, customer: proj.customer, projectNumber: proj.projectNumber, invoiceNumber: invoiceNumber, startDate: proj.startDate, endDate: proj.endDate};
+        updatedProject = { id, description: proj.description, customer: proj.customer, projectNumber: proj.projectNumber, 
+          invoiceNumber: invoiceNumber, startDate: proj.startDate, endDate: proj.endDate};
       }
     })
 
@@ -205,11 +230,29 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
   }
 
   const updateInvoice = async (id) => {
+    updateNotify();
     const updatedInvoice = { id, invoiceNumber: invoiceNumber, projectNumber: projectNumber, date: date, inputFields: inputFields, 
       subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
       const response = await api.put(`/invoiceData/${id}`, updatedInvoice);
       setInvoiceData(invoiceData.map(inv => inv.id === id ? { ...response.data } : inv));
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
+
+    let updatedProject = {};
+    projectList?.forEach((proj) => {
+      if (proj.projectNumber === projectNumber){
+        id = proj.id;
+        updatedProject = { id, description: proj.description, customer: proj.customer, projectNumber: proj.projectNumber, 
+          invoiceNumber: invoiceNumber, startDate: proj.startDate, endDate: proj.endDate};
+      }
+    })
+
+    try {
+      console.log('invoice number updated')
+      const response = await api.put(`/projectList/${id}`, updatedProject)
+      setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
     } catch (err) {
       console.log(`Error: ${err.message}`);
     }
@@ -323,6 +366,18 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         ? <button className="saveButton" onClick={(e) => saveInvoice(e)}>Save Invoice</button> 
         : invoiceData.map(proj => (proj.projectNumber === projectNumber) ?
         <button className="editButton" key={proj.id} onClick={() => updateInvoice(proj.id)}>Update Invoice</button> : "")}
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
 
       <br></br>

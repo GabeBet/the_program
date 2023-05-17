@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useLocation } from "react-router-dom";
 import api from './api/projects'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
   
@@ -12,6 +14,27 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
   const [projectNumber, setProjectNumber] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [grandTotal, setGrandTotal] = useState('');
+
+  const saveNotify = () => toast.success("Square Footage Saved", {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+  const updateNotify = () => toast.success("Square Footage Updated!", {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
 
   const calculate = () => {
     inputFields?.forEach((row) => {
@@ -82,6 +105,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
 
   const saveSqFt = async (e) => {
     e.preventDefault();
+    saveNotify();
     const id = sqFtData.length ? sqFtData[sqFtData.length - 1].id + 1 : 1;
     const newSqFtData = { id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal};
     try {
@@ -94,6 +118,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
   }
 
   const updateSqFt = async (id) => {
+    updateNotify();
     const updatedSqFt = { id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal };
     try {
       const response = await api.put(`/sqFtData/${id}`, updatedSqFt);
@@ -183,6 +208,18 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
         ? <button className="saveButton" onClick={(e) => saveSqFt(e)}>Save Square Footage</button> 
         : sqFtData.map(proj => (proj.projectNumber === projectNumber) ?
         <button className="editButton" key={proj.id} onClick={() => updateSqFt(proj.id)}>Update Square Footage</button> : "")}
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
     </div>
   )
 }
