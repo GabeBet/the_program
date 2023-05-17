@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
+import api from './api/projects'
 
-const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, projectList, customerList }) => {
+const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, projectList, setProjectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
+  const [invoiceNumber, setInvoiceNumber] = useState('');
   const [loaded, setLoaded] = useState(false);
 
   const [name, setName] = useState('');
@@ -64,10 +66,10 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       }
     })
 
-    if( checkInvoiceData(e) ) {
+    if( invoiceData.find(proj => proj.projectNumber === e.target.value ) ) {
       invoiceData?.forEach((proj) => {
         if (proj.projectNumber === e.target.value){
-          console.log('invoice')
+          setInvoiceNumber(proj.invoiceNumber);
           setDate(proj.date);
           setInputFields(proj.inputFields);
           setSubTotal(proj.subTotal);
@@ -77,10 +79,9 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           setBalance(proj.balance);
         }
       })
-    } else if ( checkEstimateData(e) ) {
+    } else if ( estimateData.find(proj => proj.projectNumber === e.target.value ) ) {
       estimateData?.forEach((proj) => {
         if (proj.projectNumber === e.target.value){
-          console.log('estimate')
           setDate(proj.date);
           setInputFields(proj.inputFields);
           setSubTotal(proj.subTotal);
@@ -91,23 +92,24 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         }
       })
     } else {
-      setInputFields([{description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'}]);
+      setInputFields([{description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''}]);
+      setInvoiceNumber('');
       setDate('');
       setSubTotal('');
-      setTax('')
-      setTotal('')
-      setDeposit('')
-      setBalance('')
+      setTax('');
+      setTotal('');
+      setDeposit('');
+      setBalance('');
     }
   }
 
@@ -121,31 +123,25 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             setPhone(cust.phone);
             setEmail(cust.email);
           }
-          setDate(proj.startDate);
           setProjectDescription(proj.description);
         })
       }
     })
-    if( !checkInvoiceDataLoad(projNumber) ) {
-      setInputFields([{description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'}]);
-      setDate('');
-      setSubTotal('0');
-      setTax('0')
-      setTotal('0')
-      setDeposit('0')
-      setBalance('0')
-    } else {
+    if( invoiceData.find(proj => proj.projectNumber === projNumber ) ) {
       invoiceData?.forEach((proj) => {
+        if (proj.projectNumber === projNumber){
+          setInvoiceNumber(proj.invoiceNumber);
+          setDate(proj.date);
+          setInputFields(proj.inputFields);
+          setSubTotal(proj.subTotal);
+          setTax(proj.tax);
+          setTotal(proj.total);
+          setDeposit(proj.deposit);
+          setBalance(proj.balance);
+        }
+      })
+    } else if ( estimateData.find(proj => proj.projectNumber === projNumber ) ) {
+      estimateData?.forEach((proj) => {
         if (proj.projectNumber === projNumber){
           setDate(proj.date);
           setInputFields(proj.inputFields);
@@ -156,48 +152,66 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           setBalance(proj.balance);
         }
       })
+    } else {
+      setInputFields([{description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''},
+      {description: '', qty: '', unitPrice: '', amount: ''}]);
+      setInvoiceNumber('');
+      setDate('');
+      setSubTotal('');
+      setTax('');
+      setTotal('');
+      setDeposit('');
+      setBalance('');
     }
   }
 
-  const saveInvoice = (e) => {
+  const saveInvoice = async (e) => {
     e.preventDefault();
-    if( checkInvoiceData(e) ) {
-      invoiceData?.forEach((inv) => {
-          inv.date = date
-          inv.inputFields = inputFields;
-          inv.subTotal = subTotal;
-          inv.tax = tax;
-          inv.total = total;
-          inv.deposit = deposit;
-          inv.balance = balance
-      })
-    } else {
-      const newInvoiceData = { projectNumber: projectNumber, date: date, inputFields: inputFields, 
-        subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
-      const allInvoiceData = [...invoiceData, newInvoiceData];
+    let id = invoiceData.length ? invoiceData[invoiceData.length - 1].id + 1 : 1;
+    const newInvoiceData = { id, invoiceNumber: invoiceNumber, projectNumber: projectNumber, date: date, inputFields: inputFields, 
+      subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
+    try {
+      const response = await api.post('/invoiceData', newInvoiceData);
+      const allInvoiceData = [...invoiceData, response.data];
       setInvoiceData(allInvoiceData);
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
+
+    let updatedProject = {};
+    projectList?.forEach((proj) => {
+      if (proj.projectNumber === projectNumber){
+        id = proj.id;
+        updatedProject = { id, description: proj.description, customer: proj.customer, projectNumber: proj.projectNumber, invoiceNumber: invoiceNumber, startDate: proj.startDate, endDate: proj.endDate};
+      }
+    })
+
+    try {
+      console.log('invoice number updated')
+      const response = await api.put(`/projectList/${id}`, updatedProject)
+      setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
     }
   }
 
-  const checkInvoiceData = (e) => {
-    if( invoiceData.find(proj => proj.projectNumber === e.target.value )) 
-      return true;
-    else
-      return false;
-  }
-
-  const checkEstimateData = (e) => {
-    if( estimateData.find(proj => proj.projectNumber === e.target.value )) 
-      return true;
-    else
-      return false;
-  }
-
-  const checkInvoiceDataLoad = (e) => {
-    if( invoiceData.find(proj => proj.projectNumber === e )) {
-      return true;
-    } else {
-      return false;
+  const updateInvoice = async (id) => {
+    const updatedInvoice = { id, invoiceNumber: invoiceNumber, projectNumber: projectNumber, date: date, inputFields: inputFields, 
+      subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
+    try {
+      const response = await api.put(`/invoiceData/${id}`, updatedInvoice);
+      setInvoiceData(invoiceData.map(inv => inv.id === id ? { ...response.data } : inv));
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
     }
   }
 
@@ -220,15 +234,14 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         <span className="leftTitle">Beta Granite Solutions</span> <span className="rightTitle"> Invoice </span> 
         <br></br>
         <span className="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span> <span className="rightSubTitle">Date:&ensp;
-          <input className='rightSubTitle'
-            id='InvoiceDate'
+          <input
+            id='invoiceDate'
             type='date'
-            required
             value={date}
             onChange={(e) => setDate(e.target.value)}
           /></span> 
         <span className="rightSubTitle">Project: &ensp;
-          <select className="rightSubTitle"
+          <select
             name='projectNumber'
             value={projectNumber}
             onChange={(e) => handleProjectChange(e)}>
@@ -237,7 +250,15 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
                   <option key={project.id} value={project.value}>{project.projectNumber}</option>
               ))}
           </select>
-        </span>
+        </span><br></br>
+        <span className="rightSubTitle">Invoice #:&ensp;
+          <input
+            id='invoiceNumber'
+            type='text'
+            placeholder='Invoice Number'
+            value={invoiceNumber}
+            onChange={(e) => setInvoiceNumber(e.target.value)}
+          /></span> 
       </div>
 
       <br></br><br></br>
@@ -298,7 +319,10 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             })}
           </tbody>
         </table>
-        <button className='saveButton' onClick={saveInvoice}>Save Invoice</button>
+        {!(invoiceData.find(proj => proj.projectNumber === projectNumber)) 
+        ? <button className="saveButton" onClick={(e) => saveInvoice(e)}>Save Invoice</button> 
+        : invoiceData.map(proj => (proj.projectNumber === projectNumber) ?
+        <button className="editButton" key={proj.id} onClick={() => updateInvoice(proj.id)}>Update Invoice</button> : "")}
       </div>
 
       <br></br>

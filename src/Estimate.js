@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
+import api from './api/projects'
 
 const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
@@ -64,7 +65,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
       }
     })
 
-    if( !checkEstimateData(e) ) {
+    if( !estimateData.find(proj => proj.projectNumber === e.target.value ) ) {
       setInputFields([{description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'},
@@ -112,7 +113,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
         })
       }
     })
-    if( !checkEstimateDataLoad(projNumber) ) {
+    if( !estimateData.find(proj => proj.projectNumber === projNumber ) ) {
       setInputFields([{description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'},
@@ -145,38 +146,28 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
     }
   }
 
-  const saveEstimate = (e) => {
+  const saveEstimate = async (e) => {
     e.preventDefault();
-    if( checkEstimateData(e) ) {
-      estimateData?.forEach((est) => {
-          est.date = date
-          est.inputFields = inputFields;
-          est.subTotal = subTotal;
-          est.tax = tax;
-          est.total = total;
-          est.deposit = deposit;
-          est.balance = balance
-      })
-    } else {
-      const newEstimateData = { projectNumber: projectNumber, date: date, inputFields: inputFields, 
-        subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
-      const allEstimateData = [...estimateData, newEstimateData];
+    const id = estimateData.length ? estimateData[estimateData.length - 1].id + 1 : 1;
+    const newEstimateData = { id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
+      subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
+    try {
+      const response = await api.post('/estimateData', newEstimateData);
+      const allEstimateData = [...estimateData, response.data];
       setEstimateData(allEstimateData);
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
     }
   }
 
-  const checkEstimateData = (e) => {
-    if( estimateData.find(proj => proj.projectNumber === e.target.value )) 
-      return true;
-    else
-      return false;
-  }
-
-  const checkEstimateDataLoad = (e) => {
-    if( estimateData.find(proj => proj.projectNumber === e )) {
-      return true;
-    } else {
-      return false;
+  const updateEstimate = async (id) => {
+    const updatedEstimate = { id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
+      subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
+    try {
+      const response = await api.put(`/estimateData/${id}`, updatedEstimate);
+      setEstimateData(estimateData.map(est => est.id === id ? { ...response.data } : est));
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
     }
   }
 
@@ -277,7 +268,10 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
             })}
           </tbody>
         </table>
-        <button className='saveButton' onClick={saveEstimate}>Save Estimate</button>
+        {!(estimateData.find(proj => proj.projectNumber === projectNumber)) 
+        ? <button className="saveButton" onClick={(e) => saveEstimate(e)}>Save Estimate</button> 
+        : estimateData.map(proj => (proj.projectNumber === projectNumber) ?
+        <button className="editButton" key={proj.id} onClick={() => updateEstimate(proj.id)}>Update Estimate</button> : "")}
       </div>
 
       <br></br>

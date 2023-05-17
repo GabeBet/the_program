@@ -267,6 +267,12 @@ function App() {
   }
 
   const handleDeleteProject = async (id) => {
+    let projNumber = '';
+    projectList?.forEach((proj) => {
+      if(proj.id === id)
+        projNumber = proj.projectNumber;
+    })
+    
     try {
       await api.delete(`/projectList/${id}`);
       const filteredProjectList = projectList.filter(project => project.id !== id);
@@ -275,6 +281,42 @@ function App() {
     } catch (err) {
       console.log(`Error: ${err.message}`);
     }
+    sqFtData?.forEach( async (sqft) => {
+      if (sqft.projectNumber === projNumber){
+        try {
+          console.log('sqft deleted');
+          await api.delete(`/sqFtData/${sqft.id}`);
+          const filtedSqFtData = sqFtData.filter(project => project.id !== id);
+          setSqFtData(filtedSqFtData);
+        } catch (err) {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    })
+    estimateData?.forEach( async (est) => {
+      if (est.projectNumber === projNumber){
+        try {
+          console.log('est deleted');
+          await api.delete(`/estimateData/${est.id}`);
+          const filteredEstimateData = estimateData.filter(project => project.id !== id);
+          setEstimateData(filteredEstimateData);
+        } catch (err) {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    })
+    invoiceData?.forEach( async (inv) => {
+      if (inv.projectNumber === projNumber){
+        try {
+          console.log('inv deleted');
+          await api.delete(`/invoiceData/${inv.id}`);
+          const filteredInvoiceData = invoiceData.filter(project => project.id !== id);
+          setInvoiceData(filteredInvoiceData);
+        } catch (err) {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    })
   }
 
   const handleEditProject = async (id) => {
@@ -403,6 +445,7 @@ function App() {
             estimateData={estimateData}
             descriptionList={descriptionList}
             projectList={projectList}
+            setProjectList={setProjectList}
             customerList={customerList}
           />} />
         </Route>
