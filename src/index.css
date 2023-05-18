@@ -350,3 +350,33 @@ button {
   margin-top: 1rem;
 
 }
+
+.k-pdf-export button {
+  display: none;
+}
+
+.k-pdf-export .EstimateHeading select, 
+.k-pdf-export .EstimateHeading input
+{
+  padding-left: .25rem;
+  width: 50%;
+}
+
+.k-pdf-export .rightTitle {
+  font-size: large;
+}
+
+.k-pdf-export .leftTitle {
+  font-size: large;
+}
+
+.k-pdf-export .rightSubTitle {
+  float: right;
+  margin-right: 1rem;
+  font-size: small;
+}
+
+.k-pdf-export .leftSubTitle {
+  float: left;
+  font-size: small ;
+}

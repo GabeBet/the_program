@@ -17,21 +17,21 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
 
   const saveNotify = () => toast.success("Square Footage Saved", {
     position: "bottom-center",
-    autoClose: 5000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
+    pauseOnHover: false,
+    draggable: false,
     progress: undefined,
     theme: "dark",
   });
   const updateNotify = () => toast.success("Square Footage Updated!", {
     position: "bottom-center",
-    autoClose: 5000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
+    pauseOnHover: false,
+    draggable: false,
     progress: undefined,
     theme: "dark",
   });
@@ -189,7 +189,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
                 value={input.total}
                 readOnly
               />
-              <button className="deleteButton" onClick={() => removeFields(index)}>Remove</button>
+              <button className="deleteButton" onClick={() => removeFields(index)}>Remove Row</button>
             </div>
           )
         })}

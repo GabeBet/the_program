@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
 import api from './api/projects'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '@progress/kendo-theme-default/dist/all.css';
 
 const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
@@ -23,6 +24,15 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
   const [deposit, setDeposit] = useState('');
   const [balance, setBalance] = useState('');
 
+  const { PDFExport } = require('@progress/kendo-react-pdf');
+  const pdfExportComponent = useRef(null);
+
+  const exportPDFWithComponent = () => {
+    if (pdfExportComponent.current) {
+      pdfExportComponent.current.save();
+    }
+  };
+
   const [inputFields, setInputFields] = useState([ {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''},
@@ -38,21 +48,21 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
 
   const saveNotify = () => toast.success("Estimate Saved", {
     position: "bottom-center",
-    autoClose: 5000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
+    pauseOnHover: false,
+    draggable: false,
     progress: undefined,
     theme: "dark",
   });
   const updateNotify = () => toast.success("Estimate Updated!", {
     position: "bottom-center",
-    autoClose: 5000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
+    pauseOnHover: false,
+    draggable: false,
     progress: undefined,
     theme: "dark",
   });
@@ -210,6 +220,17 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
 
   return (
     <main className='Estimate'>
+      <button
+          className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base"
+          onClick={exportPDFWithComponent}
+        >
+          Export to PDF
+      </button>
+      <PDFExport ref={pdfExportComponent} 
+        paperSize="Letter" 
+        fileName={`${projectNumber} Estimate`}
+        margin={20}>
+      
       <div className='EstimateHeading'>
         {/* <img src={logo} className="CompanyLogo" alt="logo" /> */}
         <span className="leftTitle">Beta Granite Solutions</span> <span className="rightTitle"> Estimate </span> 
@@ -375,7 +396,9 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
           <b>Thank You For Your Business!</b>
         </div>
       </div>
+      </PDFExport>
     </main>
+    
   )
 }
 

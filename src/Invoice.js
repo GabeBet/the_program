@@ -26,21 +26,21 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
 
   const saveNotify = () => toast.success("Invoice Saved", {
     position: "bottom-center",
-    autoClose: 5000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
+    pauseOnHover: false,
+    draggable: false,
     progress: undefined,
     theme: "dark",
   });
   const updateNotify = () => toast.success("Invoice Updated!", {
     position: "bottom-center",
-    autoClose: 5000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
+    pauseOnHover: false,
+    draggable: false,
     progress: undefined,
     theme: "dark",
   });
