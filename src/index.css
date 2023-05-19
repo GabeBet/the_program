@@ -359,7 +359,8 @@ button {
 .k-pdf-export .EstimateHeading input
 {
   padding-left: .25rem;
-  width: 50%;
+  width: flex;
+  font-size: x-small;
 }
 
 .k-pdf-export .rightTitle {
@@ -373,10 +374,36 @@ button {
 .k-pdf-export .rightSubTitle {
   float: right;
   margin-right: 1rem;
-  font-size: small;
+  font-size: x-small;
 }
 
 .k-pdf-export .leftSubTitle {
   float: left;
+  font-size: x-small ;
+}
+
+.k-pdf-export .EstimateCustomer {
   font-size: small ;
+}
+
+.k-pdf-export .EstimateDescription {
+  font-size: small ;
+}
+
+.k-pdf-export .EstimateTable select {
+  width: 250px;
+  height: 20px;
+  font-size: xx-small;
+  text-align: center;
+}
+
+.k-pdf-export .EstimateTable input {
+  width: 104px;
+  height: 20px;
+  font-size: xx-small;
+  text-align: center;
+}
+
+.k-pdf-export .EstimateTable table {
+  font-size: xx-small;
 }

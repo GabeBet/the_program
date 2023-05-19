@@ -233,18 +233,20 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
       
       <div className='EstimateHeading'>
         {/* <img src={logo} className="CompanyLogo" alt="logo" /> */}
-        <span className="leftTitle">Beta Granite Solutions</span> <span className="rightTitle"> Estimate </span> 
-        <br></br>
-        <span className="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span> <span className="rightSubTitle">Date:&ensp;
-          <input className='rightSubTitle'
+        <span className="leftTitle">Beta Granite Solutions</span>
+        <span className="rightTitle"> Estimate </span> <br></br>
+        <span className="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span>
+        <span className="rightSubTitle">Date:&ensp;
+          <input
             id='EstimateDate'
             type='date'
             required
             value={date}
-            onChange={(e) => setDate(e.target.value)}
-          /></span> 
-        <span className="rightSubTitle">Project: &ensp;
-          <select className="rightSubTitle"
+            onChange={(e) => setDate(e.target.value)}/>
+        </span> <br></br>
+        <span className='rightSubTitle'>
+          Project: &ensp;
+          <select
             name='projectNumber'
             value={projectNumber}
             onChange={(e) => handleProjectChange(e)}>
@@ -256,16 +258,16 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
         </span>
       </div>
 
-      <br></br><br></br>
+      <br></br>
 
       <div className='EstimateCustomer'>
-        <b>Customer: </b> {`${name}`} <br></br>
+        <b>Customer:</b> {`${name}`} <br></br>
         <b>Address:</b> {`${address}`} <br></br>
         <b>Phone:</b> {`${phone}`} <br></br>
         <b>Email:</b> {`${email}`}
       </div>
       
-      <br></br> <h2 className='EstimateDescription'>Project: {projectDescription}</h2> <br></br>
+      <h2 className='EstimateDescription'> Project: {projectDescription}</h2>
           
       <div className='EstimateTable'>
         <table>
