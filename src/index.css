@@ -126,6 +126,12 @@ body {
   background-color: lightgreen;
 }
 
+.downloadButton {
+  height: 2.5rem;
+  color: white;
+  background-color: green;
+}
+
 .SqFt textarea {
   resize: none;
 }

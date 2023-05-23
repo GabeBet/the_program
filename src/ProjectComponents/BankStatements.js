@@ -32,10 +32,6 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
       const response = await api.post('/bankData', newBankData);
       const allBankData = [...bankData, response.data];
       setBankData(allBankData);
-      setDescription('');
-      setAmount('');
-      setDebitCredit('');
-      setCategory('');
     } catch (err) {
       console.log(err.message)
     }

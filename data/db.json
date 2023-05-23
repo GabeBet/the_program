@@ -555,6 +555,38 @@
       "debitCredit": "Debit",
       "category": "Gas",
       "projectNumber": "PRY-100"
+    },
+    {
+      "description": "Chevron",
+      "amount": "40",
+      "debitCredit": "Debit",
+      "category": "Gas",
+      "projectNumber": "PRY-100",
+      "id": 4
+    },
+    {
+      "description": "Taco Bell",
+      "amount": "10",
+      "debitCredit": "Debit",
+      "category": "Food",
+      "projectNumber": "PRY-104",
+      "id": 5
+    },
+    {
+      "description": "Chillis",
+      "amount": "50",
+      "debitCredit": "Debit",
+      "category": "Food",
+      "projectNumber": "PRY-100",
+      "id": 6
+    },
+    {
+      "description": "Deposit",
+      "amount": "500",
+      "debitCredit": "Credit",
+      "category": "Installation",
+      "projectNumber": "PRY-104",
+      "id": 7
     }
   ]
 }

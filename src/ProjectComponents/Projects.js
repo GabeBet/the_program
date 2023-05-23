@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import ProjectFeed from "./ProjectFeed";
 import Papa from "papaparse";
 import api from "../api/projects"
+import template from "./CSVTemplate.csv"
 
 const Projects = ({ projectList, bankData, setBankData }) => {
 
@@ -10,19 +11,16 @@ const Projects = ({ projectList, bankData, setBankData }) => {
       header: true,
       skipEmptyLines: true,
       complete: function (results) {
-        results.data?.forEach((data) => {
+        results.data.forEach((data) => {
           addBankData(data);
         })
-      },
+      }
     });
   }
 
   const addBankData = async (data) => {
-    const id = bankData.length ? bankData[bankData.length - 1].id + 1 : 1;
-    const newBankData = { id, description: data.Description, amount: `$${(Math.round(data.Amount * 100) / 100).toFixed(2)}`, 
-      debitCredit: data.DebitCredit, category: data.Category, projectNumber: data.ProjectNumber};
     try {
-      const response = await api.post('/bankData', newBankData);
+      const response = await api.post('/bankData', data);
       const allBankData = [...bankData, response.data];
       setBankData(allBankData);
     } catch (err) {
@@ -44,6 +42,9 @@ const Projects = ({ projectList, bankData, setBankData }) => {
         accept=".csv"
         onChange={handleFileUpload}
       />
+      <a href={template} download="CSVTemplate" rel="noreferrer" target="_blank">
+        <button className="downloadButton">Download Upload Template</button>
+      </a>
 
       {projectList.length ? (
         <ProjectFeed projectList={projectList} />
