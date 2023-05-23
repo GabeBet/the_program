@@ -110,6 +110,22 @@ body {
   background-color: #fff;
 }
 
+.Projects label {
+  font-weight: bold;
+}
+
+.Projects input[type="file"]::file-selector-button {
+  border: 2px solid black;
+  padding: 0.2em 0.4em;
+  border-radius: 0.2em;
+  background-color: lightgrey;
+  transition: .25s;
+}
+
+.Projects input[type="file"]::file-selector-button:hover {
+  background-color: lightgreen;
+}
+
 .SqFt textarea {
   resize: none;
 }
@@ -345,8 +361,8 @@ button:hover {
 }
 
 .BankTable button {
-  height: 36px;
   margin: 10px;
+  overflow: hidden;
 }
 
 .EstimateTable select,

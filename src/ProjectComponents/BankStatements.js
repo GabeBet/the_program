@@ -82,7 +82,7 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
       </div>
 
       <br></br>
-      <form class='addBankStatements' onSubmit={handleAddBank}>
+      <form className='addBankStatements' onSubmit={handleAddBank}>
         <label htmlFor='BankDescription'>Description: </label>
         <input
           name='description'
