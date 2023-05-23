@@ -102,7 +102,7 @@ body {
   cursor: pointer;
 }
 
-.Projects, .Customers, .SqFt, .ErrorPage, .CustomerPage, .ProjectPage {
+.Projects, .Customers, .SqFt, .ErrorPage, .CustomerPage, .ProjectPage, .BankStatements{
   width: 100%;
   flex-grow: 1;
   padding: 1rem;
@@ -162,8 +162,15 @@ body {
   flex-direction: column;
 }
 
+.addBankStatements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .ProjectForm label,
-.CustomersForm label {
+.CustomersForm label,
+.addBankStatements label {
   margin-top: 1rem;
 }
 
@@ -171,7 +178,8 @@ body {
 .ProjectForm input[type='date'],
 .ProjectForm textarea,
 .CustomersForm input[type='text'], 
-.CustomersForm textarea {
+.CustomersForm textarea,
+.addBankStatements input {
   font-family: 'Open Sans', sans-serif;
   width: 100%;
   max-width: 400px;
@@ -183,7 +191,8 @@ body {
   outline: none;
 }
 
-.ProjectForm select {
+.ProjectForm select,
+.addBankStatements select {
   font-family: 'Open Sans', sans-serif;
   width: 100%;
   max-width: 400px;
@@ -195,13 +204,21 @@ body {
   outline: none;
 }
 
-.ProjectForm textarea,
-.CustomersForm textarea {
-  height: 100px;
+select:required:invalid {
+    color: gray;
+    border-color: #000;
+}
+
+option[value=""][disabled] {
+  display: none;
+}
+option {
+  color: black;
 }
 
 .ProjectForm button, 
-.CustomersForm button {
+.CustomersForm button,
+.addBankStatements button {
   margin-top: 1rem;
   height: 48px;
   min-width: 48px;
@@ -209,6 +226,26 @@ body {
   border-radius: 10px;
   padding: 0.5rem;
   font-size: 1rem;
+  cursor: pointer;
+}
+
+.ProjectPage, .CustomerPage {
+  font-size: x-large;
+}
+
+.ProjectPage label,
+.CustomerPage label {
+  box-shadow: inset 0 0 0 0 #000;
+  color: #000;
+  margin: 0 -.25rem;
+  padding: 0 .25rem;
+  transition: color .5s ease-in-out, box-shadow .5s ease-in-out;
+}
+
+.ProjectPage label:hover,
+.CustomerPage label:hover {
+  box-shadow: inset 1000px 0 0 0 #000;
+  color: white;
   cursor: pointer;
 }
 
@@ -226,6 +263,10 @@ button {
   font-size: 1rem;
   color: #fff;
   cursor: pointer;
+} 
+
+button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
 .deleteButton {
@@ -236,7 +277,7 @@ button {
   background-color: blue;
 }
 
-.saveButton {
+.saveButton, .goToButton {
   background-color: green;
 }
 
@@ -289,6 +330,25 @@ button {
   width: 100%;
 }
 
+.BankTable th{
+  border: 1px solid black;
+  padding: 10px;
+}
+.BankTable td {
+  border: 1px solid black;
+  width: 21%;
+}
+
+.BankTable table {
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.BankTable button {
+  height: 36px;
+  margin: 10px;
+}
+
 .EstimateTable select,
 .InvoiceTable select{
   font-family: 'Open Sans', sans-serif;
@@ -298,6 +358,19 @@ button {
   outline: none;
 }
 
+.SqFt select {
+  font-family: 'Open Sans', sans-serif;
+  width: flex;
+  font-size: 1rem;
+  padding: 0.25rem;
+  outline: none;
+}
+
+.SqFt button {
+  height: 36px;
+}
+
+.SqFt input,
 .EstimateTable input,
 .InvoiceTable input {
   font-family: 'Open Sans', sans-serif;
@@ -355,55 +428,6 @@ button {
   display: none;
 }
 
-.k-pdf-export .EstimateHeading select, 
-.k-pdf-export .EstimateHeading input
-{
-  padding-left: .25rem;
-  width: flex;
-  font-size: x-small;
-}
-
-.k-pdf-export .rightTitle {
-  font-size: large;
-}
-
-.k-pdf-export .leftTitle {
-  font-size: large;
-}
-
-.k-pdf-export .rightSubTitle {
-  float: right;
-  margin-right: 1rem;
-  font-size: x-small;
-}
-
-.k-pdf-export .leftSubTitle {
-  float: left;
-  font-size: x-small ;
-}
-
-.k-pdf-export .EstimateCustomer {
-  font-size: small ;
-}
-
-.k-pdf-export .EstimateDescription {
-  font-size: small ;
-}
-
-.k-pdf-export .EstimateTable select {
-  width: 250px;
-  height: 20px;
-  font-size: xx-small;
+.k-pdf-export select, .k-pdf-export input {
   text-align: center;
-}
-
-.k-pdf-export .EstimateTable input {
-  width: 104px;
-  height: 20px;
-  font-size: xx-small;
-  text-align: center;
-}
-
-.k-pdf-export .EstimateTable table {
-  font-size: xx-small;
 }

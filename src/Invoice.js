@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
 import api from './api/projects'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
+import '@progress/kendo-theme-default/dist/all.css';
 
 const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, projectList, setProjectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
@@ -24,6 +26,15 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
   const [deposit, setDeposit] = useState('');
   const [balance, setBalance] = useState('');
 
+  const { PDFExport } = require('@progress/kendo-react-pdf');
+  const pdfExportComponent = useRef(null);
+
+  const exportPDFWithComponent = () => {
+    if (pdfExportComponent.current) {
+      pdfExportComponent.current.save();
+    }
+  };
+
   const saveNotify = () => toast.success("Invoice Saved", {
     position: "bottom-center",
     autoClose: 2000,
@@ -35,6 +46,26 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     theme: "dark",
   });
   const updateNotify = () => toast.success("Invoice Updated!", {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
+  const errorNotify = (message) => toast.error(`Error Saving Invoice: ${message}`, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
+  const errorUpdateNotify = (message) => toast.error(`Error Updating Invoice: ${message}`, {
     position: "bottom-center",
     autoClose: 2000,
     hideProgressBar: false,
@@ -199,16 +230,19 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
 
   const saveInvoice = async (e) => {
     e.preventDefault();
-    saveNotify();
     let id = invoiceData.length ? invoiceData[invoiceData.length - 1].id + 1 : 1;
     const newInvoiceData = { id, invoiceNumber: invoiceNumber, projectNumber: projectNumber, date: date, inputFields: inputFields, 
       subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
+      if (projectNumber === ''){
+        throw new Error('Must have Project Number')
+      }
       const response = await api.post('/invoiceData', newInvoiceData);
       const allInvoiceData = [...invoiceData, response.data];
       setInvoiceData(allInvoiceData);
+      saveNotify();
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err.message)
     }
 
     let updatedProject = {};
@@ -221,9 +255,9 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     })
 
     try {
-      console.log('invoice number updated')
       const response = await api.put(`/projectList/${id}`, updatedProject)
       setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
+      console.log('invoice number updated')
     } catch (err) {
       console.log(`Error: ${err.message}`);
     }
@@ -234,10 +268,13 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     const updatedInvoice = { id, invoiceNumber: invoiceNumber, projectNumber: projectNumber, date: date, inputFields: inputFields, 
       subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
+      if (projectNumber === ''){
+        throw new Error('Must have Project Number')
+      }
       const response = await api.put(`/invoiceData/${id}`, updatedInvoice);
       setInvoiceData(invoiceData.map(inv => inv.id === id ? { ...response.data } : inv));
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorUpdateNotify(err.message);
     }
 
     let updatedProject = {};
@@ -250,9 +287,9 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     })
 
     try {
-      console.log('invoice number updated')
       const response = await api.put(`/projectList/${id}`, updatedProject)
       setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
+      console.log('invoice number updated')
     } catch (err) {
       console.log(`Error: ${err.message}`);
     }
@@ -272,6 +309,18 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
 
   return (
     <main className='Invoice'>
+      <button
+          className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base"
+          onClick={exportPDFWithComponent}
+        >
+          Export to PDF
+      </button>
+      <PDFExport ref={pdfExportComponent} 
+        paperSize="Letter" 
+        fileName={`${projectNumber} Invoice`}
+        scale={.65}
+        margin={20}>
+
       <div className='InvoiceHeading'>
         {/* <img src={logo} className="CompanyLogo" alt="logo" /> */}
         <span className="leftTitle">Beta Granite Solutions</span> <span className="rightTitle"> Invoice </span> 
@@ -435,7 +484,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         3. Balance due at time of completion <br></br>
         4. Edge - Straight <br></br>
         5. Sink, Faucets, and other items to be mounted in the countertop need to be at job site at time of installation to make cutouts <br></br>
-        6. Additional trips will incure extra charges <br></br><br></br>
+        6. Additional trips will incure extra charges <br></br><br></br><br></br><br></br>
         <div className='centerFooter'>
           Make all checks payable to <b>Beta Granite Solutions</b> <br></br> 3511 Maverly Crest Ct Katy, TX 77494 <br></br>
           If you have any questions about this invoice, please contact <br></br> 
@@ -443,6 +492,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           <b>Thank You For Your Business!</b>
         </div>
       </div>
+      </PDFExport>
     </main>
   )
 }

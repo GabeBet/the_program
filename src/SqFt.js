@@ -35,6 +35,26 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
     progress: undefined,
     theme: "dark",
   });
+  const errorNotify = (message) => toast.error(`Error Saving Square Footage: ${message}`, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
+  const errorUpdateNotify = (message) => toast.error(`Error Updating Square Footage: ${message}`, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
 
   const calculate = () => {
     inputFields?.forEach((row) => {
@@ -105,26 +125,33 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
 
   const saveSqFt = async (e) => {
     e.preventDefault();
-    saveNotify();
     const id = sqFtData.length ? sqFtData[sqFtData.length - 1].id + 1 : 1;
     const newSqFtData = { id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal};
     try {
+      if (projectNumber === '') {
+        throw new Error('Must have Project Number')
+      }
       const response = await api.post('/sqFtData', newSqFtData);
       const allSqFtData = [...sqFtData, response.data];
       setSqFtData(allSqFtData);
+      saveNotify();
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err.message);
     }
   }
 
   const updateSqFt = async (id) => {
-    updateNotify();
+    
     const updatedSqFt = { id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal };
     try {
+      if (projectNumber === ''){
+        throw new Error('Must have Project Number')
+      }
       const response = await api.put(`/sqFtData/${id}`, updatedSqFt);
       setSqFtData(sqFtData.map(sqft => sqft.id === id ? { ...response.data } : sqft));
+      updateNotify();
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorUpdateNotify(err.message);
     }
   }
 
@@ -151,6 +178,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
               <option key={project.id} value={project.value}>{project.projectNumber}</option>
           ))}
       </select>
+      <br></br><br></br>
       <h4>Customer: {customerName}</h4>
           
       <form>

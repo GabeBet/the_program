@@ -16,17 +16,27 @@ const ProjectPage = ({ projectList, handleDelete }) => {
                         <p className="projectstartDate"><b>Start Date:</b> {project.startDate}</p>
                         <p className="projectendDate"><b>End Date:</b> {project.endDate}</p>
                         <br></br>
-                        <Link to={"/sqft/"} state={{ linkedNumber:project.projectNumber }}><ul>Square Foot File</ul></Link>
-                        <Link to={"/estimate/"} state={{ linkedNumber:project.projectNumber }}><ul>Estimate File</ul></Link>
-                        <Link to={"/invoice/"} state={{ linkedNumber:project.projectNumber }}><ul>Invoice File</ul></Link>
+                        <Link to={"/sqft/"} state={{ linkedNumber:project.projectNumber }}><label>Square Foot File</label></Link> <br></br>
+                        <Link to={"/estimate/"} state={{ linkedNumber:project.projectNumber }}><label>Estimate File</label></Link> <br></br>
+                        <Link to={"/invoice/"} state={{ linkedNumber:project.projectNumber }}><label>Invoice File</label></Link> <br></br>
 
                         <Link to={`/projects/edit/${project.id}`}><button className='editButton'>
                             Edit Project
                         </button></Link>
 
-                        <button className='deleteButton' onClick={() => handleDelete(project.id)}>
+                        <button className='deleteButton' onClick={() => {
+                            if (window.confirm("Want to delete Project?")) {
+                                handleDelete(project.id)
+                            } 
+                        }}>
                             Delete Project
                         </button>
+
+                        <br></br>
+
+                        <Link to={`/projects/${project.id}/bank`}><button className='goToButton'>
+                            Go to Bank Statements
+                        </button></Link>
                     </>
                 }
                 {!project &&

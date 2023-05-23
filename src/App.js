@@ -14,6 +14,8 @@ import EditProject from "./ProjectComponents/EditProject";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from './api/projects';
+import BankStatements from "./ProjectComponents/BankStatements";
+import { toast } from 'react-toastify';
 
 function App() {
   const [name, setName] = useState('');
@@ -114,6 +116,8 @@ function App() {
 
   const [invoiceData, setInvoiceData] = useState([]);
 
+  const [bankData, setBankData] = useState([]);
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -195,12 +199,40 @@ function App() {
       }
     }
 
+    const fetchBankData = async () => {
+      try {
+        const response = await api.get('/bankData');
+        setBankData(response.data);
+      } catch (err) {
+        if (err.response) {
+          // Not in the 200 response range 
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
     fetchProjects();
     fetchCustomers();
     fetchSqFtData();
     fetchEstimateData();
     fetchInvoiceData();
+    fetchBankData();
   }, [])
+
+  const errorNotify = (message) => toast.error(`Project Not Saved: ${message}`, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
 
   const handleSubmitCustomer = async (e) => {
     e.preventDefault();
@@ -251,6 +283,11 @@ function App() {
     const id = projectList.length ? projectList[projectList.length - 1].id + 1 : 1;
     const newProject = { id, description: description, customer: projCustomer, projectNumber: projectNumber, invoiceNumber: invoiceNumber, startDate: startDate, endDate: endDate};
     try {
+      projectList?.forEach((proj) => {
+        if(proj.projectNumber === projectNumber){
+          throw new Error('Project Number Already In Use')
+        }
+      })
       const response = await api.post('/projectList', newProject);
       const allProjects = [...projectList, response.data];
       setProjectList(allProjects);
@@ -262,7 +299,7 @@ function App() {
       navigation('/');
     }
     catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err.message);
     }
   }
 
@@ -384,6 +421,13 @@ function App() {
             setEditEndDate={setEditEndDate}
             />} />
         </Route>
+        <Route path="projects/:id/bank">
+          <Route index element={<BankStatements
+            bankData={bankData}
+            setBankData={setBankData}
+            projectList={projectList}
+            />} />
+        </Route>
         <Route path="customers">
           <Route index element={<Customers customerList={customerList}/>} />
         </Route>
@@ -433,6 +477,7 @@ function App() {
           <Route index element={<Estimate 
             estimateData={estimateData}
             setEstimateData={setEstimateData}
+            sqFtData={sqFtData}
             descriptionList={descriptionList}
             projectList={projectList}
             customerList={customerList}
@@ -449,7 +494,7 @@ function App() {
             customerList={customerList}
           />} />
         </Route>
-          <Route path="*" element={<ErrorPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>
   );

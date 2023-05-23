@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@progress/kendo-theme-default/dist/all.css';
 
-const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList, customerList }) => {
+const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, projectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
   const [loaded, setLoaded] = useState(false);
 
@@ -66,6 +66,26 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
     progress: undefined,
     theme: "dark",
   });
+  const errorNotify = (message) => toast.error(`Error Saving Estimate: ${message}`, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
+  const errorUpdateNotify = (message) => toast.error(`Error Updating Estimate: ${message}`, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
 
   useEffect(() => {
     inputFields?.forEach((row) => {
@@ -84,6 +104,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
 
   const handleProjectChange = (e) => {
     setProjectNumber(e.target.value);
+    let description = '';
     projectList?.forEach((proj) => {
       if (proj.projectNumber === e.target.value){
         customerList?.forEach((cust) => {
@@ -93,6 +114,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
             setPhone(cust.phone);
             setEmail(cust.email);
           }
+          description = proj.description;
           setProjectDescription(proj.description);
         })
       }
@@ -116,6 +138,21 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
       setTotal('')
       setDeposit('')
       setBalance('')
+      sqFtData?.forEach((sqft) => {
+        if (sqft.projectNumber === e.target.value){
+          setInputFields([{description: `${description}`, qty: `${sqft.grandTotal}`, unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'},
+        {description: '', qty: '', unitPrice: '', amount: '0'}]);
+        }
+      })
     } else {
       estimateData?.forEach((proj) => {
         if (proj.projectNumber === e.target.value){
@@ -181,28 +218,35 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
 
   const saveEstimate = async (e) => {
     e.preventDefault();
-    saveNotify();
     const id = estimateData.length ? estimateData[estimateData.length - 1].id + 1 : 1;
     const newEstimateData = { id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
       subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
+      if (projectNumber === ''){
+        throw new Error('Must have Project Number')
+      }
       const response = await api.post('/estimateData', newEstimateData);
       const allEstimateData = [...estimateData, response.data];
       setEstimateData(allEstimateData);
+      saveNotify();
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err.message);
     }
   }
 
   const updateEstimate = async (id) => {
-    updateNotify();
+    
     const updatedEstimate = { id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
       subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
+      if (projectNumber === ''){
+        throw new Error('Must have Project Number')
+      }
       const response = await api.put(`/estimateData/${id}`, updatedEstimate);
       setEstimateData(estimateData.map(est => est.id === id ? { ...response.data } : est));
+      updateNotify();
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorUpdateNotify(err.message);
     }
   }
 
@@ -229,6 +273,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
       <PDFExport ref={pdfExportComponent} 
         paperSize="Letter" 
         fileName={`${projectNumber} Estimate`}
+        scale={.65}
         margin={20}>
       
       <div className='EstimateHeading'>
@@ -258,7 +303,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
         </span>
       </div>
 
-      <br></br>
+      <br></br><br></br>
 
       <div className='EstimateCustomer'>
         <b>Customer:</b> {`${name}`} <br></br>
@@ -266,8 +311,12 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
         <b>Phone:</b> {`${phone}`} <br></br>
         <b>Email:</b> {`${email}`}
       </div>
+
+      <br></br>
       
       <h2 className='EstimateDescription'> Project: {projectDescription}</h2>
+
+      <br></br>
           
       <div className='EstimateTable'>
         <table>
@@ -390,7 +439,7 @@ const Estimate = ( { estimateData, setEstimateData, descriptionList, projectList
         4. Edge - Straight <br></br>
         5. Sink, Faucets, and other items to be mounted in the countertop need to be at job site at time of installation to make cutouts <br></br>
         6. Additional trips will incure extra charges <br></br>
-        <b>*This is only an estimate, price and material needed subject to change after final template*</b><br></br><br></br>
+        <b>*This is only an estimate, price and material needed subject to change after final template*</b><br></br><br></br><br></br>
         <div className='centerFooter'>
           Make all checks payable to <b>Beta Granite Solutions</b> <br></br> 3511 Maverly Crest Ct Katy, TX 77494 <br></br>
           If you have any questions about this estimate, please contact <br></br> 

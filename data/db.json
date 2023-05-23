@@ -17,6 +17,24 @@
       "invoiceNumber": "23-104",
       "startDate": "2023-05-17",
       "endDate": ""
+    },
+    {
+      "id": 6,
+      "description": "Built in Cabinet",
+      "customer": "Gabriel Betancourt",
+      "projectNumber": "PRY-10175",
+      "invoiceNumber": "23-10175",
+      "startDate": "2023-05-22",
+      "endDate": ""
+    },
+    {
+      "id": 7,
+      "description": "Bath Tub Cut Out",
+      "customer": "Geoffrey Betancourt",
+      "projectNumber": "PRY-1004242",
+      "invoiceNumber": "",
+      "startDate": "2023-05-22",
+      "endDate": ""
     }
   ],
   "customerList": [
@@ -82,6 +100,32 @@
       "inputFields": [
         {
           "description": "Console Table",
+          "length": "123",
+          "width": "321",
+          "total": 275
+        }
+      ],
+      "grandTotal": 275
+    },
+    {
+      "id": 3,
+      "projectNumber": "PRY-10175",
+      "inputFields": [
+        {
+          "description": "",
+          "length": "",
+          "width": "",
+          "total": ""
+        }
+      ],
+      "grandTotal": "0"
+    },
+    {
+      "id": 4,
+      "projectNumber": "PRY-1004242",
+      "inputFields": [
+        {
+          "description": "Coffee Table",
           "length": "123",
           "width": "321",
           "total": 275
@@ -406,6 +450,111 @@
       "total": 4950,
       "deposit": "",
       "balance": 4950
+    },
+    {
+      "id": 3,
+      "invoiceNumber": "23-10175",
+      "projectNumber": "PRY-10175",
+      "date": "2023-05-24",
+      "inputFields": [
+        {
+          "description": "Built in Cabinet",
+          "qty": "1",
+          "unitPrice": "300",
+          "amount": 300
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        }
+      ],
+      "subTotal": 300,
+      "tax": "",
+      "total": 300,
+      "deposit": "",
+      "balance": 300
+    }
+  ],
+  "bankData": [
+    {
+      "id": 1,
+      "description": "McDonalds",
+      "amount": "$25.00",
+      "debitCredit": "Debit",
+      "category": "Food",
+      "projectNumber": "PRY-100"
+    },
+    {
+      "id": 2,
+      "description": "Shell",
+      "amount": "$25.00",
+      "debitCredit": "Debit",
+      "category": "Gas",
+      "projectNumber": "PRY-104"
+    },
+    {
+      "id": 3,
+      "description": "Shell",
+      "amount": "$40.00",
+      "debitCredit": "Debit",
+      "category": "Gas",
+      "projectNumber": "PRY-100"
     }
   ]
 }

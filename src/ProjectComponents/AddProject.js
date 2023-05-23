@@ -1,3 +1,5 @@
+import { ToastContainer } from "react-toastify"
+
 const AddProject = ( { customerList, descriptionList, handleSubmit, description, setDescription, 
     projCustomer, setProjCustomer, invoiceNumber, setInvoiceNumber, projectNumber, 
     setProjectNumber, startDate, setStartDate, endDate, setEndDate }) => {
@@ -65,6 +67,19 @@ const AddProject = ( { customerList, descriptionList, handleSubmit, description,
             />
             <button className="addButton" type="submit">Submit</button>
         </form>
+
+        <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+        />
         </main>
     )
 }
