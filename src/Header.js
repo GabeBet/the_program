@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <h1 className='Header'>The Program</h1>
+    <h1 className='Header'>Beta Granite Solutions</h1>
   )
 }
 

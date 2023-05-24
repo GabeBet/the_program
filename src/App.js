@@ -221,7 +221,7 @@ function App() {
     fetchEstimateData();
     fetchInvoiceData();
     fetchBankData();
-  }, [])
+  }, [bankData])
 
   const errorNotify = (message) => toast.error(`Project Not Saved: ${message}`, {
     position: "bottom-center",
@@ -376,9 +376,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />} >
         <Route index element={<Projects 
-        projectList={projectList}
-        bankData={bankData}
-        setBankData={setAddress}
+          projectList={projectList}
+          bankData={bankData}
+          setBankData={setAddress}
         />} />
         <Route path="add-project">
           <Route index element={<AddProject

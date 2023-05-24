@@ -37,7 +37,7 @@ body {
 
 .Header, .Footer {
   width: 100%;
-  background-color: skyblue;
+  background-color: lightgray;
   padding: .25rem;
   display: flex;
   justify-content: space-between;
@@ -124,6 +124,10 @@ body {
 
 .Projects input[type="file"]::file-selector-button:hover {
   background-color: lightgreen;
+}
+
+.Projects input[type="file"]{
+  color: transparent;
 }
 
 .downloadButton {

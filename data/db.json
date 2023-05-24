@@ -573,11 +573,11 @@
       "id": 5
     },
     {
-      "description": "Chillis",
-      "amount": "50",
+      "description": "Marco",
+      "amount": "500",
       "debitCredit": "Debit",
-      "category": "Food",
-      "projectNumber": "PRY-100",
+      "category": "Helper",
+      "projectNumber": "PRY-104",
       "id": 6
     },
     {
@@ -585,7 +585,7 @@
       "amount": "500",
       "debitCredit": "Credit",
       "category": "Installation",
-      "projectNumber": "PRY-104",
+      "projectNumber": "PRY-100",
       "id": 7
     }
   ]
