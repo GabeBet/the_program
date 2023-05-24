@@ -1,0 +1,592 @@
+{
+  "projectList": [
+    {
+      "id": 4,
+      "customer": "Jonathan Betancourt",
+      "description": "Outdoor",
+      "invoiceNumber": "23-103",
+      "projectNumber": "PRY-100",
+      "startDate": "2023-05-11",
+      "endDate": "2023-11-05"
+    },
+    {
+      "id": 5,
+      "description": "Console Table",
+      "customer": "Gabriel Betancourt",
+      "projectNumber": "PRY-104",
+      "invoiceNumber": "23-104",
+      "startDate": "2023-05-17",
+      "endDate": ""
+    },
+    {
+      "id": 6,
+      "description": "Built in Cabinet",
+      "customer": "Gabriel Betancourt",
+      "projectNumber": "PRY-10175",
+      "invoiceNumber": "23-10175",
+      "startDate": "2023-05-22",
+      "endDate": ""
+    },
+    {
+      "id": 7,
+      "description": "Bath Tub Cut Out",
+      "customer": "Geoffrey Betancourt",
+      "projectNumber": "PRY-1004242",
+      "invoiceNumber": "",
+      "startDate": "2023-05-22",
+      "endDate": ""
+    }
+  ],
+  "customerList": [
+    {
+      "id": 1,
+      "name": "Gabriel Betancourt",
+      "address": "3511 Maverly Crest Ct Katy, TX 77494",
+      "phone": "281-889-2800",
+      "email": "gabe.bet@hotmail.com"
+    },
+    {
+      "id": 2,
+      "name": "Patricia Betancourt",
+      "address": "3511 Maverly Crest Ct Katy, TX 77494",
+      "phone": "281-900-3285",
+      "email": "pbeta45@hotmail.com"
+    },
+    {
+      "id": 3,
+      "name": "Edgar Betancourt",
+      "address": "3511 Maverly Crest Ct Katy, TX 77494",
+      "phone": "346-446-8884",
+      "email": "embm65@hotmail.com"
+    },
+    {
+      "id": 5,
+      "name": "Geoffrey Betancourt",
+      "address": "3511 Maverly Crest Ct",
+      "phone": "2818892800",
+      "email": "geoffrey.betancourt@icloud.com"
+    },
+    {
+      "id": 6,
+      "name": "Jonathan Betancourt",
+      "address": "3511 Maverly Crest Ct",
+      "phone": "2819003276",
+      "email": "jonathan.betancourt@icloud.com"
+    }
+  ],
+  "sqFtData": [
+    {
+      "id": 1,
+      "projectNumber": "PRY-100",
+      "inputFields": [
+        {
+          "description": "Closet Top",
+          "length": "43",
+          "width": "23",
+          "total": "7"
+        },
+        {
+          "description": "Decking",
+          "length": "61",
+          "width": "23",
+          "total": "10"
+        }
+      ],
+      "grandTotal": "17"
+    },
+    {
+      "id": 2,
+      "projectNumber": "PRY-104",
+      "inputFields": [
+        {
+          "description": "Console Table",
+          "length": "123",
+          "width": "321",
+          "total": 275
+        }
+      ],
+      "grandTotal": 275
+    },
+    {
+      "id": 3,
+      "projectNumber": "PRY-10175",
+      "inputFields": [
+        {
+          "description": "",
+          "length": "",
+          "width": "",
+          "total": ""
+        }
+      ],
+      "grandTotal": "0"
+    },
+    {
+      "id": 4,
+      "projectNumber": "PRY-1004242",
+      "inputFields": [
+        {
+          "description": "Coffee Table",
+          "length": "123",
+          "width": "321",
+          "total": 275
+        }
+      ],
+      "grandTotal": 275
+    }
+  ],
+  "estimateData": [
+    {
+      "id": 1,
+      "projectNumber": "PRY-100",
+      "date": "2023-05-15",
+      "inputFields": [
+        {
+          "description": "Closet Top",
+          "qty": "17",
+          "unitPrice": "26",
+          "amount": "442"
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        }
+      ],
+      "subTotal": "422",
+      "tax": "34.82",
+      "total": "456.82",
+      "deposit": "200",
+      "balance": "256.82"
+    },
+    {
+      "id": 2,
+      "projectNumber": "PRY-104",
+      "date": "2023-05-22",
+      "inputFields": [
+        {
+          "description": "Console Table",
+          "qty": "275",
+          "unitPrice": "16",
+          "amount": 4400
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        }
+      ],
+      "subTotal": 4400,
+      "tax": "",
+      "total": 4400,
+      "deposit": "",
+      "balance": 4400
+    }
+  ],
+  "invoiceData": [
+    {
+      "id": 1,
+      "invoiceNumber": "23-100",
+      "projectNumber": "PRY-100",
+      "date": "2023-05-15",
+      "inputFields": [
+        {
+          "description": "Closet Top",
+          "qty": "17",
+          "unitPrice": "36",
+          "amount": "612"
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": ""
+        }
+      ],
+      "subTotal": "612",
+      "tax": "0",
+      "total": "612",
+      "deposit": "200",
+      "balance": "412"
+    },
+    {
+      "id": 2,
+      "invoiceNumber": "23-104",
+      "projectNumber": "PRY-104",
+      "date": "2023-05-22",
+      "inputFields": [
+        {
+          "description": "Console Table",
+          "qty": "275",
+          "unitPrice": "18",
+          "amount": 4950
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        }
+      ],
+      "subTotal": 4950,
+      "tax": "",
+      "total": 4950,
+      "deposit": "",
+      "balance": 4950
+    },
+    {
+      "id": 3,
+      "invoiceNumber": "23-10175",
+      "projectNumber": "PRY-10175",
+      "date": "2023-05-24",
+      "inputFields": [
+        {
+          "description": "Built in Cabinet",
+          "qty": "1",
+          "unitPrice": "300",
+          "amount": 300
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        },
+        {
+          "description": "",
+          "qty": "",
+          "unitPrice": "",
+          "amount": 0
+        }
+      ],
+      "subTotal": 300,
+      "tax": "",
+      "total": 300,
+      "deposit": "",
+      "balance": 300
+    }
+  ],
+  "bankData": [
+    {
+      "id": 1,
+      "description": "McDonalds",
+      "amount": "$25.00",
+      "debitCredit": "Debit",
+      "category": "Food",
+      "projectNumber": "PRY-100"
+    },
+    {
+      "id": 2,
+      "description": "Shell",
+      "amount": "$25.00",
+      "debitCredit": "Debit",
+      "category": "Gas",
+      "projectNumber": "PRY-104"
+    },
+    {
+      "id": 3,
+      "description": "Shell",
+      "amount": "$40.00",
+      "debitCredit": "Debit",
+      "category": "Gas",
+      "projectNumber": "PRY-100"
+    },
+    {
+      "description": "Chevron",
+      "amount": "40",
+      "debitCredit": "Debit",
+      "category": "Gas",
+      "projectNumber": "PRY-100",
+      "id": 4
+    },
+    {
+      "description": "Taco Bell",
+      "amount": "10",
+      "debitCredit": "Debit",
+      "category": "Food",
+      "projectNumber": "PRY-104",
+      "id": 5
+    },
+    {
+      "description": "Marco",
+      "amount": "500",
+      "debitCredit": "Debit",
+      "category": "Helper",
+      "projectNumber": "PRY-104",
+      "id": 6
+    },
+    {
+      "description": "Deposit",
+      "amount": "500",
+      "debitCredit": "Credit",
+      "category": "Installation",
+      "projectNumber": "PRY-100",
+      "id": 7
+    }
+  ]
+}
