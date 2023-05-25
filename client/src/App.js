@@ -221,7 +221,7 @@ function App() {
     fetchEstimateData();
     fetchInvoiceData();
     fetchBankData();
-  }, [bankData])
+  }, [])
 
   const errorNotify = (message) => toast.error(`Project Not Saved: ${message}`, {
     position: "bottom-center",
