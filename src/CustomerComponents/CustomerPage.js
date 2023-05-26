@@ -16,7 +16,7 @@ const CustomerPage = ({ customerList, projectList, handleDelete }) => {
 
                         <p className="customerProjects"><b>Projects: </b></p>
                         {projectList.map(project => (
-                            <Link key={project.id} to={`/projects/${project.id}`} ><label>{(project.customer === customer.name ? `${project.projectNumber} - ${project.description}`  : "")}</label><br></br></Link>
+                            <Link key={project.id} to={`/projects/${project.id}`} >{(project.customer === customer.name ? <button className='fileButton'>{project.projectNumber} - {project.description}</button>  : "")}<br></br></Link>
                         ))}
 
                         <Link to={`/customers/edit/${customer.id}`}><button className='editButton'>

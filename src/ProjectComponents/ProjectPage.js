@@ -16,9 +16,9 @@ const ProjectPage = ({ projectList, handleDelete }) => {
                         <p className="projectstartDate"><b>Start Date:</b> {project.startDate}</p>
                         <p className="projectendDate"><b>End Date:</b> {project.endDate}</p>
                         <br></br>
-                        <Link to={"/sqft/"} state={{ linkedNumber:project.projectNumber }}><label>Square Foot File</label></Link> <br></br>
-                        <Link to={"/estimate/"} state={{ linkedNumber:project.projectNumber }}><label>Estimate File</label></Link> <br></br>
-                        <Link to={"/invoice/"} state={{ linkedNumber:project.projectNumber }}><label>Invoice File</label></Link> <br></br>
+                        <Link to={"/sqft/"} state={{ linkedNumber:project.projectNumber }}><button className='fileButton'>Square Foot File</button></Link> <br></br>
+                        <Link to={"/estimate/"} state={{ linkedNumber:project.projectNumber }}><button className='fileButton'>Estimate File</button></Link> <br></br>
+                        <Link to={"/invoice/"} state={{ linkedNumber:project.projectNumber }}><button className='fileButton'>Invoice File</button></Link> <br></br>
 
                         <Link to={`/projects/edit/${project.id}`}><button className='editButton'>
                             Edit Project

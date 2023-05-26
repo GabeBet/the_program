@@ -311,6 +311,10 @@ button:hover {
   background-color: blue;
 }
 
+.fileButton {
+  background-color: grey;
+}
+
 .statusMsg {
   margin-top: 2rem;
 }
