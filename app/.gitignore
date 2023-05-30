@@ -24,4 +24,4 @@ yarn-error.log*
 
 # data
 db.json
-.env
+../server/.env
