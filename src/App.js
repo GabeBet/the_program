@@ -265,6 +265,7 @@ function App() {
 
   const handleEditCustomer = async (id) => {
     const updatedCustomer = { id, name: editName, address: editAddress, phone: editPhone, email: editEmail };
+
     try {
       const response = await api.put(`/customerList/${id}`, updatedCustomer);
       setCustomerList(customerList.map(customer => customer.id === id ? {...response.data } : customer));
@@ -293,6 +294,7 @@ function App() {
       setProjectList(allProjects);
       setProjectNumber('');
       setDescription('');
+      setProjCustomer('');
       setInvoiceNumber('');
       setStartDate('');
       setEndDate('');
@@ -363,6 +365,7 @@ function App() {
       setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
       setEditProjectNumber('');
       setEditDescription('');
+      setEditProjCustomer('');
       setEditInvoiceNumber('');
       setEditStartDate('');
       setEditEndDate('');
