@@ -3,14 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 
 const ProjectPage = ({ projectList, handleDelete }) => {
     const { id } = useParams();
-    const project = projectList.find(project => (project.id).toString() === id);
+    const project = projectList.find(project => project._id === id);
     return (
         <main className="ProjectPage">
             <article className="project">
                 {project &&
                     <>
                         <h2>{project.projectNumber}</h2>
-                        <p className="projectCustomer"><b>Customer:</b> {project.customer}</p>
+                        <p className="projectCustomer"><b>Customer:</b> {project.customerName}</p>
                         <p className="projectDescription"><b>Description:</b> {project.description}</p>
                         <p className="projectInvoice"><b>Invoice #:</b> {project.invoiceNumber}</p>
                         <p className="projectstartDate"><b>Start Date:</b> {project.startDate}</p>

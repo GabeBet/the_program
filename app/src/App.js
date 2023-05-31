@@ -119,108 +119,174 @@ function App() {
   const [bankData, setBankData] = useState([]);
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await api.get('/projectList');
-        setProjectList(response.data);
-      } catch (err) {
-        if (err.response) {
-          // Not in the 200 response range 
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    }
+    // const fetchProjects = async () => {
+    //   try {
+    //     const response = await api.get('/projectList');
+    //     setProjectList(response.data);
+    //   } catch (err) {
+    //     if (err.response) {
+    //       // Not in the 200 response range 
+    //       console.log(err.response.data);
+    //       console.log(err.response.status);
+    //       console.log(err.response.headers);
+    //     } else {
+    //       console.log(`Error: ${err.message}`);
+    //     }
+    //   }
+    // }
 
-    const fetchCustomers = async () => {
-      try {
-        const response = await api.get('/customerList');
-        setCustomerList(response.data);
-      } catch (err) {
-        if (err.response) {
-          // Not in the 200 response range 
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    }
+    fetch('http://localhost:4000/projects',{})
+      .then(response=>{
+          return response.json();
+      })
+      .then(data=>{
+          setProjectList(data);
+      })
+      .catch(err=>{
+          throw new Error('Failed to fetch api')
+      })
+    
+    fetch('http://localhost:4000/customers',{})
+      .then(response=>{
+          return response.json();
+      })
+      .then(data=>{
+          setCustomerList(data);
+      })
+      .catch(err=>{
+          throw new Error('Failed to fetch api')
+      })
 
-    const fetchSqFtData = async () => {
-      try {
-        const response = await api.get('/sqFtData');
-        setSqFtData(response.data);
-      } catch (err) {
-        if (err.response) {
-          // Not in the 200 response range 
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    }
+    fetch('http://localhost:4000/squarefootage',{})
+      .then(response=>{
+          return response.json();
+      })
+      .then(data=>{
+          setSqFtData(data);
+      })
+      .catch(err=>{
+          throw new Error('Failed to fetch api')
+      })
 
-    const fetchEstimateData = async () => {
-      try {
-        const response = await api.get('/estimateData');
-        setEstimateData(response.data);
-      } catch (err) {
-        if (err.response) {
-          // Not in the 200 response range 
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    }
+    fetch('http://localhost:4000/estimate',{})
+      .then(response=>{
+          return response.json();
+      })
+      .then(data=>{
+          setEstimateData(data);
+      })
+      .catch(err=>{
+          throw new Error('Failed to fetch api')
+      })
 
-    const fetchInvoiceData = async () => {
-      try {
-        const response = await api.get('/invoiceData');
-        setInvoiceData(response.data);
-      } catch (err) {
-        if (err.response) {
-          // Not in the 200 response range 
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    }
+    fetch('http://localhost:4000/invoice',{})
+      .then(response=>{
+          return response.json();
+      })
+      .then(data=>{
+          setInvoiceData(data);
+      })
+      .catch(err=>{
+          throw new Error('Failed to fetch api')
+      })
 
-    const fetchBankData = async () => {
-      try {
-        const response = await api.get('/bankData');
-        setBankData(response.data);
-      } catch (err) {
-        if (err.response) {
-          // Not in the 200 response range 
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    }
+    fetch('http://localhost:4000/bankstatement',{})
+      .then(response=>{
+          return response.json();
+      })
+      .then(data=>{
+          setBankData(data);
+      })
+      .catch(err=>{
+          throw new Error('Failed to fetch api')
+      })
 
-    fetchProjects();
-    fetchCustomers();
-    fetchSqFtData();
-    fetchEstimateData();
-    fetchInvoiceData();
-    fetchBankData();
+    // const fetchCustomers = async () => {
+    //   try {
+    //     const response = await api.get('/customerList');
+    //     setCustomerList(response.data);
+    //   } catch (err) {
+    //     if (err.response) {
+    //       // Not in the 200 response range 
+    //       console.log(err.response.data);
+    //       console.log(err.response.status);
+    //       console.log(err.response.headers);
+    //     } else {
+    //       console.log(`Error: ${err.message}`);
+    //     }
+    //   }
+    // }
+
+    // const fetchSqFtData = async () => {
+    //   try {
+    //     const response = await api.get('/sqFtData');
+    //     setSqFtData(response.data);
+    //   } catch (err) {
+    //     if (err.response) {
+    //       // Not in the 200 response range 
+    //       console.log(err.response.data);
+    //       console.log(err.response.status);
+    //       console.log(err.response.headers);
+    //     } else {
+    //       console.log(`Error: ${err.message}`);
+    //     }
+    //   }
+    // }
+
+    // const fetchEstimateData = async () => {
+    //   try {
+    //     const response = await api.get('/estimateData');
+    //     setEstimateData(response.data);
+    //   } catch (err) {
+    //     if (err.response) {
+    //       // Not in the 200 response range 
+    //       console.log(err.response.data);
+    //       console.log(err.response.status);
+    //       console.log(err.response.headers);
+    //     } else {
+    //       console.log(`Error: ${err.message}`);
+    //     }
+    //   }
+    // }
+
+    // const fetchInvoiceData = async () => {
+    //   try {
+    //     const response = await api.get('/invoiceData');
+    //     setInvoiceData(response.data);
+    //   } catch (err) {
+    //     if (err.response) {
+    //       // Not in the 200 response range 
+    //       console.log(err.response.data);
+    //       console.log(err.response.status);
+    //       console.log(err.response.headers);
+    //     } else {
+    //       console.log(`Error: ${err.message}`);
+    //     }
+    //   }
+    // }
+
+    // const fetchBankData = async () => {
+    //   try {
+    //     const response = await api.get('/bankData');
+    //     setBankData(response.data);
+    //   } catch (err) {
+    //     if (err.response) {
+    //       // Not in the 200 response range 
+    //       console.log(err.response.data);
+    //       console.log(err.response.status);
+    //       console.log(err.response.headers);
+    //     } else {
+    //       console.log(`Error: ${err.message}`);
+    //     }
+    //   }
+    // }
+
+    // fetchProjects();
+    // fetchCustomers();
+    // fetchSqFtData();
+    // fetchEstimateData();
+    // fetchInvoiceData();
+    // fetchBankData();
   }, [])
 
   const errorNotify = (message) => toast.error(`Project Not Saved: ${message}`, {
@@ -279,30 +345,43 @@ function App() {
     }
   }
 
-  const handleSubmitProject = async (e) => {
+  const handleSubmitProject = (e) => {
     e.preventDefault();
-    const id = projectList.length ? projectList[projectList.length - 1].id + 1 : 1;
-    const newProject = { id, description: description, customer: projCustomer, projectNumber: projectNumber, invoiceNumber: invoiceNumber, startDate: startDate, endDate: endDate};
-    try {
-      projectList?.forEach((proj) => {
-        if(proj.projectNumber === projectNumber){
-          throw new Error('Project Number Already In Use')
-        }
-      })
-      const response = await api.post('/projectList', newProject);
-      const allProjects = [...projectList, response.data];
-      setProjectList(allProjects);
-      setProjectNumber('');
-      setDescription('');
-      setProjCustomer('');
-      setInvoiceNumber('');
-      setStartDate('');
-      setEndDate('');
-      navigation('/');
-    }
-    catch (err) {
+    
+    projectList?.forEach((proj) => {
+      if(proj.projectNumber === projectNumber){
+        throw new Error('Project Number Already In Use')
+      }
+    })
+
+    fetch('http://localhost:4000/projects', {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        description: description, 
+        customerName: projCustomer, 
+        projectNumber: projectNumber, 
+        invoiceNumber: invoiceNumber, 
+        startDate: startDate, 
+        endDate: endDate
+      }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setProjectList((prevPosts) => [...prevPosts,data])
+    }).catch((err) => {
       errorNotify(err.message);
-    }
+    })
+
+    setProjectNumber('');
+    setDescription('');
+    setProjCustomer('');
+    setInvoiceNumber('');
+    setStartDate('');
+    setEndDate('');
+    navigation('/');
   }
 
   const handleDeleteProject = async (id) => {
