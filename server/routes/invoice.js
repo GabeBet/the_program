@@ -55,7 +55,7 @@ router.delete('/:invoiceId', async (req,res) => {
 })
 
 //Update invoice
-router.patch('/:invoiceId', async (req,res) => {
+router.put('/:invoiceId', async (req,res) => {
     try{
         const updatedInvoice = await Invoice.updateOne(
             {_id: req.params.invoiceId}, 

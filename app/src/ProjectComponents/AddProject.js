@@ -37,7 +37,7 @@ const AddProject = ( { customerList, descriptionList, handleSubmit, description,
                 onChange={(e) => setProjCustomer(e.target.value)}>
                     <option value="" disabled defaultValue={""}>Select a Customer...</option>
                     {customerList.map(customer => (
-                        <option key={customer.id} value={customer.name}>{customer.name}</option>
+                        <option key={customer._id} value={customer.name}>{customer.name}</option>
                     ))}
             </select>
 

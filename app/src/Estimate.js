@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
-import api from './api/projects'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@progress/kendo-theme-default/dist/all.css';
@@ -19,9 +18,9 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
   const [date, setDate] = useState('');
 
   const [subTotal, setSubTotal] = useState('');
-  const [tax, setTax] = useState('');
+  const [tax, setTax] = useState('0');
   const [total, setTotal] = useState('');
-  const [deposit, setDeposit] = useState('');
+  const [deposit, setDeposit] = useState('0');
   const [balance, setBalance] = useState('');
 
   const { PDFExport } = require('@progress/kendo-react-pdf');
@@ -108,7 +107,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
     projectList?.forEach((proj) => {
       if (proj.projectNumber === e.target.value){
         customerList?.forEach((cust) => {
-          if(proj.customer === cust.name){
+          if(proj.customerName === cust.name){
             setName(cust.name);
             setAddress(cust.address);
             setPhone(cust.phone);
@@ -134,9 +133,9 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       {description: '', qty: '', unitPrice: '', amount: '0'}]);
       setDate('');
       setSubTotal('');
-      setTax('')
+      setTax('0')
       setTotal('')
-      setDeposit('')
+      setDeposit('0')
       setBalance('')
       sqFtData?.forEach((sqft) => {
         if (sqft.projectNumber === e.target.value){
@@ -218,32 +217,64 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
 
   const saveEstimate = async (e) => {
     e.preventDefault();
-    const id = estimateData.length ? estimateData[estimateData.length - 1].id + 1 : 1;
-    const newEstimateData = { id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
-      subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
-      if (projectNumber === ''){
+      if (projectNumber === '') {
         throw new Error('Must have Project Number')
       }
-      const response = await api.post('/estimateData', newEstimateData);
-      const allEstimateData = [...estimateData, response.data];
-      setEstimateData(allEstimateData);
+      if (date === '') {
+        throw new Error('Must have Date')
+      }
+      const req = { 
+        method: 'POST',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectNumber: projectNumber, 
+          date: date, 
+          inputFields: inputFields,
+          subTotal: subTotal, 
+          tax: tax,
+          total: total, 
+          deposit: deposit,
+          balance: balance
+        })
+      };
+      const res = await fetch('http://localhost:4000/estimate', req);
+      const data = await res.json();
+      setEstimateData((prevEst) => [...prevEst,data])
       saveNotify();
     } catch (err) {
-      errorNotify(err.message);
+      errorNotify(err);
     }
   }
 
   const updateEstimate = async (id) => {
-    
-    const updatedEstimate = { id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
-      subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
-      if (projectNumber === ''){
+      if (projectNumber === '') {
         throw new Error('Must have Project Number')
       }
-      const response = await api.put(`/estimateData/${id}`, updatedEstimate);
-      setEstimateData(estimateData.map(est => est.id === id ? { ...response.data } : est));
+      if (date === '') {
+        throw new Error('Must have Date')
+      }
+      const req = { 
+        method: 'PUT',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectNumber: projectNumber, 
+          date: date, 
+          inputFields: inputFields,
+          subTotal: subTotal, 
+          tax: tax,
+          total: total, 
+          deposit: deposit,
+          balance: balance
+        })
+      };
+      await fetch(`http://localhost:4000/estimate/${id}`, req);
+
+      const updatedEstimate = { _id: id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
+        subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
+
+      setEstimateData(estimateData.map(est => est._id === id ? { ...updatedEstimate } : est));
       updateNotify();
     } catch (err) {
       errorUpdateNotify(err.message);
@@ -297,7 +328,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
             onChange={(e) => handleProjectChange(e)}>
             <option value="" disabled>Select Project...</option>
               {projectList.map(project => (
-                  <option key={project.id} value={project.value}>{project.projectNumber}</option>
+                  <option key={project._id} value={project.value}>{project.projectNumber}</option>
               ))}
           </select>
         </span>
@@ -368,7 +399,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
         {!(estimateData.find(proj => proj.projectNumber === projectNumber)) 
         ? <button className="saveButton" onClick={(e) => saveEstimate(e)}>Save Estimate</button> 
         : estimateData.map(proj => (proj.projectNumber === projectNumber) ?
-        <button className="editButton" key={proj.id} onClick={() => updateEstimate(proj.id)}>Update Estimate</button> : "")}
+        <button className="editButton" key={proj._id} onClick={() => updateEstimate(proj._id)}>Update Estimate</button> : "")}
         <ToastContainer
           position="bottom-center"
           autoClose={5000}

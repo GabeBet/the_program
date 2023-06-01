@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useLocation } from "react-router-dom";
-import api from './api/projects'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -74,7 +73,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
     setProjectNumber(e.target.value);
     projectList?.forEach((proj) => {
       if (proj.projectNumber === e.target.value){
-        setCustomerName(proj.customer);
+        setCustomerName(proj.customerName);
       }
     })
 
@@ -125,30 +124,47 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
 
   const saveSqFt = async (e) => {
     e.preventDefault();
-    const id = sqFtData.length ? sqFtData[sqFtData.length - 1].id + 1 : 1;
-    const newSqFtData = { id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal};
     try {
       if (projectNumber === '') {
         throw new Error('Must have Project Number')
       }
-      const response = await api.post('/sqFtData', newSqFtData);
-      const allSqFtData = [...sqFtData, response.data];
-      setSqFtData(allSqFtData);
+      const req = { 
+        method: 'POST',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectNumber: projectNumber, 
+          inputFields: inputFields, 
+          grandTotal: grandTotal
+        })
+      };
+      const res = await fetch('http://localhost:4000/squarefootage', req);
+      const data = await res.json();
+      setSqFtData((prevSqFt) => [...prevSqFt,data])
       saveNotify();
     } catch (err) {
-      errorNotify(err.message);
+      errorNotify(err);
     }
   }
 
   const updateSqFt = async (id) => {
-    
-    const updatedSqFt = { id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal };
     try {
       if (projectNumber === ''){
         throw new Error('Must have Project Number')
       }
-      const response = await api.put(`/sqFtData/${id}`, updatedSqFt);
-      setSqFtData(sqFtData.map(sqft => sqft.id === id ? { ...response.data } : sqft));
+      const req = { 
+        method: 'PUT',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectNumber: projectNumber, 
+          inputFields: inputFields, 
+          grandTotal: grandTotal
+        })
+      };
+      await fetch(`http://localhost:4000/squarefootage/${id}`, req);
+
+      const updatedSqFt = { _id: id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal };
+
+      setSqFtData(sqFtData.map(sqft => sqft._id === id ? { ...updatedSqFt } : sqft));
       updateNotify();
     } catch (err) {
       errorUpdateNotify(err.message);
@@ -175,7 +191,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
         onChange={(e) => handleProjectChange(e)}>
         <option value="" disabled>Select Project...</option>
           {projectList.map(project => (
-              <option key={project.id} value={project.value}>{project.projectNumber}</option>
+              <option key={project._id}>{project.projectNumber}</option>
           ))}
       </select>
       <br></br><br></br>
@@ -235,7 +251,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
       {!(sqFtData.find(proj => proj.projectNumber === projectNumber)) 
         ? <button className="saveButton" onClick={(e) => saveSqFt(e)}>Save Square Footage</button> 
         : sqFtData.map(proj => (proj.projectNumber === projectNumber) ?
-        <button className="editButton" key={proj.id} onClick={() => updateSqFt(proj.id)}>Update Square Footage</button> : "")}
+        <button className="editButton" key={proj._id} onClick={() => updateSqFt(proj._id)}>Update Square Footage</button> : "")}
         <ToastContainer
           position="bottom-center"
           autoClose={5000}

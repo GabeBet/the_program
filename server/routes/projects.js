@@ -52,7 +52,7 @@ router.delete('/:projectId', async (req,res) => {
 })
 
 //Update project
-router.patch('/:projectId', async (req,res) => {
+router.put('/:projectId', async (req,res) => {
     try{
         const updatedProject = await Project.updateOne(
             {_id: req.params.projectId}, 

@@ -6,7 +6,7 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
     editInvoiceNumber, setEditInvoiceNumber, editStartDate, setEditStartDate, editEndDate, setEditEndDate }) => {
 
   const { id } = useParams();
-  const project = projectList.find(project => (project.id).toString() === id);
+  const project = projectList.find(project => (project._id) === id);
 
   useEffect(() => {
       if (project) {
@@ -41,7 +41,6 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
                         required
                         value={editDescription}
                         onChange={(e) => setEditDescription(e.target.value)}>
-                        <option value="" disabled defaultValue={""}>Select Project Description...</option>
                         {descriptionList.map(item => (
                             <option key={item}>{item}</option>
                         ))}
@@ -55,7 +54,7 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
                         value={editProjCustomer}
                         onChange={(e) => setEditProjCustomer(e.target.value)}>
                             {customerList.map(customer => (
-                                <option key={customer.id} value={customer.name}>{customer.name}</option>
+                                <option key={customer._id} value={customer.name}>{customer.name}</option>
                             ))}
                     </select>
 
@@ -63,7 +62,6 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
                     <input
                         id='ProjectInvoice'
                         type='text'
-                        required
                         value={editInvoiceNumber}
                         onChange={(e) => setEditInvoiceNumber(e.target.value)}
                     />
@@ -81,11 +79,10 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
                     <input
                         id='ProjectEndDate'
                         type='date'
-                        required
                         value={editEndDate}
                         onChange={(e) => setEditEndDate(e.target.value)}
                     />
-                    <button className='saveButton' type="button" onClick={() => handleEdit(project.id)}>Submit</button>
+                    <button className='saveButton' type="button" onClick={() => handleEdit(project._id)}>Submit</button>
                 </form>
             </>
         }

@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import api from '../api/projects'
 
 const BankStatements = ({ bankData, setBankData, projectList }) => {
   const { id } = useParams();
-  const proj = projectList.find(proj => (proj.id).toString() === id);
+  const proj = projectList.find(proj => (proj._id) === id);
   
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
@@ -26,21 +25,30 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
 
   const handleAddBank = async (e) => {
     e.preventDefault();
-    const id = bankData.length ? bankData[bankData.length - 1].id + 1 : 1;
-    const newBankData = { id, description: description, amount: `$${(Math.round(amount * 100) / 100).toFixed(2)}`, debitCredit: debitCredit, category: category, projectNumber: proj.projectNumber};
     try {
-      const response = await api.post('/bankData', newBankData);
-      const allBankData = [...bankData, response.data];
-      setBankData(allBankData);
+      const req = { 
+        method: 'POST',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description: description, 
+          amount: `$${(Math.round(amount * 100) / 100).toFixed(2)}`, 
+          debitCredit: debitCredit, 
+          category: category, 
+          projectNumber: proj.projectNumber
+        })
+      };
+      const res = await fetch('http://localhost:4000/bankstatement', req);
+      const data = await res.json();
+      setBankData((prevBD) => [...prevBD,data])
     } catch (err) {
       console.log(err.message)
     }
   }
 
   const handleRemoveBank = async (id) => {
-    try {
-      await api.delete(`/bankData/${id}`);
-      const filtedBankData = bankData.filter(bank => bank.id !== id);
+    try{
+      await fetch(`http://localhost:4000/bankstatement/${id}`, {method: 'DELETE'});
+      const filtedBankData = bankData.filter(bank => bank._id !== id);
       setBankData(filtedBankData);
     } catch (err) {
       console.log(`Error: ${err.message}`);
@@ -60,16 +68,16 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
             </tr>
             {bankData.map((bank) => {
               return (
-              <tr key={bank.id}>
+              <tr key={bank._id}>
                 {(bank.projectNumber === proj.projectNumber) ?
                   <>
                     <td>{bank.description}</td> 
                     <td>{bank.amount}</td> 
                     <td>{bank.debitCredit}</td> 
                     <td>{bank.category}</td>
-                    <td><button onClick={() => handleRemoveBank(bank.id)} className='deleteButton'>Remove Bank Statement</button></td>
+                    <td><button onClick={() => handleRemoveBank(bank._id)} className='deleteButton'>Remove Bank Statement</button></td>
                   </>
-                  : <td></td> }
+                  : <></> }
               </tr>
               )
             })}

@@ -51,7 +51,7 @@ router.delete('/:bankstatementID', async (req,res) => {
 })
 
 //Update bankStatement
-router.patch('/:bankstatementID', async (req,res) => {
+router.put('/:bankstatementID', async (req,res) => {
     try{
         const updatedBankStatement = await BankStatement.updateOne(
             {_id: req.params.bankstatementID}, 

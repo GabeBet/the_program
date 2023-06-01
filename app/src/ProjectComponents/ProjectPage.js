@@ -20,13 +20,13 @@ const ProjectPage = ({ projectList, handleDelete }) => {
                         <Link to={"/estimate/"} state={{ linkedNumber:project.projectNumber }}><button className='fileButton'>Estimate File</button></Link> <br></br>
                         <Link to={"/invoice/"} state={{ linkedNumber:project.projectNumber }}><button className='fileButton'>Invoice File</button></Link> <br></br>
 
-                        <Link to={`/projects/edit/${project.id}`}><button className='editButton'>
+                        <Link to={`/projects/${project._id}/edit`}><button className='editButton'>
                             Edit Project
                         </button></Link>
 
                         <button className='deleteButton' onClick={() => {
                             if (window.confirm("Want to delete Project?")) {
-                                handleDelete(project.id)
+                                handleDelete(project._id)
                             } 
                         }}>
                             Delete Project
@@ -34,7 +34,7 @@ const ProjectPage = ({ projectList, handleDelete }) => {
 
                         <br></br>
 
-                        <Link to={`/projects/${project.id}/bank`}><button className='goToButton'>
+                        <Link to={`/projects/${project._id}/bank`}><button className='goToButton'>
                             Go to Bank Statements
                         </button></Link>
                     </>

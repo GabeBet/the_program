@@ -13,7 +13,6 @@ import ProjectPage from "./ProjectComponents/ProjectPage";
 import EditProject from "./ProjectComponents/EditProject";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import api from './api/projects';
 import BankStatements from "./ProjectComponents/BankStatements";
 import { toast } from 'react-toastify';
 
@@ -118,175 +117,110 @@ function App() {
 
   const [bankData, setBankData] = useState([]);
 
+  // fetch all data
   useEffect(() => {
-    // const fetchProjects = async () => {
-    //   try {
-    //     const response = await api.get('/projectList');
-    //     setProjectList(response.data);
-    //   } catch (err) {
-    //     if (err.response) {
-    //       // Not in the 200 response range 
-    //       console.log(err.response.data);
-    //       console.log(err.response.status);
-    //       console.log(err.response.headers);
-    //     } else {
-    //       console.log(`Error: ${err.message}`);
-    //     }
-    //   }
-    // }
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/projects',{});
+        let data = await response.json();
+        setProjectList(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
 
-    fetch('http://localhost:4000/projects',{})
-      .then(response=>{
-          return response.json();
-      })
-      .then(data=>{
-          setProjectList(data);
-      })
-      .catch(err=>{
-          throw new Error('Failed to fetch api')
-      })
-    
-    fetch('http://localhost:4000/customers',{})
-      .then(response=>{
-          return response.json();
-      })
-      .then(data=>{
-          setCustomerList(data);
-      })
-      .catch(err=>{
-          throw new Error('Failed to fetch api')
-      })
+    const fetchCustomers = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/customers');
+        let data = await response.json();
+        setCustomerList(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
 
-    fetch('http://localhost:4000/squarefootage',{})
-      .then(response=>{
-          return response.json();
-      })
-      .then(data=>{
-          setSqFtData(data);
-      })
-      .catch(err=>{
-          throw new Error('Failed to fetch api')
-      })
+    const fetchSqFtData = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/squarefootage',{});
+        let data = await response.json();
+        setSqFtData(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
 
-    fetch('http://localhost:4000/estimate',{})
-      .then(response=>{
-          return response.json();
-      })
-      .then(data=>{
-          setEstimateData(data);
-      })
-      .catch(err=>{
-          throw new Error('Failed to fetch api')
-      })
+    const fetchEstimateData = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/estimate',{});
+        let data = await response.json();
+        setEstimateData(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
 
-    fetch('http://localhost:4000/invoice',{})
-      .then(response=>{
-          return response.json();
-      })
-      .then(data=>{
-          setInvoiceData(data);
-      })
-      .catch(err=>{
-          throw new Error('Failed to fetch api')
-      })
+    const fetchInvoiceData = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/invoice',{});
+        let data = await response.json();
+        setInvoiceData(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
 
-    fetch('http://localhost:4000/bankstatement',{})
-      .then(response=>{
-          return response.json();
-      })
-      .then(data=>{
-          setBankData(data);
-      })
-      .catch(err=>{
-          throw new Error('Failed to fetch api')
-      })
+    const fetchBankData = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/bankstatement',{});
+        let data = await response.json();
+        setBankData(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
 
-    // const fetchCustomers = async () => {
-    //   try {
-    //     const response = await api.get('/customerList');
-    //     setCustomerList(response.data);
-    //   } catch (err) {
-    //     if (err.response) {
-    //       // Not in the 200 response range 
-    //       console.log(err.response.data);
-    //       console.log(err.response.status);
-    //       console.log(err.response.headers);
-    //     } else {
-    //       console.log(`Error: ${err.message}`);
-    //     }
-    //   }
-    // }
-
-    // const fetchSqFtData = async () => {
-    //   try {
-    //     const response = await api.get('/sqFtData');
-    //     setSqFtData(response.data);
-    //   } catch (err) {
-    //     if (err.response) {
-    //       // Not in the 200 response range 
-    //       console.log(err.response.data);
-    //       console.log(err.response.status);
-    //       console.log(err.response.headers);
-    //     } else {
-    //       console.log(`Error: ${err.message}`);
-    //     }
-    //   }
-    // }
-
-    // const fetchEstimateData = async () => {
-    //   try {
-    //     const response = await api.get('/estimateData');
-    //     setEstimateData(response.data);
-    //   } catch (err) {
-    //     if (err.response) {
-    //       // Not in the 200 response range 
-    //       console.log(err.response.data);
-    //       console.log(err.response.status);
-    //       console.log(err.response.headers);
-    //     } else {
-    //       console.log(`Error: ${err.message}`);
-    //     }
-    //   }
-    // }
-
-    // const fetchInvoiceData = async () => {
-    //   try {
-    //     const response = await api.get('/invoiceData');
-    //     setInvoiceData(response.data);
-    //   } catch (err) {
-    //     if (err.response) {
-    //       // Not in the 200 response range 
-    //       console.log(err.response.data);
-    //       console.log(err.response.status);
-    //       console.log(err.response.headers);
-    //     } else {
-    //       console.log(`Error: ${err.message}`);
-    //     }
-    //   }
-    // }
-
-    // const fetchBankData = async () => {
-    //   try {
-    //     const response = await api.get('/bankData');
-    //     setBankData(response.data);
-    //   } catch (err) {
-    //     if (err.response) {
-    //       // Not in the 200 response range 
-    //       console.log(err.response.data);
-    //       console.log(err.response.status);
-    //       console.log(err.response.headers);
-    //     } else {
-    //       console.log(`Error: ${err.message}`);
-    //     }
-    //   }
-    // }
-
-    // fetchProjects();
-    // fetchCustomers();
-    // fetchSqFtData();
-    // fetchEstimateData();
-    // fetchInvoiceData();
-    // fetchBankData();
+    fetchProjects();
+    fetchCustomers();
+    fetchSqFtData();
+    fetchEstimateData();
+    fetchInvoiceData();
+    fetchBankData();
   }, [])
 
   const errorNotify = (message) => toast.error(`Project Not Saved: ${message}`, {
@@ -302,146 +236,168 @@ function App() {
 
   const handleSubmitCustomer = async (e) => {
     e.preventDefault();
-    const id = customerList.length ? customerList[customerList.length - 1].id + 1 : 1;
-    const newCustomer = { id, name: name, address: address, phone: phone, email: email};
     try {
-      const response = await api.post('/customerList', newCustomer)
-      const allCustomers = [...customerList, response.data];
-      setCustomerList(allCustomers);
+      const req = { 
+        method: 'POST',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name, 
+          address: address, 
+          phone: phone, 
+          email: email
+        })
+      };
+      const res = await fetch('http://localhost:4000/customers', req);
+      const data = await res.json();
+      setCustomerList((prevCustomers) => [...prevCustomers,data])
       setName('');
       setAddress('');
       setPhone('');
       setEmail('');
       navigation('/customers');
     } catch (err) {
-      console.log(`Error: ${err.message}`)
+      errorNotify(err);
     }
   }
 
   const handleDeleteCustomer = async (id) => {
     try {
-      await api.delete(`/customerList/${id}`);
-      const filteredCustomerList = customerList.filter(customer => customer.id !== id);
+      await fetch(`http://localhost:4000/customers/${id}`, {method: 'DELETE'});
+      const filteredCustomerList = customerList.filter(customer => customer._id !== id);
       setCustomerList(filteredCustomerList);
       navigation('/customers')
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err);
     }
   }
 
   const handleEditCustomer = async (id) => {
-    const updatedCustomer = { id, name: editName, address: editAddress, phone: editPhone, email: editEmail };
-
     try {
-      const response = await api.put(`/customerList/${id}`, updatedCustomer);
-      setCustomerList(customerList.map(customer => customer.id === id ? {...response.data } : customer));
+      const req = { 
+        method: 'PUT',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: editName, 
+          address: editAddress, 
+          phone: editPhone, 
+          email: editEmail
+        })
+      };
+      await fetch(`http://localhost:4000/customers/${id}`, req);
+
+      const updatedCustomer = { _id: id, name: editName, address: editAddress, phone: editPhone, email: editEmail };
+
+      setCustomerList(customerList.map(customer => customer._id === id ? {...updatedCustomer } : customer));
       setEditName('');
       setEditAddress('');
       setEditPhone('');
       setEditEmail('');
       navigation('/customers');
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err);
     }
   }
 
-  const handleSubmitProject = (e) => {
+  const handleSubmitProject = async (e) => {
     e.preventDefault();
-    
-    projectList?.forEach((proj) => {
-      if(proj.projectNumber === projectNumber){
-        throw new Error('Project Number Already In Use')
-      }
-    })
-
-    fetch('http://localhost:4000/projects', {
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        description: description, 
-        customerName: projCustomer, 
-        projectNumber: projectNumber, 
-        invoiceNumber: invoiceNumber, 
-        startDate: startDate, 
-        endDate: endDate
-      }),
-    })
-    .then((response) => response.json())
-    .then((data) => {
+    try {
+      projectList?.forEach((proj) => {
+        if(proj.projectNumber === projectNumber){
+          throw new Error('Project Number Already In Use')
+        }
+      })
+      const req = { 
+        method: 'POST',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description: description, 
+          customerName: projCustomer, 
+          projectNumber: projectNumber, 
+          invoiceNumber: invoiceNumber, 
+          startDate: startDate, 
+          endDate: endDate
+        })
+      };
+      const res = await fetch('http://localhost:4000/projects', req);
+      const data = await res.json();
       setProjectList((prevPosts) => [...prevPosts,data])
-    }).catch((err) => {
-      errorNotify(err.message);
-    })
-
-    setProjectNumber('');
-    setDescription('');
-    setProjCustomer('');
-    setInvoiceNumber('');
-    setStartDate('');
-    setEndDate('');
-    navigation('/');
+      setProjectNumber('');
+      setDescription('');
+      setProjCustomer('');
+      setInvoiceNumber('');
+      setStartDate('');
+      setEndDate('');
+      navigation('/');
+    } catch (err) {
+      errorNotify(err);
+    }
   }
 
   const handleDeleteProject = async (id) => {
     let projNumber = '';
     projectList?.forEach((proj) => {
-      if(proj.id === id)
+      if(proj._id === id)
         projNumber = proj.projectNumber;
     })
-    
-    try {
-      await api.delete(`/projectList/${id}`);
-      const filteredProjectList = projectList.filter(project => project.id !== id);
+
+    try{
+      await fetch(`http://localhost:4000/projects/${id}`, {method: 'DELETE'});
+      const filteredProjectList = projectList.filter(project => project._id !== id);
       setProjectList(filteredProjectList);
       navigation('/')
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err);
     }
-    sqFtData?.forEach( async (sqft) => {
-      if (sqft.projectNumber === projNumber){
-        try {
-          console.log('sqft deleted');
-          await api.delete(`/sqFtData/${sqft.id}`);
-          const filtedSqFtData = sqFtData.filter(project => project.id !== id);
-          setSqFtData(filtedSqFtData);
-        } catch (err) {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    })
+    
     estimateData?.forEach( async (est) => {
       if (est.projectNumber === projNumber){
         try {
-          console.log('est deleted');
-          await api.delete(`/estimateData/${est.id}`);
-          const filteredEstimateData = estimateData.filter(project => project.id !== id);
+          await fetch(`http://localhost:4000/estimate/${est._id}`, {method: 'DELETE'});
+          const filteredEstimateData = estimateData.filter(project => project._id !== id);
           setEstimateData(filteredEstimateData);
         } catch (err) {
-          console.log(`Error: ${err.message}`);
+          errorNotify(err);
         }
       }
     })
     invoiceData?.forEach( async (inv) => {
       if (inv.projectNumber === projNumber){
         try {
-          console.log('inv deleted');
-          await api.delete(`/invoiceData/${inv.id}`);
-          const filteredInvoiceData = invoiceData.filter(project => project.id !== id);
+          await fetch(`http://localhost:4000/invoice/${inv._id}`, {method: 'DELETE'});
+          const filteredInvoiceData = invoiceData.filter(project => project._id !== id);
           setInvoiceData(filteredInvoiceData);
         } catch (err) {
-          console.log(`Error: ${err.message}`);
+          errorNotify(err);
         }
       }
     })
   }
 
   const handleEditProject = async (id) => {
-    const updatedProject = { id, description: editDescription, customer: editProjCustomer, projectNumber: editProjectNumber, invoiceNumber: editInvoiceNumber, startDate: editStartDate, endDate: editEndDate};
     try {
-      const response = await api.put(`/projectList/${id}`, updatedProject)
-      setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
+      const req = { 
+        method: 'PUT',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description: editDescription, 
+          customerName: editProjCustomer, 
+          projectNumber: editProjectNumber, 
+          invoiceNumber: editInvoiceNumber, 
+          startDate: editStartDate, 
+          endDate: editEndDate
+        })
+      };
+      await fetch(`http://localhost:4000/projects/${id}`, req);
+
+      const updatedProject = { _id: id, description: editDescription, 
+        customerName: editProjCustomer, 
+        projectNumber: editProjectNumber, 
+        invoiceNumber: editInvoiceNumber, 
+        startDate: editStartDate, 
+        endDate: editEndDate 
+      };
+
+      setProjectList(projectList.map(project => project._id === id ? {...updatedProject } : project));
       setEditProjectNumber('');
       setEditDescription('');
       setEditProjCustomer('');
@@ -450,7 +406,7 @@ function App() {
       setEditEndDate('');
       navigation('/');
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err);
     }
   }
 
@@ -487,7 +443,7 @@ function App() {
             handleDelete={handleDeleteProject}
             />} />
         </Route>
-        <Route path="projects/edit/:id">
+        <Route path="projects/:id/edit">
           <Route index element={<EditProject 
             projectList={projectList}
             customerList={customerList}

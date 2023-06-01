@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 
 const EditCustomer = ({ customerList, handleEdit, editName, setEditName, editAddress, setEditAddress, editPhone, setEditPhone, editEmail, setEditEmail }) => {
   const { id } = useParams();
-  const customer = customerList.find(customer => (customer.id).toString() === id);
+  const customer = customerList.find(customer => (customer._id) === id);
 
   useEffect(() => {
       if (customer) {
@@ -52,7 +52,7 @@ const EditCustomer = ({ customerList, handleEdit, editName, setEditName, editAdd
                   value={editEmail}
                   onChange={(e) => setEditEmail(e.target.value)}
                   />
-                  <button className='saveButton' type="button" onClick={() => handleEdit(customer.id)}>Submit</button>
+                  <button className='saveButton' type="button" onClick={() => handleEdit(customer._id)}>Submit</button>
                 </form>
             </>
         }

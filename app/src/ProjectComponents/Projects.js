@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import ProjectFeed from "./ProjectFeed";
 import Papa from "papaparse";
-import api from "../api/projects"
 import template from "./CSVTemplate.csv"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -49,12 +48,23 @@ const Projects = ({ projectList, bankData, setBankData }) => {
 
   const addBankData = async (data) => {
     try {
-      const response = await api.post('/bankData', data);
-      const allBankData = [...bankData, response.data];
-      setBankData(allBankData);
+      const req = { 
+        method: 'POST',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description: data.description, 
+          amount: `$${(Math.round(data.amount * 100) / 100).toFixed(2)}`, 
+          debitCredit: data.debitCredit, 
+          category: data.category, 
+          projectNumber: data.projectNumber
+        })
+      };
+      const res = await fetch('http://localhost:4000/bankstatement', req);
+      const bData = await res.json();
+      setBankData((prevBD) => [...prevBD,bData])
       uploadNotify();
       clearWaitingQueue();
-    } catch (err) {
+    }catch (err) {
       errorNotify(err.message);
     }
   }

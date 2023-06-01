@@ -49,7 +49,7 @@ router.delete('/:sqFtId', async (req,res) => {
 })
 
 //Update sqft
-router.patch('/:sqFtId', async (req,res) => {
+router.put('/:sqFtId', async (req,res) => {
     try{
         const updatedSqFt = await SquareFootage.updateOne(
             {_id: req.params.sqFtId}, 

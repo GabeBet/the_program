@@ -4,7 +4,7 @@ const ProjectFeed = ({ projectList }) => {
   return (
     <>
         {projectList.map(project => (
-            <Project key={project.id} project={project}/>
+            <Project key={project._id} project={project}/>
         ))}
     </>
   )

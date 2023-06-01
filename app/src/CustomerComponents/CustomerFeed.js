@@ -4,7 +4,7 @@ const CustomerFeed = ({ customerList }) => {
   return (
     <>
         {customerList.map(customer => (
-            <Customer key={customer.id} customer={customer}/>
+            <Customer key={customer._id} customer={customer}/>
         ))}
     </>
   )

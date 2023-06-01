@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 //import logo from './USLogo.jpg'
-import api from './api/projects'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,9 +20,9 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
   const [date, setDate] = useState('');
 
   const [subTotal, setSubTotal] = useState('');
-  const [tax, setTax] = useState('');
+  const [tax, setTax] = useState('0');
   const [total, setTotal] = useState('');
-  const [deposit, setDeposit] = useState('');
+  const [deposit, setDeposit] = useState('0');
   const [balance, setBalance] = useState('');
 
   const { PDFExport } = require('@progress/kendo-react-pdf');
@@ -109,7 +108,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     projectList?.forEach((proj) => {
       if (proj.projectNumber === e.target.value){
         customerList?.forEach((cust) => {
-          if(proj.customer === cust.name){
+          if(proj.customerName === cust.name){
             setName(cust.name);
             setAddress(cust.address);
             setPhone(cust.phone);
@@ -136,7 +135,6 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     } else if ( estimateData.find(proj => proj.projectNumber === e.target.value ) ) {
       estimateData?.forEach((proj) => {
         if (proj.projectNumber === e.target.value){
-          setDate(proj.date);
           setInputFields(proj.inputFields);
           setSubTotal(proj.subTotal);
           setTax(proj.tax);
@@ -160,9 +158,9 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       setInvoiceNumber('');
       setDate('');
       setSubTotal('');
-      setTax('');
+      setTax('0');
       setTotal('');
-      setDeposit('');
+      setDeposit('0');
       setBalance('');
     }
   }
@@ -197,8 +195,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     } else if ( estimateData.find(proj => proj.projectNumber === projNumber ) ) {
       estimateData?.forEach((proj) => {
         if (proj.projectNumber === projNumber){
-          setDate(proj.date);
           setInputFields(proj.inputFields);
+          setDate('');
           setSubTotal(proj.subTotal);
           setTax(proj.tax);
           setTotal(proj.total);
@@ -230,68 +228,122 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
 
   const saveInvoice = async (e) => {
     e.preventDefault();
-    let id = invoiceData.length ? invoiceData[invoiceData.length - 1].id + 1 : 1;
-    const newInvoiceData = { id, invoiceNumber: invoiceNumber, projectNumber: projectNumber, date: date, inputFields: inputFields, 
-      subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
-      if (projectNumber === ''){
+      if (projectNumber === '') {
         throw new Error('Must have Project Number')
       }
-      const response = await api.post('/invoiceData', newInvoiceData);
-      const allInvoiceData = [...invoiceData, response.data];
-      setInvoiceData(allInvoiceData);
-      saveNotify();
-    } catch (err) {
-      errorNotify(err.message)
-    }
-
-    let updatedProject = {};
-    projectList?.forEach((proj) => {
-      if (proj.projectNumber === projectNumber){
-        id = proj.id;
-        updatedProject = { id, description: proj.description, customer: proj.customer, projectNumber: proj.projectNumber, 
-          invoiceNumber: invoiceNumber, startDate: proj.startDate, endDate: proj.endDate};
+      if (date === '') {
+        throw new Error('Must have Date')
       }
-    })
+      if (invoiceNumber === '') {
+        throw new Error('Must have Invoice Number')
+      }
+      const req = { 
+        method: 'POST',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectNumber: projectNumber,
+          invoiceNumber: invoiceNumber,
+          date: date, 
+          inputFields: inputFields,
+          subTotal: subTotal, 
+          tax: tax,
+          total: total, 
+          deposit: deposit,
+          balance: balance
+        })
+      };
+      const res = await fetch('http://localhost:4000/invoice', req);
+      const data = await res.json();
+      setInvoiceData((prevInv) => [...prevInv,data])
+      saveNotify();
 
-    try {
-      const response = await api.put(`/projectList/${id}`, updatedProject)
-      setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
-      console.log('invoice number updated')
+      let id = '';
+      let updatedProject = {};
+      let reqProj = '';
+      projectList?.forEach((proj) => {
+        if (proj.projectNumber === projectNumber){
+          id = proj._id;
+          updatedProject = { _id: id, description: proj.description, customerName: proj.customerName, projectNumber: proj.projectNumber, 
+            invoiceNumber: invoiceNumber, startDate: proj.startDate, endDate: proj.endDate};
+          reqProj = { 
+            method: 'PUT',
+            headers:{ 'Content-Type': 'application/json' },
+            body: JSON.stringify({ description: proj.description, 
+              customerName: proj.customerName, 
+              projectNumber: proj.projectNumber, 
+              invoiceNumber: invoiceNumber, 
+              startDate: proj.startDate, 
+              endDate: proj.endDate
+            })
+          }
+        }
+      })
+      await fetch(`http://localhost:4000/projects/${id}`, reqProj);
+      setProjectList(projectList.map(project => project._id === id ? {...updatedProject } : project));
     } catch (err) {
-      console.log(`Error: ${err.message}`);
+      errorNotify(err);
     }
   }
 
   const updateInvoice = async (id) => {
-    updateNotify();
-    const updatedInvoice = { id, invoiceNumber: invoiceNumber, projectNumber: projectNumber, date: date, inputFields: inputFields, 
-      subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
     try {
-      if (projectNumber === ''){
+      if (projectNumber === '') {
         throw new Error('Must have Project Number')
       }
-      const response = await api.put(`/invoiceData/${id}`, updatedInvoice);
-      setInvoiceData(invoiceData.map(inv => inv.id === id ? { ...response.data } : inv));
+      if (date === '') {
+        throw new Error('Must have Date')
+      }
+      if (invoiceNumber === '') {
+        throw new Error('Must have Invoice Number')
+      }
+      const req = { 
+        method: 'PUT',
+        headers:{ 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectNumber: projectNumber,
+          invoiceNumber: invoiceNumber,
+          date: date, 
+          inputFields: inputFields,
+          subTotal: subTotal, 
+          tax: tax,
+          total: total, 
+          deposit: deposit,
+          balance: balance
+        })
+      };
+      await fetch(`http://localhost:4000/invoice/${id}`, req);
+
+      const updatedInvoice = { _id: id, projectNumber: projectNumber, invoiceNumber: invoiceNumber, date: date, inputFields: inputFields, 
+        subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
+
+      setInvoiceData(invoiceData.map(inv => inv._id === id ? { ...updatedInvoice } : inv));
+      updateNotify();
+
+      let updatedProject = {};
+      let reqProj = '';
+      projectList?.forEach((proj) => {
+        if (proj.projectNumber === projectNumber){
+          id = proj._id;
+          updatedProject = { _id: id, description: proj.description, customerName: proj.customerName, projectNumber: proj.projectNumber, 
+            invoiceNumber: invoiceNumber, startDate: proj.startDate, endDate: proj.endDate};
+          reqProj = { 
+            method: 'PUT',
+            headers:{ 'Content-Type': 'application/json' },
+            body: JSON.stringify({ description: proj.description, 
+              customerName: proj.customerName, 
+              projectNumber: proj.projectNumber, 
+              invoiceNumber: invoiceNumber, 
+              startDate: proj.startDate, 
+              endDate: proj.endDate
+            })
+          }
+        }
+      })
+      await fetch(`http://localhost:4000/projects/${id}`, reqProj);
+      setProjectList(projectList.map(project => project._id === id ? {...updatedProject } : project));
     } catch (err) {
       errorUpdateNotify(err.message);
-    }
-
-    let updatedProject = {};
-    projectList?.forEach((proj) => {
-      if (proj.projectNumber === projectNumber){
-        id = proj.id;
-        updatedProject = { id, description: proj.description, customer: proj.customer, projectNumber: proj.projectNumber, 
-          invoiceNumber: invoiceNumber, startDate: proj.startDate, endDate: proj.endDate};
-      }
-    })
-
-    try {
-      const response = await api.put(`/projectList/${id}`, updatedProject)
-      setProjectList(projectList.map(project => project.id === id ? {...response.data } : project));
-      console.log('invoice number updated')
-    } catch (err) {
-      console.log(`Error: ${err.message}`);
     }
   }
 
@@ -339,7 +391,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             onChange={(e) => handleProjectChange(e)}>
             <option value="" disabled>Select Project...</option>
               {projectList.map(project => (
-                  <option key={project.id} value={project.value}>{project.projectNumber}</option>
+                  <option key={project._id} value={project.value}>{project.projectNumber}</option>
               ))}
           </select>
         </span><br></br>
@@ -414,7 +466,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         {!(invoiceData.find(proj => proj.projectNumber === projectNumber)) 
         ? <button className="saveButton" onClick={(e) => saveInvoice(e)}>Save Invoice</button> 
         : invoiceData.map(proj => (proj.projectNumber === projectNumber) ?
-        <button className="editButton" key={proj.id} onClick={() => updateInvoice(proj.id)}>Update Invoice</button> : "")}
+        <button className="editButton" key={proj._id} onClick={() => updateInvoice(proj._id)}>Update Invoice</button> : "")}
         <ToastContainer
           position="bottom-center"
           autoClose={5000}

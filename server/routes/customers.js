@@ -50,7 +50,7 @@ router.delete('/:customerId', async (req,res) => {
 })
 
 //Update customer
-router.patch('/:customerId', async (req,res) => {
+router.put('/:customerId', async (req,res) => {
     try{
         const updatedCustomer = await Customer.updateOne(
             {_id: req.params.customerId}, 

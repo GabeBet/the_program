@@ -54,7 +54,7 @@ router.delete('/:estimateId', async (req,res) => {
 })
 
 //Update estimate
-router.patch('/:estimateId', async (req,res) => {
+router.put('/:estimateId', async (req,res) => {
     try{
         const updatedEstimate = await Estimate.updateOne(
             {_id: req.params.estimateId}, 
