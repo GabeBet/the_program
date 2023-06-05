@@ -1,5 +1,6 @@
 import { useEffect} from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { PatternFormat } from 'react-number-format';
 
 const EditCustomer = ({ customerList, handleEdit, editName, setEditName, editAddress, setEditAddress, editPhone, setEditPhone, editEmail, setEditEmail }) => {
   const { id } = useParams();
@@ -14,6 +15,24 @@ const EditCustomer = ({ customerList, handleEdit, editName, setEditName, editAdd
       }
   }, [customer, setEditName, setEditAddress, setEditPhone, setEditEmail])
 
+  const handleChange = (index, e) => {
+    let data = [...editAddress];
+    data[index][e.target.name] = e.target.value;
+    setEditAddress(data);
+  }
+
+  const addAddressField = (e) => {
+    e.preventDefault();
+    let newAddressField = {address: ''};
+    setEditAddress([...editAddress, newAddressField])
+  }
+
+  const removeAddressField = (index) => {
+    let data = [...editAddress];
+    data.splice(index,1);
+    setEditAddress(data);
+  }
+
   return (
     <main className="Customers">
         {editName &&
@@ -22,27 +41,36 @@ const EditCustomer = ({ customerList, handleEdit, editName, setEditName, editAdd
                 <form className='CustomersForm' onSubmit={(e) => e.preventDefault()}>
                   <label htmlFor='CustomerName'>Name:</label>
                   <input
-                  id='CustomerName'
-                  type='text'
-                  required
-                  value={editName}
-                  onChange={(e) => setEditName(e.target.value)}
+                    id='CustomerName'
+                    type='text'
+                    required
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
                   />
                   <label htmlFor='CustomerAddress'>Address:</label>
-                  <input
-                  id='CustomerAddress'
-                  type='text'
-                  required
-                  value={editAddress}
-                  onChange={(e) => setEditAddress(e.target.value)}
-                  />
+                  {editAddress.map((input, index) => {
+                      return (
+                          <div key={index}>
+                          <input
+                              name='address'
+                              type='text'
+                              required
+                              value={input.address}
+                              onChange={(e) => handleChange(index, e)}
+                          />
+                          <button className="deleteButton" onClick={() => removeAddressField(index)}>Remove Address</button>
+                          </div>
+                      )
+                  })}
+                  <button className="addButton" onClick={addAddressField}>Add New Address...</button>
                   <label htmlFor='CustomerPhone'>Phone:</label>
-                  <input
-                  id='CustomerPhone'
-                  type='text'
-                  required
-                  value={editPhone}
-                  onChange={(e) => setEditPhone(e.target.value)}
+                  <PatternFormat
+                    type="text"
+                    format="(###) ###-####" 
+                    mask="_"
+                    value={editPhone}
+                    onValueChange={value => setEditPhone(value.formattedValue)}
+                    required
                   />
                   <label htmlFor='CustomerEmail'>Email:</label>
                   <input
@@ -59,7 +87,6 @@ const EditCustomer = ({ customerList, handleEdit, editName, setEditName, editAdd
         {!editName &&
             <>
                 <h2>Customer Not Found</h2>
-                <p>Sorry Mama</p>
                 <p>
                     <Link to='/customers'>Go Back to Customer Page</Link>
                 </p>

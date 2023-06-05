@@ -347,6 +347,14 @@ button:hover {
   font-size: large;
 }
 
+.EstimateCustomer select, .InvoiceCustomer select {
+  font-family: 'Open Sans', sans-serif;
+  width: flex;
+  font-size: 1rem;
+  padding: 0.25rem;
+  outline: none;
+}
+
 .EstimateDescription,
 .InvoiceDescription {
   text-align: center;
@@ -460,4 +468,16 @@ button:hover {
 
 .k-pdf-export select, .k-pdf-export input {
   text-align: center;
+}
+
+.k-pdf-export .EstimateCustomer select {
+  background-color: #eee;
+  border: none;
+  text-align: left;
+  font-size: large;
+}
+
+.k-pdf-export .EstimateHeading select, .k-pdf-export .EstimateHeading input{
+  border: none;
+  font-size: larger;
 }

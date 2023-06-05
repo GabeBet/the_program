@@ -10,7 +10,8 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
   const [loaded, setLoaded] = useState(false);
 
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState([{address: ''}]);
+  const [actualAddress, setActualAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
 
@@ -153,15 +154,16 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
         }
       })
     } else {
-      estimateData?.forEach((proj) => {
-        if (proj.projectNumber === e.target.value){
-          setDate(proj.date);
-          setInputFields(proj.inputFields);
-          setSubTotal(proj.subTotal);
-          setTax(proj.tax);
-          setTotal(proj.total);
-          setDeposit(proj.deposit);
-          setBalance(proj.balance);
+      estimateData?.forEach((est) => {
+        if (est.projectNumber === e.target.value){
+          setActualAddress(est.address);
+          setDate(est.date);
+          setInputFields(est.inputFields);
+          setSubTotal(est.subTotal);
+          setTax(est.tax);
+          setTotal(est.total);
+          setDeposit(est.deposit);
+          setBalance(est.balance);
         }
       })
     }
@@ -171,7 +173,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
     projectList?.forEach((proj) => {
       if (proj.projectNumber === projNumber){
         customerList?.forEach((cust) => {
-          if(proj.customer === cust.name){
+          if(proj.customerName === cust.name){
             setName(cust.name);
             setAddress(cust.address);
             setPhone(cust.phone);
@@ -201,15 +203,16 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       setDeposit('0')
       setBalance('0')
     } else {
-      estimateData?.forEach((proj) => {
-        if (proj.projectNumber === projNumber){
-          setDate(proj.date);
-          setInputFields(proj.inputFields);
-          setSubTotal(proj.subTotal);
-          setTax(proj.tax);
-          setTotal(proj.total);
-          setDeposit(proj.deposit);
-          setBalance(proj.balance);
+      estimateData?.forEach((est) => {
+        if (est.projectNumber === projNumber){
+          setActualAddress(est.address);
+          setDate(est.date);
+          setInputFields(est.inputFields);
+          setSubTotal(est.subTotal);
+          setTax(est.tax);
+          setTotal(est.total);
+          setDeposit(est.deposit);
+          setBalance(est.balance);
         }
       })
     }
@@ -228,7 +231,8 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
         method: 'POST',
         headers:{ 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          projectNumber: projectNumber, 
+          projectNumber: projectNumber,
+          address: actualAddress,
           date: date, 
           inputFields: inputFields,
           subTotal: subTotal, 
@@ -259,7 +263,8 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
         method: 'PUT',
         headers:{ 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          projectNumber: projectNumber, 
+          projectNumber: projectNumber,
+          address: actualAddress,
           date: date, 
           inputFields: inputFields,
           subTotal: subTotal, 
@@ -311,8 +316,9 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
         {/* <img src={logo} className="CompanyLogo" alt="logo" /> */}
         <span className="leftTitle">Beta Granite Solutions</span>
         <span className="rightTitle"> Estimate </span> <br></br>
-        <span className="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span>
-        <span className="rightSubTitle">Date:&ensp;
+        <span className="leftSubTitle">Phone: (281) 900-3285 / (346) 446-8884</span>
+        <span className="rightSubTitle">
+          <label>Date: </label>
           <input
             id='EstimateDate'
             type='date'
@@ -321,7 +327,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
             onChange={(e) => setDate(e.target.value)}/>
         </span> <br></br>
         <span className='rightSubTitle'>
-          Project: &ensp;
+          <label>Project: </label>
           <select
             name='projectNumber'
             value={projectNumber}
@@ -337,10 +343,18 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       <br></br><br></br>
 
       <div className='EstimateCustomer'>
-        <b>Customer:</b> {`${name}`} <br></br>
-        <b>Address:</b> {`${address}`} <br></br>
-        <b>Phone:</b> {`${phone}`} <br></br>
-        <b>Email:</b> {`${email}`}
+        <b>Customer: </b> {`${name}`} <br></br>
+        <b>Address: </b> 
+        <select
+          name='Address'
+          value={actualAddress}
+          onChange={(e) => setActualAddress(e.target.value)}>
+            {address.map(add => (
+                <option value={add.address}>{add.address}</option>
+            ))}
+        </select><br></br>
+        <b>Phone: </b> {`${phone}`} <br></br>
+        <b>Email: </b> {`${email}`}
       </div>
 
       <br></br>
@@ -463,14 +477,13 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
             readOnly
           /><br></br>
         </span>
-
         1. Electrical will be done by customer <br></br>
         2. 50% Deposit due at time of agreement <br></br>
         3. Balance due at time of completion <br></br>
         4. Edge - Straight <br></br>
         5. Sink, Faucets, and other items to be mounted in the countertop need to be at job site at time of installation to make cutouts <br></br>
         6. Additional trips will incure extra charges <br></br>
-        <b>*This is only an estimate, price and material needed subject to change after final template*</b><br></br><br></br><br></br>
+        <b>*This is only an estimate, price and material needed subject to change after final template*</b><br></br><br></br>
         <div className='centerFooter'>
           Make all checks payable to <b>Beta Granite Solutions</b> <br></br> 3511 Maverly Crest Ct Katy, TX 77494 <br></br>
           If you have any questions about this estimate, please contact <br></br> 

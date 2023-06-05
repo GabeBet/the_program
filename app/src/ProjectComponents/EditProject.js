@@ -15,7 +15,7 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
         setEditInvoiceNumber(project.invoiceNumber);
         setEditStartDate(project.startDate);
         setEditEndDate(project.endDate);
-        setEditProjCustomer(project.customer)
+        setEditProjCustomer(project.customerName)
       }
   }, [project, setEditDescription, setEditProjectNumber, setEditInvoiceNumber, setEditStartDate, setEditEndDate, setEditProjCustomer])
 

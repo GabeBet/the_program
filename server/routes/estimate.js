@@ -16,6 +16,7 @@ router.get('/', async (req,res) => {
 router.post('/', async (req,res) => {
     const estimate = new Estimate({
         projectNumber: req.body.projectNumber,
+        address: req.body.address,
         date: req.body.date,
         inputFields: req.body.inputFields,
         subTotal: req.body.subTotal,
@@ -59,6 +60,7 @@ router.put('/:estimateId', async (req,res) => {
         const updatedEstimate = await Estimate.updateOne(
             {_id: req.params.estimateId}, 
             { $set: { projectNumber: req.body.projectNumber,
+                address: req.body.address,
                 date: req.body.date,
                 inputFields: req.body.inputFields,
                 subTotal: req.body.subTotal,

@@ -18,12 +18,12 @@ import { toast } from 'react-toastify';
 
 function App() {
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState([{address: ''}]);
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
 
   const [editName, setEditName] = useState('');
-  const [editAddress, setEditAddress] = useState('');
+  const [editAddress, setEditAddress] = useState([{address: ''}]);
   const [editPhone, setEditPhone] = useState('');
   const [editEmail, setEditEmail] = useState('');
 
@@ -251,7 +251,7 @@ function App() {
       const data = await res.json();
       setCustomerList((prevCustomers) => [...prevCustomers,data])
       setName('');
-      setAddress('');
+      setAddress([{address: ''}]);
       setPhone('');
       setEmail('');
       navigation('/customers');
@@ -289,7 +289,7 @@ function App() {
 
       setCustomerList(customerList.map(customer => customer._id === id ? {...updatedCustomer } : customer));
       setEditName('');
-      setEditAddress('');
+      setEditAddress([{address: ''}]);
       setEditPhone('');
       setEditEmail('');
       navigation('/customers');

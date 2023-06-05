@@ -10,7 +10,10 @@ const CustomerPage = ({ customerList, projectList, handleDelete }) => {
                 {customer &&
                     <>
                         <h2>{customer.name}</h2>
-                        <p className="customerAddress"><b>Address:</b> {customer.address}</p>
+                        <b>Address(es):</b>
+                            {customer.address.map((add) => {
+                                return <p className="customerAddress">&ensp;{add.address}</p>
+                            })}
                         <p className="customerPhone"><b>Phone:</b> {customer.phone}</p>
                         <p className="customerEmail"><b>Email:</b> {customer.email}</p>
 

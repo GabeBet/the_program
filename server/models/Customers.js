@@ -6,7 +6,7 @@ const CustomerSchema = mongoose.Schema({
         required: true
     },
     address: {
-        type: String,
+        type: Array,
         required: true
     },
     phone: {

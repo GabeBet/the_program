@@ -5,6 +5,10 @@ const InvoiceSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    address: {
+        type: String,
+        required: true
+    },
     invoiceNumber: {
         type: String,
         required: true

@@ -17,6 +17,7 @@ router.post('/', async (req,res) => {
     const invoice = new Invoice({
         projectNumber: req.body.projectNumber,
         invoiceNumber: req.body.invoiceNumber,
+        address: req.body.address,
         date: req.body.date,
         inputFields: req.body.inputFields,
         subTotal: req.body.subTotal,
@@ -61,6 +62,7 @@ router.put('/:invoiceId', async (req,res) => {
             {_id: req.params.invoiceId}, 
             { $set: { projectNumber: req.body.projectNumber,
                 invoiceNumber: req.body.invoiceNumber,
+                address: req.body.address,
                 date: req.body.date,
                 inputFields: req.body.inputFields,
                 subTotal: req.body.subTotal,

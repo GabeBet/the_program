@@ -12,7 +12,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
   const [loaded, setLoaded] = useState(false);
 
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState([{address: ''}]);
+  const [actualAddress, setActualAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
 
@@ -119,28 +120,30 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       }
     })
 
-    if( invoiceData.find(proj => proj.projectNumber === e.target.value ) ) {
-      invoiceData?.forEach((proj) => {
-        if (proj.projectNumber === e.target.value){
-          setInvoiceNumber(proj.invoiceNumber);
-          setDate(proj.date);
-          setInputFields(proj.inputFields);
-          setSubTotal(proj.subTotal);
-          setTax(proj.tax);
-          setTotal(proj.total);
-          setDeposit(proj.deposit);
-          setBalance(proj.balance);
+    if( invoiceData.find(inv => inv.projectNumber === e.target.value ) ) {
+      invoiceData?.forEach((inv) => {
+        if (inv.projectNumber === e.target.value){
+          setInvoiceNumber(inv.invoiceNumber);
+          setActualAddress(inv.address);
+          setDate(inv.date);
+          setInputFields(inv.inputFields);
+          setSubTotal(inv.subTotal);
+          setTax(inv.tax);
+          setTotal(inv.total);
+          setDeposit(inv.deposit);
+          setBalance(inv.balance);
         }
       })
-    } else if ( estimateData.find(proj => proj.projectNumber === e.target.value ) ) {
-      estimateData?.forEach((proj) => {
-        if (proj.projectNumber === e.target.value){
-          setInputFields(proj.inputFields);
-          setSubTotal(proj.subTotal);
-          setTax(proj.tax);
-          setTotal(proj.total);
-          setDeposit(proj.deposit);
-          setBalance(proj.balance);
+    } else if ( estimateData.find(est => est.projectNumber === e.target.value ) ) {
+      estimateData?.forEach((est) => {
+        if (est.projectNumber === e.target.value){
+          setInputFields(est.inputFields);
+          setActualAddress(est.address);
+          setSubTotal(est.subTotal);
+          setTax(est.tax);
+          setTotal(est.total);
+          setDeposit(est.deposit);
+          setBalance(est.balance);
         }
       })
     } else {
@@ -156,6 +159,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       {description: '', qty: '', unitPrice: '', amount: ''},
       {description: '', qty: '', unitPrice: '', amount: ''}]);
       setInvoiceNumber('');
+      setActualAddress('');
       setDate('');
       setSubTotal('');
       setTax('0');
@@ -169,7 +173,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     projectList?.forEach((proj) => {
       if (proj.projectNumber === projNumber){
         customerList?.forEach((cust) => {
-          if(proj.customer === cust.name){
+          if(proj.customerName === cust.name){
             setName(cust.name);
             setAddress(cust.address);
             setPhone(cust.phone);
@@ -179,29 +183,31 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         })
       }
     })
-    if( invoiceData.find(proj => proj.projectNumber === projNumber ) ) {
-      invoiceData?.forEach((proj) => {
-        if (proj.projectNumber === projNumber){
-          setInvoiceNumber(proj.invoiceNumber);
-          setDate(proj.date);
-          setInputFields(proj.inputFields);
-          setSubTotal(proj.subTotal);
-          setTax(proj.tax);
-          setTotal(proj.total);
-          setDeposit(proj.deposit);
-          setBalance(proj.balance);
+    if( invoiceData.find(inv => inv.projectNumber === projNumber ) ) {
+      invoiceData?.forEach((inv) => {
+        if (inv.projectNumber === projNumber){
+          setInvoiceNumber(inv.invoiceNumber);
+          setActualAddress(inv.address);
+          setDate(inv.date);
+          setInputFields(inv.inputFields);
+          setSubTotal(inv.subTotal);
+          setTax(inv.tax);
+          setTotal(inv.total);
+          setDeposit(inv.deposit);
+          setBalance(inv.balance);
         }
       })
-    } else if ( estimateData.find(proj => proj.projectNumber === projNumber ) ) {
-      estimateData?.forEach((proj) => {
-        if (proj.projectNumber === projNumber){
-          setInputFields(proj.inputFields);
+    } else if ( estimateData.find(est => est.projectNumber === projNumber ) ) {
+      estimateData?.forEach((est) => {
+        if (est.projectNumber === projNumber){
+          setInputFields(est.inputFields);
+          setActualAddress(est.address);
           setDate('');
-          setSubTotal(proj.subTotal);
-          setTax(proj.tax);
-          setTotal(proj.total);
-          setDeposit(proj.deposit);
-          setBalance(proj.balance);
+          setSubTotal(est.subTotal);
+          setTax(est.tax);
+          setTotal(est.total);
+          setDeposit(est.deposit);
+          setBalance(est.balance);
         }
       })
     } else {
@@ -217,6 +223,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       {description: '', qty: '', unitPrice: '', amount: ''},
       {description: '', qty: '', unitPrice: '', amount: ''}]);
       setInvoiceNumber('');
+      setActualAddress('');
       setDate('');
       setSubTotal('');
       setTax('');
@@ -244,6 +251,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         body: JSON.stringify({
           projectNumber: projectNumber,
           invoiceNumber: invoiceNumber,
+          address: actualAddress,
           date: date, 
           inputFields: inputFields,
           subTotal: subTotal, 
@@ -303,6 +311,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         body: JSON.stringify({
           projectNumber: projectNumber,
           invoiceNumber: invoiceNumber,
+          address: actualAddress,
           date: date, 
           inputFields: inputFields,
           subTotal: subTotal, 
@@ -377,7 +386,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         {/* <img src={logo} className="CompanyLogo" alt="logo" /> */}
         <span className="leftTitle">Beta Granite Solutions</span> <span className="rightTitle"> Invoice </span> 
         <br></br>
-        <span className="leftSubTitle">Phone: (281)900-3285 / (346)0446-8884</span> <span className="rightSubTitle">Date:&ensp;
+        <span className="leftSubTitle">Phone: (281) 900-3285 / (346) 446-8884</span> <span className="rightSubTitle">Date:&ensp;
           <input
             id='invoiceDate'
             type='date'
@@ -409,7 +418,15 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
 
       <div className='InvoiceCustomer'>
         <b>Customer: </b> {`${name}`} <br></br>
-        <b>Address:</b> {`${address}`} <br></br>
+        <b>Address:</b> 
+        <select
+          name='Address'
+          value={actualAddress}
+          onChange={(e) => setActualAddress(e.target.value)}>
+            {address.map(add => (
+                <option value={add.address}>{add.address}</option>
+            ))}
+        </select><br></br>
         <b>Phone:</b> {`${phone}`} <br></br>
         <b>Email:</b> {`${email}`}
       </div>
