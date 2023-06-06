@@ -242,7 +242,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
           balance: balance
         })
       };
-      const res = await fetch('http://localhost:4000/estimate', req);
+      const res = await fetch('https://bsg-program-api.herokuapp.com/estimate', req);
       const data = await res.json();
       setEstimateData((prevEst) => [...prevEst,data])
       saveNotify();
@@ -274,7 +274,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
           balance: balance
         })
       };
-      await fetch(`http://localhost:4000/estimate/${id}`, req);
+      await fetch(`https://bsg-program-api.herokuapp.com/estimate/${id}`, req);
 
       const updatedEstimate = { _id: id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
         subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};

@@ -261,7 +261,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           balance: balance
         })
       };
-      const res = await fetch('http://localhost:4000/invoice', req);
+      const res = await fetch('https://bsg-program-api.herokuapp.com/invoice', req);
       const data = await res.json();
       setInvoiceData((prevInv) => [...prevInv,data])
       saveNotify();
@@ -287,7 +287,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           }
         }
       })
-      await fetch(`http://localhost:4000/projects/${id}`, reqProj);
+      await fetch(`https://bsg-program-api.herokuapp.com/projects/${id}`, reqProj);
       setProjectList(projectList.map(project => project._id === id ? {...updatedProject } : project));
     } catch (err) {
       errorNotify(err);
@@ -321,7 +321,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           balance: balance
         })
       };
-      await fetch(`http://localhost:4000/invoice/${id}`, req);
+      await fetch(`https://bsg-program-api.herokuapp.com/invoice/${id}`, req);
 
       const updatedInvoice = { _id: id, projectNumber: projectNumber, invoiceNumber: invoiceNumber, date: date, inputFields: inputFields, 
         subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
@@ -349,7 +349,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           }
         }
       })
-      await fetch(`http://localhost:4000/projects/${id}`, reqProj);
+      await fetch(`https://bsg-program-api.herokuapp.com/projects/${id}`, reqProj);
       setProjectList(projectList.map(project => project._id === id ? {...updatedProject } : project));
     } catch (err) {
       errorUpdateNotify(err.message);
