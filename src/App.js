@@ -121,7 +121,7 @@ function App() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('https://bsg-program-api.herokuapp.com/projects',{});
+        const response = await fetch('https://bsg-program-api.herokuapp.com/api/projects',{});
         let data = await response.json();
         setProjectList(data);
       } catch (err) {
@@ -137,7 +137,7 @@ function App() {
 
     const fetchCustomers = async () => {
       try {
-        const response = await fetch('https://bsg-program-api.herokuapp.com/customers');
+        const response = await fetch('https://bsg-program-api.herokuapp.com/api/customers');
         let data = await response.json();
         setCustomerList(data);
       } catch (err) {
