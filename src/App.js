@@ -47,7 +47,15 @@ function App() {
 
   const [projectList, setProjectList] = useState([]);
 
-  const [descriptionList] = useState([
+  const [sqFtData, setSqFtData] = useState([]);
+
+  const [estimateData, setEstimateData] = useState([]);
+
+  const [invoiceData, setInvoiceData] = useState([]);
+
+  const [bankData, setBankData] = useState([]);
+
+  const [descriptionList, setDescriptionList] = useState([
     "Bath Tub Cut Out",
     "Console Table",
     "Bathroom Countertop", 
@@ -108,14 +116,6 @@ function App() {
     "Vanity Sink - Oval",
     "Vanity Sink Rectangle"
   ]);
-
-  const [sqFtData, setSqFtData] = useState([]);
-
-  const [estimateData, setEstimateData] = useState([]);
-
-  const [invoiceData, setInvoiceData] = useState([]);
-
-  const [bankData, setBankData] = useState([]);
 
   // fetch all data
   useEffect(() => {

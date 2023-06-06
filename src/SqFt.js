@@ -8,7 +8,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
   const [loaded, setLoaded] = useState(false);
 
   const [inputFields, setInputFields] = useState([
-    {description: '', length: '', width: '', total: ''}
+    {description: '', length: '', width: '', length2: '', width2: '', length3: '', width3: '', total: ''}
   ])
   const [projectNumber, setProjectNumber] = useState('');
   const [customerName, setCustomerName] = useState('');
@@ -57,7 +57,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
 
   const calculate = () => {
     inputFields?.forEach((row) => {
-      row.total = (Math.ceil(row.length * row.width / 144))
+      row.total = (Math.ceil((row.length * row.width + row.length2 * row.width2 + row.length3 * row.width3)  / 144))
     })
     setGrandTotal((inputFields.reduce((a,v) => a = a + v.total, 0)))
   }
@@ -78,7 +78,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
     })
 
     if( !sqFtData.find(proj => proj.projectNumber === e.target.value ) ) {
-      setInputFields([{description: '', length: '', width: '', total: ''}]);
+      setInputFields([{description: '', length: '', width: '', length2: '', width2: '',length3: '', width3: '', total: ''}]);
       setGrandTotal('0');
     } else {
       sqFtData?.forEach((proj) => {
@@ -97,7 +97,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
       }
     })
     if( !sqFtData.find(proj => proj.projectNumber === projNumber ) ) {
-      setInputFields([{description: '', length: '', width: '', total: ''}]);
+      setInputFields([{description: '', length: '', width: '', length2: '', width2: '',length3: '', width3: '', total: ''}]);
       setGrandTotal('0');
     } else {
       sqFtData?.forEach((proj) => {
@@ -111,7 +111,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
 
   const addFields = (e) => {
     e.preventDefault();
-    let newField = {description: '', length: '', width: '', total: ''}
+    let newField = {description: '', length: '', width: '', length2: '', width2: '',length3: '', width3: '', total: ''}
     setInputFields([...inputFields, newField])
   }
 
@@ -224,6 +224,34 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
                 type="number"
                 placeholder="Width"
                 value={input.width}
+                onChange={(e) => handleChange(index, e)}
+              />
+              <input
+                name='length2'
+                type="number"
+                placeholder="Length2"
+                value={input.length2}
+                onChange={(e) => handleChange(index, e)}
+              />
+              <input
+                name='width2'
+                type="number"
+                placeholder="Width2"
+                value={input.width2}
+                onChange={(e) => handleChange(index, e)}
+              />
+              <input
+                name='length3'
+                type="number"
+                placeholder="Length3"
+                value={input.length3}
+                onChange={(e) => handleChange(index, e)}
+              />
+              <input
+                name='width3'
+                type="number"
+                placeholder="Width3"
+                value={input.width3}
                 onChange={(e) => handleChange(index, e)}
               />
               <input

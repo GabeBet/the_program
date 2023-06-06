@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
-//import logo from './USLogo.jpg'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@progress/kendo-theme-default/dist/all.css';
