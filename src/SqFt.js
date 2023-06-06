@@ -137,7 +137,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
           grandTotal: grandTotal
         })
       };
-      const res = await fetch('https://bgs-program-api.herokuapp.com/squarefootage', req);
+      const res = await fetch('https://bsg-program-api.herokuapp.com/squarefootage', req);
       const data = await res.json();
       setSqFtData((prevSqFt) => [...prevSqFt,data])
       saveNotify();
@@ -160,7 +160,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
           grandTotal: grandTotal
         })
       };
-      await fetch(`https://bgs-program-api.herokuapp.com/squarefootage/${id}`, req);
+      await fetch(`https://bsg-program-api.herokuapp.com/squarefootage/${id}`, req);
 
       const updatedSqFt = { _id: id, projectNumber: projectNumber, inputFields: inputFields, grandTotal: grandTotal };
 

@@ -59,7 +59,7 @@ const Projects = ({ projectList, bankData, setBankData }) => {
           projectNumber: data.projectNumber
         })
       };
-      const res = await fetch('https://bgs-program-api.herokuapp.com/bankstatement', req);
+      const res = await fetch('https://bsg-program-api.herokuapp.com/bankstatement', req);
       const bData = await res.json();
       setBankData((prevBD) => [...prevBD,bData])
       uploadNotify();

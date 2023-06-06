@@ -37,7 +37,7 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
           projectNumber: proj.projectNumber
         })
       };
-      const res = await fetch('https://bgs-program-api.herokuapp.com/bankstatement', req);
+      const res = await fetch('https://bsg-program-api.herokuapp.com/bankstatement', req);
       const data = await res.json();
       setBankData((prevBD) => [...prevBD,data])
     } catch (err) {
@@ -47,7 +47,7 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
 
   const handleRemoveBank = async (id) => {
     try{
-      await fetch(`https://bgs-program-api.herokuapp.com/bankstatement/${id}`, {method: 'DELETE'});
+      await fetch(`https://bsg-program-api.herokuapp.com/bankstatement/${id}`, {method: 'DELETE'});
       const filtedBankData = bankData.filter(bank => bank._id !== id);
       setBankData(filtedBankData);
     } catch (err) {

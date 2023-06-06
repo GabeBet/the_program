@@ -121,7 +121,7 @@ function App() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('https://bgs-program-api.herokuapp.com/projects',{});
+        const response = await fetch('https://bsg-program-api.herokuapp.com/projects',{});
         let data = await response.json();
         setProjectList(data);
       } catch (err) {
@@ -137,7 +137,7 @@ function App() {
 
     const fetchCustomers = async () => {
       try {
-        const response = await fetch('https://bgs-program-api.herokuapp.com/customers');
+        const response = await fetch('https://bsg-program-api.herokuapp.com/customers');
         let data = await response.json();
         setCustomerList(data);
       } catch (err) {
@@ -153,7 +153,7 @@ function App() {
 
     const fetchSqFtData = async () => {
       try {
-        const response = await fetch('https://bgs-program-api.herokuapp.com/squarefootage',{});
+        const response = await fetch('https://bsg-program-api.herokuapp.com/squarefootage',{});
         let data = await response.json();
         setSqFtData(data);
       } catch (err) {
@@ -169,7 +169,7 @@ function App() {
 
     const fetchEstimateData = async () => {
       try {
-        const response = await fetch('https://bgs-program-api.herokuapp.com/estimate',{});
+        const response = await fetch('https://bsg-program-api.herokuapp.com/estimate',{});
         let data = await response.json();
         setEstimateData(data);
       } catch (err) {
@@ -185,7 +185,7 @@ function App() {
 
     const fetchInvoiceData = async () => {
       try {
-        const response = await fetch('https://bgs-program-api.herokuapp.com/invoice',{});
+        const response = await fetch('https://bsg-program-api.herokuapp.com/invoice',{});
         let data = await response.json();
         setInvoiceData(data);
       } catch (err) {
@@ -201,7 +201,7 @@ function App() {
 
     const fetchBankData = async () => {
       try {
-        const response = await fetch('https://bgs-program-api.herokuapp.com/bankstatement',{});
+        const response = await fetch('https://bsg-program-api.herokuapp.com/bankstatement',{});
         let data = await response.json();
         setBankData(data);
       } catch (err) {
@@ -247,7 +247,7 @@ function App() {
           email: email
         })
       };
-      const res = await fetch('https://bgs-program-api.herokuapp.com/customers', req);
+      const res = await fetch('https://bsg-program-api.herokuapp.com/customers', req);
       const data = await res.json();
       setCustomerList((prevCustomers) => [...prevCustomers,data])
       setName('');
@@ -262,7 +262,7 @@ function App() {
 
   const handleDeleteCustomer = async (id) => {
     try {
-      await fetch(`https://bgs-program-api.herokuapp.com/customers/${id}`, {method: 'DELETE'});
+      await fetch(`https://bsg-program-api.herokuapp.com/customers/${id}`, {method: 'DELETE'});
       const filteredCustomerList = customerList.filter(customer => customer._id !== id);
       setCustomerList(filteredCustomerList);
       navigation('/customers')
@@ -283,7 +283,7 @@ function App() {
           email: editEmail
         })
       };
-      await fetch(`https://bgs-program-api.herokuapp.com/customers/${id}`, req);
+      await fetch(`https://bsg-program-api.herokuapp.com/customers/${id}`, req);
 
       const updatedCustomer = { _id: id, name: editName, address: editAddress, phone: editPhone, email: editEmail };
 
@@ -318,7 +318,7 @@ function App() {
           endDate: endDate
         })
       };
-      const res = await fetch('https://bgs-program-api.herokuapp.com/projects', req);
+      const res = await fetch('https://bsg-program-api.herokuapp.com/projects', req);
       const data = await res.json();
       setProjectList((prevPosts) => [...prevPosts,data])
       setProjectNumber('');
@@ -341,7 +341,7 @@ function App() {
     })
 
     try{
-      await fetch(`https://bgs-program-api.herokuapp.com/projects/${id}`, {method: 'DELETE'});
+      await fetch(`https://bsg-program-api.herokuapp.com/projects/${id}`, {method: 'DELETE'});
       const filteredProjectList = projectList.filter(project => project._id !== id);
       setProjectList(filteredProjectList);
       navigation('/')
@@ -352,7 +352,7 @@ function App() {
     estimateData?.forEach( async (est) => {
       if (est.projectNumber === projNumber){
         try {
-          await fetch(`https://bgs-program-api.herokuapp.com/estimate/${est._id}`, {method: 'DELETE'});
+          await fetch(`https://bsg-program-api.herokuapp.com/estimate/${est._id}`, {method: 'DELETE'});
           const filteredEstimateData = estimateData.filter(project => project._id !== id);
           setEstimateData(filteredEstimateData);
         } catch (err) {
@@ -363,7 +363,7 @@ function App() {
     invoiceData?.forEach( async (inv) => {
       if (inv.projectNumber === projNumber){
         try {
-          await fetch(`https://bgs-program-api.herokuapp.com/invoice/${inv._id}`, {method: 'DELETE'});
+          await fetch(`https://bsg-program-api.herokuapp.com/invoice/${inv._id}`, {method: 'DELETE'});
           const filteredInvoiceData = invoiceData.filter(project => project._id !== id);
           setInvoiceData(filteredInvoiceData);
         } catch (err) {
@@ -387,7 +387,7 @@ function App() {
           endDate: editEndDate
         })
       };
-      await fetch(`https://bgs-program-api.herokuapp.com/projects/${id}`, req);
+      await fetch(`https://bsg-program-api.herokuapp.com/projects/${id}`, req);
 
       const updatedProject = { _id: id, description: editDescription, 
         customerName: editProjCustomer, 
