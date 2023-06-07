@@ -209,7 +209,8 @@ body {
 .ProjectForm textarea,
 .CustomersForm input[type='text'], 
 .CustomersForm textarea,
-.addBankStatements input {
+.addBankStatements input,
+.DescriptionListEditor input {
   font-family: 'Open Sans', sans-serif;
   width: 100%;
   max-width: 400px;
@@ -293,7 +294,7 @@ button {
   font-size: 1rem;
   color: #fff;
   cursor: pointer;
-} 
+}
 
 button:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -486,6 +487,11 @@ button:hover {
   font-size: larger;
 }
 
-.Footer .DescriptionListEditor button {
-  display: none;
+.DescriptionListEditor ul {
+  font-size: x-large;
+}
+
+.DescriptionListEditor ul:hover {
+  cursor: pointer;
+  color:red;
 }
