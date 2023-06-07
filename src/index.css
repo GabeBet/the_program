@@ -423,7 +423,7 @@ button:hover {
   outline: none;
 }
 
-.EstimateTable input[type='text']{
+.EstimateTable input[type='text'], .InvoiceTable input[type='text']{
   width: 100%;
 }
 
