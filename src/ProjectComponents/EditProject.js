@@ -42,7 +42,7 @@ const EditProject = ({ projectList, customerList, descriptionList, handleEdit, e
                         value={editDescription}
                         onChange={(e) => setEditDescription(e.target.value)}>
                         {descriptionList.map(item => (
-                            <option key={item}>{item}</option>
+                            <option key={item._id}>{item.description}</option>
                         ))}
                     </select>
 

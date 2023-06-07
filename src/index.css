@@ -55,7 +55,11 @@ body {
 
 .Footer {
   padding: 0.25rem;
-  display: grid;
+  justify-content: space-between;
+}
+
+.Footer button {
+  background-color:blue;
 }
 
 .Nav {
@@ -102,7 +106,7 @@ body {
   cursor: pointer;
 }
 
-.Projects, .Customers, .SqFt, .ErrorPage, .CustomerPage, .ProjectPage, .BankStatements{
+.Projects, .Customers, .SqFt, .ErrorPage, .CustomerPage, .ProjectPage, .BankStatements, .DescriptionListEditor {
   width: 100%;
   flex-grow: 1;
   padding: 1rem;
@@ -480,4 +484,8 @@ button:hover {
 .k-pdf-export .EstimateHeading select, .k-pdf-export .EstimateHeading input{
   border: none;
   font-size: larger;
+}
+
+.Footer .DescriptionListEditor button {
+  display: none;
 }

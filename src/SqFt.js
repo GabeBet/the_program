@@ -208,7 +208,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
                 onChange={(e) => handleChange(index, e)}>
                   <option value="" disabled defaultValue={""}>Select Project Description...</option>
                   {descriptionList.map(item => (
-                    <option key={item}>{item}</option>
+                    <option key={item._id}>{item.description}</option>
                   ))
                 }
               </select>

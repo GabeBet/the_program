@@ -451,7 +451,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
                     onChange={(e) => handleChange(index, e)}>
                       <option value="" disabled defaultValue={""}></option>
                       {descriptionList.map(item => (
-                        <option key={item}>{item}</option>
+                        <option key={item._id}>{item.description}</option>
                       ))
                     }
                   </select></td>

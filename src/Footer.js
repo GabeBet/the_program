@@ -1,8 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
-    <div className='Footer'>Created 2023</div>
+    <main className='Footer'>
+      Created 2023
+      <Link to={'/descriptionListEditor'}><button>Description List Editor</button></Link>
+    </main>
   )
 }
 

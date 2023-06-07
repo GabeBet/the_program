@@ -11,6 +11,7 @@ import EditCustomer from "./CustomerComponents/EditCustomer";
 import AddProject from "./ProjectComponents/AddProject";
 import ProjectPage from "./ProjectComponents/ProjectPage";
 import EditProject from "./ProjectComponents/EditProject";
+import DescriptionListEditor from "./DescriptionListEditor";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import BankStatements from "./ProjectComponents/BankStatements";
@@ -55,67 +56,71 @@ function App() {
 
   const [bankData, setBankData] = useState([]);
 
-  const [descriptionList, setDescriptionList] = useState([
-    "Bath Tub Cut Out",
-    "Console Table",
-    "Bathroom Countertop", 
-    "Built in Cabinet",
-    "Closet Top",
-    "Coffee Table",
-    "Conference Table",
-    "Cook Top Cut-Out",
-    "Cost of Material",
-    "Countertops",
-    "Decking",
-    "Drop in Sink (D.I.S.)",
-    "Dry Bar Countertop",
-    "Fabrication / Installation",
-    "Fabrication / Installation - Ogee Edge",
-    "Fabrication / Installation Shower Wall Straight",
-    "Fabrication / Installation -Straight Edge",
-    "Fabrication/Installation - Miter Edge",
-    "Fabrication/Installation - Other Edge",
-    "Fabrication/Installation/Material",
-    "Farm Sink Cut-Out",
-    "Fireplace",
-    "Kitchen & Vanity Countertops",
-    "Kitchen / Bathroom",
-    "Kitchen / Full B.S",
-    "Kitchen Island",
-    "Kitchen Pantry",
-    "Outdoor Kitchen",
-    "Pool Bar",
-    "Master Bathroom",
-    "Kitchen Countertops",
-    "Kitchen Sink",
-    "Waterfall",
-    "Labor Cut and Polish Countertop",
-    "Labor Cut -Out and Polish Outdoor Grill",
-    "Material Pick Up",
-    "MATERIAL TO BE USED",
-    "Outdoor Grill Cut-Out",
-    "Outlets Cut-Out",
-    "Oval Table",
-    "Oversize Pieces",
-    "Plumbing",
-    "Powder Room",
-    "Sealer Aplication",
-    "Stainless Steel Kitchen Sink- Double Bowl",
-    "Stainless Steel Kitchen Sink- Single Bowl",
-    "Tear Out Existing Back Splash",
-    "Tear Out Existing Countertops",
-    "Tile Backsplash",
-    "Trip Charge",
-    "Undermount Cut-Out Bar Sink",
-    "Undermount Cut-Out Island Sink",
-    "Undermount Cut-Out Kitchen Sink", 
-    "Undermount Cut-Out Utility Sink",
-    "Undermount Cut-Out Vanity Sink",
-    "Utility Top",
-    "Vanity Sink - Cut-Out",
-    "Vanity Sink - Oval",
-    "Vanity Sink Rectangle"
-  ]);
+  // const [descriptionList] = useState([
+  //   "Bath Tub Cut Out",
+  //   "Console Table",
+  //   "Bathroom Countertop", 
+  //   "Built in Cabinet",
+  //   "Closet Top",
+  //   "Coffee Table",
+  //   "Conference Table",
+  //   "Cook Top Cut-Out",
+  //   "Cost of Material",
+  //   "Countertops",
+  //   "Decking",
+  //   "Drop in Sink (D.I.S.)",
+  //   "Dry Bar Countertop",
+  //   "Fabrication / Installation",
+  //   "Fabrication / Installation - Ogee Edge",
+  //   "Fabrication / Installation Shower Wall Straight",
+  //   "Fabrication / Installation -Straight Edge",
+  //   "Fabrication/Installation - Miter Edge",
+  //   "Fabrication/Installation - Other Edge",
+  //   "Fabrication/Installation/Material",
+  //   "Farm Sink Cut-Out",
+  //   "Fireplace",
+  //   "Kitchen & Vanity Countertops",
+  //   "Kitchen / Bathroom",
+  //   "Kitchen / Full B.S",
+  //   "Kitchen Island",
+  //   "Kitchen Pantry",
+  //   "Outdoor Kitchen",
+  //   "Pool Bar",
+  //   "Master Bathroom",
+  //   "Kitchen Countertops",
+  //   "Kitchen Sink",
+  //   "Waterfall",
+  //   "Labor Cut and Polish Countertop",
+  //   "Labor Cut -Out and Polish Outdoor Grill",
+  //   "Material Pick Up",
+  //   "MATERIAL TO BE USED",
+  //   "Outdoor Grill Cut-Out",
+  //   "Outlets Cut-Out",
+  //   "Oval Table",
+  //   "Oversize Pieces",
+  //   "Plumbing",
+  //   "Powder Room",
+  //   "Sealer Aplication",
+  //   "Stainless Steel Kitchen Sink- Double Bowl",
+  //   "Stainless Steel Kitchen Sink- Single Bowl",
+  //   "Tear Out Existing Back Splash",
+  //   "Tear Out Existing Countertops",
+  //   "Tile Backsplash",
+  //   "Trip Charge",
+  //   "Undermount Cut-Out Bar Sink",
+  //   "Undermount Cut-Out Island Sink",
+  //   "Undermount Cut-Out Kitchen Sink", 
+  //   "Undermount Cut-Out Utility Sink",
+  //   "Undermount Cut-Out Vanity Sink",
+  //   "Utility Top",
+  //   "Vanity Sink - Cut-Out",
+  //   "Vanity Sink - Oval",
+  //   "Vanity Sink Rectangle"
+  // ]);
+
+  const [projDescriptionList, setProjDescriptionList] = useState([]);
+  const [sqftDescriptionList, setSqftDescriptionList] = useState([]);
+  const [estInvDescriptionList, setEstInvDescriptionList] = useState([]);
 
   // fetch all data
   useEffect(() => {
@@ -215,12 +220,63 @@ function App() {
       }
     }
 
+    const fetchProjDescription = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/projDescription',{});
+        let data = await response.json();
+        setProjDescriptionList(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
+    const fetchSqFtDescription = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/sqftDescription',{});
+        let data = await response.json();
+        setSqftDescriptionList(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
+    const fetchEstInvDescription = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/estInvDescription',{});
+        let data = await response.json();
+        setEstInvDescriptionList(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        } else {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+
     fetchProjects();
     fetchCustomers();
     fetchSqFtData();
     fetchEstimateData();
     fetchInvoiceData();
     fetchBankData();
+    fetchProjDescription();
+    fetchSqFtDescription();
+    fetchEstInvDescription();
   }, [])
 
   const errorNotify = (message) => toast.error(`Project Not Saved: ${message}`, {
@@ -421,7 +477,7 @@ function App() {
         <Route path="add-project">
           <Route index element={<AddProject
             customerList={customerList}
-            descriptionList={descriptionList}
+            descriptionList={projDescriptionList}
             handleSubmit={handleSubmitProject}
             description={description}
             setDescription={setDescription}
@@ -447,7 +503,7 @@ function App() {
           <Route index element={<EditProject 
             projectList={projectList}
             customerList={customerList}
-            descriptionList={descriptionList}
+            descriptionList={projDescriptionList}
             handleEdit={handleEditProject}
             editDescription={editDescription}
             setEditDescription={setEditDescription}
@@ -511,7 +567,7 @@ function App() {
           <Route index element={<SqFt
             sqFtData={sqFtData}
             setSqFtData={setSqFtData}
-            descriptionList={descriptionList}
+            descriptionList={sqftDescriptionList}
             projectList={projectList}
             />} />
         </Route>
@@ -520,7 +576,7 @@ function App() {
             estimateData={estimateData}
             setEstimateData={setEstimateData}
             sqFtData={sqFtData}
-            descriptionList={descriptionList}
+            descriptionList={estInvDescriptionList}
             projectList={projectList}
             customerList={customerList}
           />} />
@@ -530,10 +586,20 @@ function App() {
             invoiceData={invoiceData}
             setInvoiceData={setInvoiceData}
             estimateData={estimateData}
-            descriptionList={descriptionList}
+            descriptionList={estInvDescriptionList}
             projectList={projectList}
             setProjectList={setProjectList}
             customerList={customerList}
+          />} />
+        </Route>
+        <Route path="descriptionListEditor">
+          <Route index element={<DescriptionListEditor
+            projDescriptionList={projDescriptionList}
+            setProjDescriptionList={setProjDescriptionList}
+            sqftDescriptionList={sqftDescriptionList}
+            setSqftDescriptionList={setSqftDescriptionList}
+            estInvDescriptionList={estInvDescriptionList}
+            setEstInvDescriptionList={setEstInvDescriptionList}
           />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
