@@ -39,10 +39,12 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
     {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
     {description: '', qty: '', unitPrice: '', amount: ''}
+  ])
+
+  const [freeInputFields, setFreeInputFields] = useState([ {freeText: ''},
+    {freeText: ''},
+    {freeText: ''}
   ])
 
   const saveNotify = () => toast.success("Estimate Saved", {
@@ -101,6 +103,12 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
     setInputFields(data);
   }
 
+  const handleFreeChange = (index, e) => {
+    let data = [...freeInputFields];
+    data[index][e.target.name] = e.target.value;
+    setFreeInputFields(data);
+  }
+
   const handleProjectChange = (e) => {
     setProjectNumber(e.target.value);
     let description = '';
@@ -127,10 +135,10 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'}]);
+      setFreeInputFields([{freeText: ''},
+      {freeText: ''},
+      {freeText: ''}]);
       setDate('');
       setSubTotal('');
       setTax('0')
@@ -140,16 +148,13 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       sqFtData?.forEach((sqft) => {
         if (sqft.projectNumber === e.target.value){
           setInputFields([{description: `${description}`, qty: `${sqft.grandTotal}`, unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'},
-        {description: '', qty: '', unitPrice: '', amount: '0'}]);
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'}]);
         }
       })
     } else {
@@ -158,6 +163,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
           setActualAddress(est.address);
           setDate(est.date);
           setInputFields(est.inputFields);
+          setFreeInputFields(est.freeInputFields);
           setSubTotal(est.subTotal);
           setTax(est.tax);
           setTotal(est.total);
@@ -169,6 +175,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
   }
 
   const handleProjectLoad = (projNumber) => {
+    let description = '';
     projectList?.forEach((proj) => {
       if (proj.projectNumber === projNumber){
         customerList?.forEach((cust) => {
@@ -179,6 +186,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
             setEmail(cust.email);
           }
           setDate(proj.startDate);
+          description = proj.description;
           setProjectDescription(proj.description);
         })
       }
@@ -191,22 +199,35 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'}]);
+      setFreeInputFields([{freeText: ''},
+      {freeText: ''},
+      {freeText: ''}]);
       setDate('');
       setSubTotal('0');
       setTax('0')
       setTotal('0')
       setDeposit('0')
       setBalance('0')
+      sqFtData?.forEach((sqft) => {
+        if (sqft.projectNumber === projNumber){
+          setInputFields([{description: `${description}`, qty: `${sqft.grandTotal}`, unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'}]);
+        }
+      })
     } else {
       estimateData?.forEach((est) => {
         if (est.projectNumber === projNumber){
           setActualAddress(est.address);
           setDate(est.date);
           setInputFields(est.inputFields);
+          setFreeInputFields(est.freeInputFields);
           setSubTotal(est.subTotal);
           setTax(est.tax);
           setTotal(est.total);
@@ -234,6 +255,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
           address: actualAddress,
           date: date, 
           inputFields: inputFields,
+          freeInputFields: freeInputFields,
           subTotal: subTotal, 
           tax: tax,
           total: total, 
@@ -266,6 +288,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
           address: actualAddress,
           date: date, 
           inputFields: inputFields,
+          freeInputFields: freeInputFields,
           subTotal: subTotal, 
           tax: tax,
           total: total, 
@@ -276,7 +299,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       await fetch(`http://localhost:4000/estimate/${id}`, req);
 
       const updatedEstimate = { _id: id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
-        subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
+        freeInputFields: freeInputFields, subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
 
       setEstimateData(estimateData.map(est => est._id === id ? { ...updatedEstimate } : est));
       updateNotify();
@@ -404,7 +427,20 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
                     readOnly
                   /></td>
                 </tr>
-                
+              )
+            })}
+            {freeInputFields.map((input, index) => {
+            return (
+              <tr>
+                <td colspan="4">
+                  <input key={index}
+                    name='freeText'
+                    type='text'
+                    value={input.freeText}
+                    onChange={(e) => handleFreeChange(index, e)}>
+                  </input>
+                </td>
+              </tr>
               )
             })}
           </tbody>
