@@ -67,7 +67,7 @@ const DescriptionListEditor = ({ projDescriptionList, setProjDescriptionList, sq
     }
     const deleteSqFtDescription = async (id) => {
         try {
-            await fetch(`http:ocalhost:4000/sqftDescription/${id}`, {method: 'DELETE'});
+            await fetch(`http://localhost:4000/sqftDescription/${id}`, {method: 'DELETE'});
             const filteredList = sqftDescriptionList.filter(desc => desc._id !== id);
             setSqftDescriptionList(filteredList);
         } catch (err) {
@@ -95,7 +95,7 @@ const DescriptionListEditor = ({ projDescriptionList, setProjDescriptionList, sq
     }
     const deleteEstInvDescription = async (id) => {
         try {
-            await fetch(`http:ocalhost:4000/projDescription/${id}`, {method: 'DELETE'});
+            await fetch(`http://localhost:4000/estInvDescription/${id}`, {method: 'DELETE'});
             const filteredList = estInvDescriptionList.filter(desc => desc._id !== id);
             setEstInvDescriptionList(filteredList);
         } catch (err) {
@@ -107,7 +107,7 @@ const DescriptionListEditor = ({ projDescriptionList, setProjDescriptionList, sq
         <main className="DescriptionListEditor">
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: 20 }}>
                 <div>
-                    <b>Project Description List</b>
+                    <b>Project Description List </b><br></br>
                     {projDescriptionList.map(desc => (
                         <ul key={desc._id} onClick={() => deleteProjDescription(desc._id)}> {desc.description} </ul>
                     ))}
