@@ -6,7 +6,6 @@ import '@progress/kendo-theme-default/dist/all.css';
 
 const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, projectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
-  const [loaded, setLoaded] = useState(false);
 
   const [name, setName] = useState('');
   const [address, setAddress] = useState([{address: ''}]);
@@ -253,12 +252,12 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
         body: JSON.stringify({
           projectNumber: projectNumber,
           address: actualAddress,
-          date: date, 
+          date: date,
           inputFields: inputFields,
           freeInputFields: freeInputFields,
-          subTotal: subTotal, 
+          subTotal: subTotal,
           tax: tax,
-          total: total, 
+          total: total,
           deposit: deposit,
           balance: balance
         })
@@ -308,17 +307,23 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
     }
   }
 
-  try { 
-    const location = useLocation();
-    const { linkedNumber } = location.state;
-    if (!loaded){
-      setProjectNumber(linkedNumber);
-      setLoaded(true);
-      handleProjectLoad(linkedNumber);
+  const location = useLocation();
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    try { 
+      if (location !== null){
+        const { linkedNumber } = location.state;
+        if (!loaded){
+          setProjectNumber(linkedNumber);
+          setLoaded(true);
+          handleProjectLoad(linkedNumber);
+        }
+      }
+    } catch (err) {
     }
-  } catch (err) {
-    console.log(err);
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+    
 
   return (
     <main className='Estimate'>
@@ -372,7 +377,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
           value={actualAddress}
           onChange={(e) => setActualAddress(e.target.value)}>
             {address.map(add => (
-                <option value={add.address}>{add.address}</option>
+                <option value={add.address} key={add.address}>{add.address}</option>
             ))}
         </select><br></br>
         <b>Phone: </b> {`${phone}`} <br></br>
@@ -431,9 +436,9 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
             })}
             {freeInputFields.map((input, index) => {
             return (
-              <tr>
-                <td colspan="4">
-                  <input key={index}
+              <tr key={index}>
+                <td colSpan="4">
+                  <input
                     name='freeText'
                     type='text'
                     value={input.freeText}

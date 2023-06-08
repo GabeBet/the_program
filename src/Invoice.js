@@ -8,7 +8,6 @@ import '@progress/kendo-theme-default/dist/all.css';
 const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, projectList, setProjectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
   const [invoiceNumber, setInvoiceNumber] = useState('');
-  const [loaded, setLoaded] = useState(false);
 
   const [name, setName] = useState('');
   const [address, setAddress] = useState([{address: ''}]);
@@ -368,17 +367,22 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     }
   }
 
-  try { 
-    const location = useLocation();
-    const { linkedNumber } = location.state;
-    if (!loaded){
-      setProjectNumber(linkedNumber);
-      setLoaded(true);
-      handleProjectLoad(linkedNumber);
+  const location = useLocation();
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    try { 
+      if (location !== null){
+        const { linkedNumber } = location.state;
+        if (!loaded){
+          setProjectNumber(linkedNumber);
+          setLoaded(true);
+          handleProjectLoad(linkedNumber);
+        }
+      }
+    } catch (err) {
     }
-  } catch (err) {
-    console.log(err);
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
   return (
     <main className='Invoice'>
@@ -436,7 +440,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           value={actualAddress}
           onChange={(e) => setActualAddress(e.target.value)}>
             {address.map(add => (
-                <option value={add.address}>{add.address}</option>
+                <option value={add.address} key={add.address}>{add.address}</option>
             ))}
         </select><br></br>
         <b>Phone:</b> {`${phone}`} <br></br>
@@ -492,9 +496,9 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             })}
             {freeInputFields.map((input, index) => {
             return (
-              <tr>
-                <td colspan="4">
-                  <input key={index}
+              <tr key={index}>
+                <td colSpan="4">
+                  <input
                     name='freeText'
                     type='text'
                     value={input.freeText}
