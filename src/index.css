@@ -427,6 +427,21 @@ button:hover {
   width: 100%;
 }
 
+.dollar{
+  position:relative;
+}
+
+.dollar input{
+  padding-left: 15px;
+}
+
+.dollar:after{
+  position: absolute;
+  left: 6px;
+  top: 5px;
+  content: '$';
+}
+
 .rightFooter input{
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
@@ -434,7 +449,7 @@ button:hover {
   outline: none;
 }
 
-.Estimate label {
+.Estimate label, .Invoice label {
   font-weight: bold;
 }
 
@@ -479,16 +494,21 @@ button:hover {
   text-align: center;
 }
 
-.k-pdf-export .EstimateCustomer select {
+.k-pdf-export .EstimateCustomer select, .k-pdf-export .InvoiceCustomer select {
   background-color: #eee;
   border: none;
   text-align: left;
   font-size: large;
 }
 
-.k-pdf-export .EstimateHeading select, .k-pdf-export .EstimateHeading input{
+.k-pdf-export .EstimateHeading select, .k-pdf-export .EstimateHeading input, .k-pdf-export .InvoiceHeading select, .k-pdf-export .InvoiceHeading input{
   border: none;
   font-size: larger;
+}
+
+.k-pdf-export .EstimateFooter input, .k-pdf-export .InvoiceFooter input{
+  width: 40%;
+  text-align: justify;
 }
 
 .DescriptionListEditor ul {

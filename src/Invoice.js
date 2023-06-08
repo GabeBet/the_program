@@ -377,7 +377,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       handleProjectLoad(linkedNumber);
     }
   } catch (err) {
-
+    console.log(err);
   }
 
   return (
@@ -474,13 +474,13 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
                     value={input.qty}
                     onChange={(e) => handleChange(index, e)}
                   /></td>
-                  <td><input
+                  <td className='dollar'><input
                     name='unitPrice'
                     type="number"
                     value={input.unitPrice}
                     onChange={(e) => handleChange(index, e)}
                   /></td>
-                  <td><input
+                  <td className='dollar'><input
                     name='amount'
                     type="display"
                     value={input.amount}
@@ -526,10 +526,10 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
 
       <br></br>
 
-      <div className='invoiceFooter'>
+      <div className='InvoiceFooter'>
         <span className='rightFooter'>
-          <label> Subtotal: </label>
-          <input
+          <label> Subtotal:&ensp;</label>
+          $<input
             name='subTotal'
             type="display"
             placeholder="Sub Total"
@@ -537,8 +537,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             readOnly
           /><br></br>
 
-          <label> Tax: </label>
-          <input
+          <label> Tax:&ensp;</label>
+          $<input
             name='tax'
             type="number"
             placeholder="Tax"
@@ -546,8 +546,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             onChange={(e) => setTax(e.target.value)}
           /><br></br>
 
-          <label> Total: </label>
-          <input
+          <label> Total:&ensp;</label>
+          $<input
             name='total'
             type="display"
             placeholder="Total"
@@ -555,8 +555,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             readOnly
           /><br></br>
 
-          <label> Deposit: </label>
-          <input
+          <label> Deposit:&ensp;</label>
+          $<input
             name='deposit'
             type="number"
             placeholder="Deposit"
@@ -564,8 +564,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             onChange={(e) => setDeposit(e.target.value)}
           /><br></br>
 
-          <label> Balance: </label>
-          <input
+          <label> Balance:&ensp;</label>
+          $<input
             name='balance'
             type="display"
             placeholder="Balance"
