@@ -427,6 +427,17 @@ function App() {
         }
       }
     })
+    bankData?.forEach( async (bank) => {
+      if(bank.projectNumber === projNumber){
+        try{
+          await fetch(`http://localhost:4000/bankstatement/${bank._id}`, {method: 'DELETE'});
+          const filtedBankData = bankData.filter(bank => bank._id !== id);
+          setBankData(filtedBankData);
+        } catch (err) {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    })
   }
 
   const handleEditProject = async (id) => {
