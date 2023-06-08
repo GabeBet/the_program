@@ -5,7 +5,7 @@ import template from "./CSVTemplate.csv"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Projects = ({ projectList, bankData, setBankData }) => {
+const Projects = ({ projectList, setBankData }) => {
 
   const uploadNotify = () => toast.success("File Successfully Uploaded!", {
     position: "bottom-center",
@@ -52,11 +52,12 @@ const Projects = ({ projectList, bankData, setBankData }) => {
         method: 'POST',
         headers:{ 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          description: data.description, 
-          amount: `$${(Math.round(data.amount * 100) / 100).toFixed(2)}`, 
-          debitCredit: data.debitCredit, 
-          category: data.category, 
-          projectNumber: data.projectNumber
+          date: data.PostingDate, 
+          description: data.Description, 
+          amount: `$${(Math.round(data.Amount * 100) / 100).toFixed(2)}`, 
+          debitCredit: data.Details, 
+          category: data.Category, 
+          projectNumber: data.ProjectNumber
         })
       };
       const res = await fetch('http://localhost:4000/bankstatement', req);

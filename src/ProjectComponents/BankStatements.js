@@ -5,11 +5,12 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
   const { id } = useParams();
   const proj = projectList.find(proj => (proj._id) === id);
   
+  const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [debitCredit, setDebitCredit] = useState('');
   const [category, setCategory] = useState('');
-
+  
   const [categoryList] = useState([
     "Food",
     "Helper",
@@ -23,6 +24,10 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
     "Tools"
   ]);
 
+  if (!proj) {
+    return "Loading..."
+  }
+
   const handleAddBank = async (e) => {
     e.preventDefault();
     try {
@@ -30,6 +35,7 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
         method: 'POST',
         headers:{ 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          date: date,
           description: description, 
           amount: `$${(Math.round(amount * 100) / 100).toFixed(2)}`, 
           debitCredit: debitCredit, 
@@ -58,9 +64,11 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
   return (
     <main className='BankStatements'>
       <div className='BankTable'>
+        <h1>{proj.projectNumber} / INV# {proj.invoiceNumber}</h1>
         <table>
           <tbody>
             <tr>
+              <th>Date</th>
               <th>Description</th>
               <th>Amount</th>
               <th>Debit/Credit</th>
@@ -71,6 +79,7 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
               <tr key={bank._id}>
                 {(bank.projectNumber === proj.projectNumber) ?
                   <>
+                    <td>{bank.date}</td>
                     <td>{bank.description}</td> 
                     <td>{bank.amount}</td> 
                     <td>{bank.debitCredit}</td> 
@@ -87,6 +96,16 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
 
       <br></br>
       <form className='addBankStatements' onSubmit={handleAddBank}>
+      <label htmlFor='BankDate'>Date: </label>
+        <input
+          name='date'
+          type="date"
+          placeholder="Date"
+          required
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+
         <label htmlFor='BankDescription'>Description: </label>
         <input
           name='description'

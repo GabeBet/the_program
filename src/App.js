@@ -471,7 +471,6 @@ function App() {
       <Route path="/" element={<Layout />} >
         <Route index element={<Projects 
           projectList={projectList}
-          bankData={bankData}
           setBankData={setAddress}
         />} />
         <Route path="add-project">
