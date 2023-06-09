@@ -31,7 +31,8 @@ const DescriptionListEditor = ({ projDescriptionList, setProjDescriptionList, sq
             };
             const res = await fetch('http://localhost:4000/projDescription', req);
             const data = await res.json();
-            setProjDescriptionList((prevList) => [...prevList,data])
+            setProjDescriptionList((prevList) => [...prevList,data]
+                .sort((a, b) => a.description > b.description ? 1 : -1))
             setProjDesc('');
         } catch (err) {
             errorNotify(err);
@@ -59,7 +60,8 @@ const DescriptionListEditor = ({ projDescriptionList, setProjDescriptionList, sq
             };
             const res = await fetch('http://localhost:4000/sqftDescription', req);
             const data = await res.json();
-            setSqftDescriptionList((prevList) => [...prevList,data])
+            setSqftDescriptionList((prevList) => [...prevList,data]
+                .sort((a, b) => a.description > b.description ? 1 : -1))
             setSqftDesc('');
         } catch (err) {
             errorNotify(err);
@@ -87,7 +89,8 @@ const DescriptionListEditor = ({ projDescriptionList, setProjDescriptionList, sq
             };
             const res = await fetch('http://localhost:4000/estInvDescription', req);
             const data = await res.json();
-            setEstInvDescriptionList((prevList) => [...prevList,data])
+            setEstInvDescriptionList((prevList) => [...prevList,data]
+                .sort((a, b) => a.description > b.description ? 1 : -1))
             setEstInvDesc('')
         } catch (err) {
             errorNotify(err);

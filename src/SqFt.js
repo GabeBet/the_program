@@ -57,7 +57,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
 
   const calculate = () => {
     inputFields?.forEach((row) => {
-      row.total = (Math.ceil((row.length * row.width + row.length2 * row.width2 + row.length3 * row.width3)  / 144))
+      row.total = Math.ceil(row.length * row.width / 144) + Math.ceil(row.length2 * row.width2 / 144) + Math.ceil(row.length3 * row.width3 /144 )
     })
     setGrandTotal((inputFields.reduce((a,v) => a = a + v.total, 0)))
   }

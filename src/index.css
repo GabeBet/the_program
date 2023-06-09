@@ -389,7 +389,7 @@ button:hover {
 
 .BankTable button {
   margin: 10px;
-  overflow: hidden;
+  white-space: nowrap;
 }
 
 .EstimateTable select,

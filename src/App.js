@@ -128,9 +128,7 @@ function App() {
       try {
         const response = await fetch('http://localhost:4000/projects',{});
         let data = await response.json();
-        const sortedList = [].concat(data)
-          .sort((a, b) => a.projectNumber < b.projectNumber ? 1 : -1)
-        setProjectList(sortedList);
+        setProjectList(data.sort((a, b) => a.projectNumber < b.projectNumber ? 1 : -1));
       } catch (err) {
         if (err.response) {
           console.log(err.response.data);
@@ -146,7 +144,7 @@ function App() {
       try {
         const response = await fetch('http://localhost:4000/customers');
         let data = await response.json();
-        setCustomerList(data);
+        setCustomerList(data.sort((a, b) => a.name > b.name ? 1 : -1));
       } catch (err) {
         if (err.response) {
           console.log(err.response.data);
@@ -210,7 +208,7 @@ function App() {
       try {
         const response = await fetch('http://localhost:4000/bankstatement',{});
         let data = await response.json();
-        setBankData(data);
+        setBankData(data.sort((a, b) => a.date < b.date ? 1 : -1));
       } catch (err) {
         if (err.response) {
           console.log(err.response.data);
@@ -226,7 +224,7 @@ function App() {
       try {
         const response = await fetch('http://localhost:4000/projDescription',{});
         let data = await response.json();
-        setProjDescriptionList(data);
+        setProjDescriptionList(data.sort((a, b) => a.description > b.description ? 1 : -1));
       } catch (err) {
         if (err.response) {
           console.log(err.response.data);
@@ -242,7 +240,7 @@ function App() {
       try {
         const response = await fetch('http://localhost:4000/sqftDescription',{});
         let data = await response.json();
-        setSqftDescriptionList(data);
+        setSqftDescriptionList(data.sort((a, b) => a.description > b.description ? 1 : -1));
       } catch (err) {
         if (err.response) {
           console.log(err.response.data);
@@ -258,7 +256,7 @@ function App() {
       try {
         const response = await fetch('http://localhost:4000/estInvDescription',{});
         let data = await response.json();
-        setEstInvDescriptionList(data);
+        setEstInvDescriptionList(data.sort((a, b) => a.description > b.description ? 1 : -1));
       } catch (err) {
         if (err.response) {
           console.log(err.response.data);
@@ -307,7 +305,7 @@ function App() {
       };
       const res = await fetch('http://localhost:4000/customers', req);
       const data = await res.json();
-      setCustomerList((prevCustomers) => [...prevCustomers,data])
+      setCustomerList((prevCustomers) => [...prevCustomers,data].sort((a, b) => a.name > b.name ? 1 : -1))
       setName('');
       setAddress([{address: ''}]);
       setPhone('');
@@ -378,7 +376,7 @@ function App() {
       };
       const res = await fetch('http://localhost:4000/projects', req);
       const data = await res.json();
-      setProjectList((prevPosts) => [...prevPosts,data])
+      setProjectList((prevPosts) => [...prevPosts,data].sort((a, b) => a.projectNumber < b.projectNumber ? 1 : -1))
       setProjectNumber('');
       setDescription('');
       setProjCustomer('');

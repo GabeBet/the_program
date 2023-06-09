@@ -45,7 +45,12 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
       };
       const res = await fetch('http://localhost:4000/bankstatement', req);
       const data = await res.json();
-      setBankData((prevBD) => [...prevBD,data])
+      setBankData((prevBD) => [...prevBD,data].sort((a, b) => a.date < b.date ? 1 : -1))
+      setDate('');
+      setDescription('');
+      setAmount('');
+      setDebitCredit('');
+      setCategory('');
     } catch (err) {
       console.log(err.message)
     }
