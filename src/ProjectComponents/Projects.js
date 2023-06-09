@@ -70,9 +70,6 @@ const Projects = ({ projectList, setBankData }) => {
     }
   }
 
-  const sortedList = [].concat(projectList)
-    .sort((a, b) => a.projectNumber < b.projectNumber ? 1 : -1)
-
   return (
     <main className='Projects'>
       <h2>Projects</h2> 

@@ -128,7 +128,9 @@ function App() {
       try {
         const response = await fetch('http://localhost:4000/projects',{});
         let data = await response.json();
-        setProjectList(data);
+        const sortedList = [].concat(data)
+          .sort((a, b) => a.projectNumber < b.projectNumber ? 1 : -1)
+        setProjectList(sortedList);
       } catch (err) {
         if (err.response) {
           console.log(err.response.data);
