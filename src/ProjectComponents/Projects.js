@@ -70,6 +70,9 @@ const Projects = ({ projectList, setBankData }) => {
     }
   }
 
+  const sortedList = [].concat(projectList)
+    .sort((a, b) => a.projectNumber < b.projectNumber ? 1 : -1)
+
   return (
     <main className='Projects'>
       <h2>Projects</h2> 
@@ -105,7 +108,7 @@ const Projects = ({ projectList, setBankData }) => {
       />
 
       {projectList.length ? (
-        <ProjectFeed projectList={projectList} />
+        <ProjectFeed projectList={sortedList} />
       ) : (
         <p style={{ marginTop: "2rem"}}>
           No Projects Yet

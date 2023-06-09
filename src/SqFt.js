@@ -197,11 +197,11 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
       <br></br><br></br>
       <h4>Customer: {customerName}</h4>
           
-      <form>
+      <table>
         {inputFields.map((input, index) => {
           return (
-            <div key={index}>
-              <select 
+            <tr key={index}>
+              <td><select 
                 name='description'
                 type='text'
                 value={input.description}
@@ -211,58 +211,58 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
                     <option key={item._id}>{item.description}</option>
                   ))
                 }
-              </select>
-              <input
+              </select></td>
+              <td><input
                 name='length'
                 type="number"
                 placeholder="Length"
                 value={input.length}
                 onChange={(e) => handleChange(index, e)}
-              />
-              <input
+              /></td>
+              <td><input
                 name='width'
                 type="number"
                 placeholder="Width"
                 value={input.width}
                 onChange={(e) => handleChange(index, e)}
-              />
-              <input
+              /></td>
+              <td><input
                 name='length2'
                 type="number"
                 placeholder="Length2"
                 value={input.length2}
                 onChange={(e) => handleChange(index, e)}
-              />
-              <input
+              /></td>
+              <td><input
                 name='width2'
                 type="number"
                 placeholder="Width2"
                 value={input.width2}
                 onChange={(e) => handleChange(index, e)}
-              />
-              <input
+              /></td>
+              <td><input
                 name='length3'
                 type="number"
                 placeholder="Length3"
                 value={input.length3}
                 onChange={(e) => handleChange(index, e)}
-              />
-              <input
+              /></td>
+              <td><input
                 name='width3'
                 type="number"
                 placeholder="Width3"
                 value={input.width3}
                 onChange={(e) => handleChange(index, e)}
-              />
-              <input
+              /></td>
+              <td><input
                 name='total'
                 type="display"
                 placeholder="Total"
                 value={input.total}
                 readOnly
-              />
+              /></td>
               <button className="deleteButton" onClick={() => removeFields(index)}>Remove Row</button>
-            </div>
+            </tr>
           )
         })}
         <button className="addButton" onClick={addFields}>Add New Row...</button>
@@ -275,7 +275,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
             readOnly
         />
         <br></br>
-      </form>
+      </table>
       {!(sqFtData.find(proj => proj.projectNumber === projectNumber)) 
         ? <button className="saveButton" onClick={(e) => saveSqFt(e)}>Save Square Footage</button> 
         : sqFtData.map(proj => (proj.projectNumber === projectNumber) ?

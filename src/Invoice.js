@@ -498,7 +498,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
             return (
               <tr key={index}>
                 <td colSpan="4">
-                  <input
+                  <input className='freeText'
                     name='freeText'
                     type='text'
                     value={input.freeText}

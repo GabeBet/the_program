@@ -410,7 +410,9 @@ button:hover {
 }
 
 .SqFt button {
-  height: 36px;
+  height: 34px;
+  white-space: nowrap;
+  margin-bottom: .5rem;
 }
 
 .SqFt input,
@@ -419,8 +421,18 @@ button:hover {
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
   width: flex;
+  max-width: 8rem;
   padding: 0.25rem;
   outline: none;
+}
+
+.EstimateTable .freeText,
+.InvoiceTable .freeText {
+  max-width: none;
+}
+
+.SqFt input {
+  width: 100%;
 }
 
 .EstimateTable input[type='text'], .InvoiceTable input[type='text']{
