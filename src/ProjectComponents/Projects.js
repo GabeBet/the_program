@@ -105,7 +105,7 @@ const Projects = ({ projectList, setBankData }) => {
       />
 
       {projectList.length ? (
-        <ProjectFeed projectList={sortedList} />
+        <ProjectFeed projectList={projectList} />
       ) : (
         <p style={{ marginTop: "2rem"}}>
           No Projects Yet
