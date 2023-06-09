@@ -408,7 +408,7 @@ function App() {
     sqFtData?.forEach( async (sqft) => {
       if (sqft.projectNumber === projNumber){
         try {
-          await fetch(`http://localhost:4000/squarefootage/${est._id}`, {method: 'DELETE'});
+          await fetch(`http://localhost:4000/squarefootage/${sqft._id}`, {method: 'DELETE'});
           const filteredSqFtData = sqFtData.filter(project => project._id !== id);
           setEstimateData(filteredSqFtData);
         } catch (err) {
