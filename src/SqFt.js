@@ -93,7 +93,7 @@ const SqFt = ({ sqFtData, setSqFtData, descriptionList, projectList }) => {
   const handleProjectLoad = (projNumber) => {
     projectList?.forEach((proj) => {
       if (proj.projectNumber === projNumber){
-        setCustomerName(proj.customer);
+        setCustomerName(proj.customerName);
       }
     })
     if( !sqFtData.find(proj => proj.projectNumber === projNumber ) ) {
