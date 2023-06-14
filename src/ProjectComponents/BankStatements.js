@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 const BankStatements = ({ bankData, setBankData, projectList }) => {
@@ -12,17 +12,49 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
   const [category, setCategory] = useState('');
   
   const [categoryList] = useState([
-    "Food",
-    "Helper",
-    "Gas", 
-    "Office Supplies",
-    "Fabrication",
-    "Materials",
-    "Installation",
-    "Misc",
+    "Deposit",
     "EZTag",
+    "Fabrication",
+    "Food",
+    "Gas",
+    "Helper",
+    "Installation",
+    "Materials",
+    "Misc",
+    "Office Supplies",
     "Tools"
   ]);
+
+  const [expenses, setExpenses] = useState(0);
+  const [income, setIncome] = useState(0);
+  const [profit, setProfit] = useState(0);
+
+  useEffect(() => {
+    setExpenses(0);
+    setIncome(0);
+    setProfit(0);
+
+    setExpenses(bankData.reduce((acc, val) => {
+      if(val.debitCredit === "Debit")
+        acc = acc + val.amount;
+      return acc;
+    },0));
+
+    setIncome(bankData.reduce((acc, val) => {
+      if(val.debitCredit === "Credit")
+        acc = acc + val.amount;
+      return acc;
+    },0));
+
+    setProfit(bankData.reduce((acc, val) => {
+      if(val.debitCredit === "Debit")
+        acc = acc - val.amount;
+      else if(val.debitCredit === "Credit")
+        acc = acc + val.amount;
+      return acc;
+    },0));
+
+  },[bankData]);
 
   if (!proj) {
     return "Loading..."
@@ -37,7 +69,7 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
         body: JSON.stringify({
           date: date,
           description: description, 
-          amount: `$${(Math.round(amount * 100) / 100).toFixed(2)}`, 
+          amount: amount, 
           debitCredit: debitCredit, 
           category: category, 
           projectNumber: proj.projectNumber
@@ -81,12 +113,12 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
             </tr>
             {bankData.map((bank) => {
               return (
-              <tr key={bank._id}>
+              <tr key={bank._id} style={bank.debitCredit === "Debit" ? {backgroundColor:"#ffcccb"} : {backgroundColor:"#ddeedc"}}>
                 {(bank.projectNumber === proj.projectNumber) ?
                   <>
                     <td>{bank.date}</td>
                     <td>{bank.description}</td> 
-                    <td>{bank.amount}</td> 
+                    <td>{`$${(Math.round(bank.amount * 100) / 100).toFixed(2)}`}</td> 
                     <td>{bank.debitCredit}</td> 
                     <td>{bank.category}</td>
                     <td><button onClick={() => handleRemoveBank(bank._id)} className='deleteButton'>Remove Bank Statement</button></td>
@@ -95,6 +127,14 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
               </tr>
               )
             })}
+            <tr>
+              <td style={{border:"none"}}></td>
+              <td style={{textAlign:"left", padding:"0.5rem", backgroundColor:"#ff726f"}}>Expenses: {`$${(Math.round(expenses * 100) / 100).toFixed(2)}`}</td>
+              <td style={{textAlign:"left", padding:"0.5rem", backgroundColor:"#a1d09e"}}>Income: {`$${(Math.round(income * 100) / 100).toFixed(2)}`}</td>
+              <td style={profit < 0 ? {backgroundColor:"#ff726f", textAlign:"left", padding:"0.5rem"} : 
+                {backgroundColor:"#a1d09e", textAlign:"left", padding:"0.5rem"}}>Profit: {profit < 0 ? `-$${(Math.round(Math.abs(profit) * 100) / 100).toFixed(2)}`: 
+                  `$${(Math.round(profit * 100) / 100).toFixed(2)}`}</td>
+            </tr>
           </tbody>
         </table>
       </div>
