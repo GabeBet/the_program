@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.css';
 import '@progress/kendo-theme-default/dist/all.css';
+import * as XLSX from 'xlsx';
 
 const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, projectList, setProjectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
@@ -31,6 +32,86 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     if (pdfExportComponent.current) {
       pdfExportComponent.current.save();
     }
+  };
+
+  const exportExcelWithComponent = () => {
+    // Prepare data for Excel export, mirroring the PDF structure
+    const data = [
+      // Heading Section
+      ['Beta Granite Solutions', '', 'Invoice'],
+      ['Phone: (281) 900-3285 / (346) 446-8884', '', `Date: ${date}`],
+      ['', '', `Project: ${projectNumber}`],
+      ['', '', `Invoice #: ${invoiceNumber}`],
+      [], // Empty row for spacing
+
+      // Customer Section
+      [`Customer: ${name}`],
+      [`Address: ${actualAddress}`],
+      [`Phone: ${phone}`],
+      [`Email: ${email}`],
+      [], // Empty row for spacing
+
+      // Project Description
+      [`Project: ${projectDescription}`],
+      [], // Empty row for spacing
+
+      // Table Headers
+      ['Description', 'Qty', 'Unit Price', 'Amount'],
+
+      // Table Rows (from inputFields)
+      ...inputFields.map(row => [
+        row.description || '',
+        row.qty || '',
+        row.unitPrice ? `$${row.unitPrice}` : '',
+        row.amount ? `$${row.amount}` : ''
+      ]),
+
+      // Free Text Rows (from freeInputFields)
+      ...freeInputFields.map(row => [row.freeText || '', '', '', '']),
+
+      [], // Empty row for spacing
+
+      // Totals Section
+      ['', '', 'Subtotal:', `$${subTotal}`],
+      ['', '', 'Tax:', `$${tax}`],
+      ['', '', 'Total:', `$${total}`],
+      ['', '', 'Deposit:', `$${deposit}`],
+      ['', '', 'Balance:', `$${balance}`],
+      [], // Empty row for spacing
+
+      // Footer Text (static, as in PDF)
+      ['1. Electrical will be done by customer'],
+      ['2. 50% Deposit due at time of agreement'],
+      ['3. Balance due at time of completion'],
+      ['4. Edge - Straight'],
+      ['5. Sink, Faucets, and other items to be mounted in the countertop need to be at job site at time of installation to make cutouts'],
+      ['6. Additional trips will incur extra charges'],
+      ['*This is only an estimate, price and material needed subject to change after final template*'],
+      [],
+      ['Make all checks payable to Beta Granite Solutions'],
+      ['3511 Maverly Crest Ct Katy, TX 77494'],
+      ['If you have any questions about this invoice, please contact'],
+      ['Patricia Betancourt - Phone: (281)900-3285 * Email: patricia.betancourt@live.com'],
+      ['Thank You For Your Business!']
+    ];
+
+    // Create a new workbook and worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(data); // Convert array of arrays to worksheet
+
+    // Optional: Basic column width adjustments for readability (mimics table layout)
+    ws['!cols'] = [
+      { wch: 40 }, // Description column wider
+      { wch: 10 }, // Qty
+      { wch: 15 }, // Unit Price
+      { wch: 15 }  // Amount
+    ];
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Invoice');
+
+    // Generate and download the file
+    XLSX.writeFile(wb, `${projectNumber} Invoice.xlsx`);
   };
 
   const saveNotify = () => toast.success("Invoice Saved", {
@@ -391,6 +472,12 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           onClick={exportPDFWithComponent}
         >
           Export to PDF
+      </button>
+      <button
+          className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base"
+          onClick={exportExcelWithComponent}
+        >
+          Export to Excel
       </button>
       <PDFExport ref={pdfExportComponent} 
         paperSize="Letter" 
