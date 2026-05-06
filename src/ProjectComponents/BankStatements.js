@@ -29,32 +29,51 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
   const [income, setIncome] = useState(0);
   const [profit, setProfit] = useState(0);
 
+  const projectBankData = bankData.filter(bank => bank.projectNumber === proj?.projectNumber);
+
   useEffect(() => {
-    setExpenses(0);
-    setIncome(0);
-    setProfit(0);
+    const fetchBankData = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/bankstatement', {});
+        const data = await response.json();
+        setBankData(data.sort((a, b) => a.date < b.date ? 1 : -1));
+      } catch (err) {
+        console.log(`Error fetching bank data: ${err.message}`);
+      }
+    };
+    if (proj) {
+      fetchBankData();
+    }
+  }, [proj, setBankData]);
 
-    setExpenses(bankData.reduce((acc, val) => {
-      if(val.debitCredit === "Debit")
-        acc = acc + val.amount;
+  useEffect(() => {
+    const filteredData = bankData.filter(bank => bank.projectNumber === proj?.projectNumber);
+    const getAmount = (value) => Number(value) || 0;
+
+    setExpenses(filteredData.reduce((acc, val) => {
+      if (val.debitCredit === "Debit") {
+        acc += getAmount(val.amount);
+      }
       return acc;
-    },0));
+    }, 0));
 
-    setIncome(bankData.reduce((acc, val) => {
-      if(val.debitCredit === "Credit")
-        acc = acc + val.amount;
+    setIncome(filteredData.reduce((acc, val) => {
+      if (val.debitCredit === "Credit") {
+        acc += getAmount(val.amount);
+      }
       return acc;
-    },0));
+    }, 0));
 
-    setProfit(bankData.reduce((acc, val) => {
-      if(val.debitCredit === "Debit")
-        acc = acc - val.amount;
-      else if(val.debitCredit === "Credit")
-        acc = acc + val.amount;
+    setProfit(filteredData.reduce((acc, val) => {
+      if (val.debitCredit === "Debit") {
+        acc -= getAmount(val.amount);
+      } else if (val.debitCredit === "Credit") {
+        acc += getAmount(val.amount);
+      }
       return acc;
-    },0));
+    }, 0));
 
-  },[bankData]);
+  }, [bankData, proj]);
 
   if (!proj) {
     return "Loading..."
@@ -111,19 +130,15 @@ const BankStatements = ({ bankData, setBankData, projectList }) => {
               <th>Debit/Credit</th>
               <th>Category</th>
             </tr>
-            {bankData.map((bank) => {
+            {projectBankData.map((bank) => {
               return (
               <tr key={bank._id} style={bank.debitCredit === "Debit" ? {backgroundColor:"#ffcccb"} : {backgroundColor:"#ddeedc"}}>
-                {(bank.projectNumber === proj.projectNumber) ?
-                  <>
                     <td>{bank.date}</td>
                     <td>{bank.description}</td> 
                     <td>{`$${(Math.round(bank.amount * 100) / 100).toFixed(2)}`}</td> 
                     <td>{bank.debitCredit}</td> 
                     <td>{bank.category}</td>
                     <td><button onClick={() => handleRemoveBank(bank._id)} className='deleteButton'>Remove Bank Statement</button></td>
-                  </>
-                  : <></> }
               </tr>
               )
             })}

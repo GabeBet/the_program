@@ -33,14 +33,31 @@ const Projects = ({ projectList, setBankData }) => {
     toast.clearWaitingQueue();
   }
 
+  const fetchBankData = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/bankstatement', {});
+      const data = await response.json();
+      setBankData(data.sort((a, b) => a.date < b.date ? 1 : -1));
+    } catch (err) {
+      console.log(`Error fetching bank data: ${err.message}`);
+    }
+  }
+
   const handleFileUpload = (e) => {
     Papa.parse(e.target.files[0], {
       header: true,
       skipEmptyLines: true,
-      complete: function (results) {
-        results.data.forEach((data) => {
-          addBankData(data);
-        })
+      complete: async function (results) {
+        try {
+          for (const data of results.data) {
+            await addBankData(data);
+          }
+          await fetchBankData();
+          uploadNotify();
+          clearWaitingQueue();
+        } catch (err) {
+          errorNotify(err.message);
+        }
       }
     });
     e.target.value = null;
@@ -48,25 +65,25 @@ const Projects = ({ projectList, setBankData }) => {
 
   const addBankData = async (data) => {
     try {
+      const parsedAmount = Number(String(data.Amount).replace(/[^0-9.-]+/g, ''));
+      if (Number.isNaN(parsedAmount)) {
+        throw new Error('Invalid amount value');
+      }
       const req = { 
         method: 'POST',
         headers:{ 'Content-Type': 'application/json' },
         body: JSON.stringify({
           date: data.PostingDate, 
           description: data.Description, 
-          amount: `$${(Math.round(data.Amount * 100) / 100).toFixed(2)}`, 
+          amount: Math.round(parsedAmount * 100) / 100,
           debitCredit: data.Details, 
           category: data.Category, 
           projectNumber: data.ProjectNumber
         })
       };
-      const res = await fetch('http://localhost:4000/bankstatement', req);
-      const bData = await res.json();
-      setBankData((prevBD) => [...prevBD,bData])
-      uploadNotify();
-      clearWaitingQueue();
+      await fetch('http://localhost:4000/bankstatement', req);
     }catch (err) {
-      errorNotify(err.message);
+      throw err;
     }
   }
 
