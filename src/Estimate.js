@@ -197,6 +197,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
           if(proj.customerName === cust.name){
             setName(cust.name);
             setAddress(cust.address);
+            setActualAddress(cust.address[0]?.address || '');
             setPhone(cust.phone);
             setEmail(cust.email);
           }
@@ -261,6 +262,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
           if(proj.customerName === cust.name){
             setName(cust.name);
             setAddress(cust.address);
+            setActualAddress(cust.address[0]?.address || '');
             setPhone(cust.phone);
             setEmail(cust.email);
           }
@@ -325,6 +327,9 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       }
       if (date === '') {
         throw new Error('Must have Date')
+      }
+      if (actualAddress === '') {
+        throw new Error('Must select an Address')
       }
       const req = { 
         method: 'POST',

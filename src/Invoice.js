@@ -465,6 +465,22 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
+  useEffect(() => {
+    if (!projectNumber) return;
+    const est = estimateData.find(e => e.projectNumber === projectNumber);
+    if (est) {
+      setActualAddress(est.address || '');
+      setDate(est.date || '');
+      setInputFields(est.inputFields || []);
+      setFreeInputFields(est.freeInputFields || []);
+      setSubTotal(est.subTotal || '');
+      setTax(est.tax || '0');
+      setTotal(est.total || '');
+      setDeposit(est.deposit || '0');
+      setBalance(est.balance || '');
+    }
+  }, [estimateData, projectNumber]);
+
   return (
     <main className='Invoice'>
       <button
