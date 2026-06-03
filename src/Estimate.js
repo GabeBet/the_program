@@ -37,7 +37,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
     const data = [
       // Heading Section
       ['Beta Granite Solutions', '', 'Estimate'],
-      ['Phone: (281) 900-3285 / (346) 446-8884', '', `Date: ${date}`],
+      ['Phone: (346) 446-8884 / (281) 900-3285', '', `Date: ${date}`],
       ['', '', `Project: ${projectNumber}`],
       [], // Empty row for spacing
 
@@ -88,7 +88,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
       ['Make all checks payable to Beta Granite Solutions'],
       ['3511 Maverly Crest Ct Katy, TX 77494'],
       ['If you have any questions about this estimate, please contact'],
-      ['Patricia Betancourt - Phone: (281)900-3285 * Email: patricia.betancourt@live.com'],
+      ['Edgar Betancourt - Phone: (346)446-8884 * Email: betagranitesolutions@gmail.com'],
       ['Thank You For Your Business!']
     ];
 
@@ -618,7 +618,7 @@ const Estimate = ( { estimateData, setEstimateData, sqFtData, descriptionList, p
         <div className='centerFooter'>
           Make all checks payable to <b>Beta Granite Solutions</b> <br></br> 3511 Maverly Crest Ct Katy, TX 77494 <br></br>
           If you have any questions about this estimate, please contact <br></br> 
-          Patricia Betancourt - Phone: (281)900-3285 * Email: patricia.betancourt@live.com <br></br>
+          Edgar Betancourt - Phone: (346)446-8884 * Email: betagranitesolutions@gmail.com <br></br>
           <b>Thank You For Your Business!</b>
         </div>
       </div>

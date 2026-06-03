@@ -101,12 +101,12 @@ const Projects = ({ projectList, setBankData, bankData }) => {
       projects.forEach((projNum) => {
         const monthly = new Array(13).fill(0);
         records.forEach((rec) => {
-          if (rec.projectNumber !== projNum) return;
+          if (rec.projectNumber !== projNum || rec.debitCredit !== 'Credit') return;
           const d = new Date(rec.date);
           const mi = d.getMonth();
           const amt = Number(rec.amount) || 0;
-          monthly[mi] += rec.debitCredit === 'Debit' ? -amt : amt;
-          monthly[12] += rec.debitCredit === 'Debit' ? -amt : amt;
+          monthly[mi] += amt;
+          monthly[12] += amt;
         });
         profitRows.push([projNum, ...monthly.map(v => (v === 0 ? '' : v))]);
       });
