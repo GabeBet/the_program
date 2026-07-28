@@ -56,13 +56,11 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       [], // Empty row for spacing
 
       // Table Headers
-      ['Description', 'Qty', 'Unit Price', 'Amount'],
+      ['Description', 'Amount'],
 
       // Table Rows (from inputFields)
       ...inputFields.map(row => [
         row.description || '',
-        row.qty || '',
-        row.unitPrice ? `$${row.unitPrice}` : '',
         row.amount ? `$${row.amount}` : ''
       ]),
 
@@ -102,8 +100,6 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     // Optional: Basic column width adjustments for readability (mimics table layout)
     ws['!cols'] = [
       { wch: 40 }, // Description column wider
-      { wch: 10 }, // Qty
-      { wch: 15 }, // Unit Price
       { wch: 15 }  // Amount
     ];
 
@@ -155,14 +151,14 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     theme: "dark",
   });
 
-  const [inputFields, setInputFields] = useState([ {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''},
-    {description: '', qty: '', unitPrice: '', amount: ''}
+  const [inputFields, setInputFields] = useState([ {description: '', amount: ''},
+    {description: '', amount: ''},
+    {description: '', amount: ''},
+    {description: '', amount: ''},
+    {description: '', amount: ''},
+    {description: '', amount: ''},
+    {description: '', amount: ''},
+    {description: '', amount: ''}
   ])
 
   const [freeInputFields, setFreeInputFields] = useState([ {freeText: ''},
@@ -171,9 +167,6 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
   ])
 
   useEffect(() => {
-    inputFields?.forEach((row) => {
-      row.amount = row.qty * row.unitPrice
-    })
     setSubTotal((inputFields.reduce((a,v) => a = a + v.amount, 0)))
     setTotal((inputFields.reduce((a,v) => a = a + v.amount, +tax)))
     setBalance((inputFields.reduce((a,v) => a = a + v.amount, +tax - deposit)))
@@ -213,7 +206,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           setInvoiceNumber(inv.invoiceNumber);
           setActualAddress(inv.address);
           setDate(inv.date);
-          setInputFields(inv.inputFields);
+          setInputFields(inv.inputFields); 
           setFreeInputFields(inv.freeInputFields);
           setSubTotal(inv.subTotal);
           setTax(inv.tax);
@@ -225,7 +218,11 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     } else if ( estimateData.find(est => est.projectNumber === e.target.value ) ) {
       estimateData?.forEach((est) => {
         if (est.projectNumber === e.target.value){
-          setInputFields(est.inputFields);
+          const updatedInputFields = (est.inputFields || []).map((row, i) => ({
+            ...row,
+            amount: i === 0 ? est.total : ''
+          }));
+          setInputFields(updatedInputFields);
           setActualAddress(est.address);
           setSubTotal(est.subTotal);
           setTax(est.tax);
@@ -235,14 +232,14 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         }
       })
     } else {
-      setInputFields([{description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'}]);
+      setInputFields([{description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'}]);
       setFreeInputFields([{freeText: ''},
       {freeText: ''},
       {freeText: ''}]);
@@ -289,7 +286,11 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     } else if ( estimateData.find(est => est.projectNumber === projNumber ) ) {
       estimateData?.forEach((est) => {
         if (est.projectNumber === projNumber){
-          setInputFields(est.inputFields);
+          const updatedInputFields = (est.inputFields || []).map((row, i) => ({
+            ...row,
+            amount: i === 0 ? est.total : ''
+          }));
+          setInputFields(updatedInputFields);
           setFreeInputFields(est.freeInputFields);
           setActualAddress(est.address);
           setDate('');
@@ -301,14 +302,14 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         }
       })
     } else {
-      setInputFields([{description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'},
-      {description: '', qty: '', unitPrice: '', amount: '0'}]);
+      setInputFields([{description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'},
+      {description: '', amount: '0'}]);
       setFreeInputFields([{freeText: ''},
       {freeText: ''},
       {freeText: ''}]);
@@ -469,9 +470,13 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     if (!projectNumber) return;
     const est = estimateData.find(e => e.projectNumber === projectNumber);
     if (est) {
+      const updatedInputFields = (est.inputFields || []).map((row, i) => ({
+        ...row,
+        amount: i === 0 ? est.total : ''
+      }));
       setActualAddress(est.address || '');
       setDate(est.date || '');
-      setInputFields(est.inputFields || []);
+      setInputFields(updatedInputFields);
       setFreeInputFields(est.freeInputFields || []);
       setSubTotal(est.subTotal || '');
       setTax(est.tax || '0');
@@ -557,8 +562,6 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
           <tbody>
             <tr>
               <th>Description</th>
-              <th>Qty</th>
-              <th>Unit Price</th>
               <th>Amount</th>
             </tr>
             {inputFields.map((input, index) => {
@@ -575,18 +578,6 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
                       ))
                     }
                   </select></td>
-                  <td><input
-                    name='qty'
-                    type="number"
-                    value={input.qty}
-                    onChange={(e) => handleChange(index, e)}
-                  /></td>
-                  <td className='dollar'><input
-                    name='unitPrice'
-                    type="number"
-                    value={input.unitPrice}
-                    onChange={(e) => handleChange(index, e)}
-                  /></td>
                   <td className='dollar'><input
                     name='amount'
                     type="display"

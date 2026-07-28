@@ -2,11 +2,10 @@ import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-toastify/dist/ReactToastify.css';
 import '@progress/kendo-theme-default/dist/all.css';
 import * as XLSX from 'xlsx';
 
-const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList, projectList, setProjectList, customerList }) => {
+const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, projectList, customerList }) => {
   const [projectNumber, setProjectNumber] = useState('');
 
   const [name, setName] = useState('');
@@ -37,7 +36,7 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
     // Prepare data for Excel export, mirroring the PDF structure
     const data = [
       // Heading Section
-      ['Beta Granite Solutions', '', 'Estimate'],
+      ['Beta Granite Solutions', '', 'WorkOrder'],
       ['Phone: (346) 446-8884 / (281) 900-3285', '', `Date: ${date}`],
       ['', '', `Project: ${projectNumber}`],
       [], // Empty row for spacing
@@ -54,11 +53,13 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
       [], // Empty row for spacing
 
       // Table Headers
-      ['Description', 'Amount'],
+      ['Description', 'Qty', 'Unit Price', 'Amount'],
 
       // Table Rows (from inputFields)
       ...inputFields.map(row => [
         row.description || '',
+        row.qty || '',
+        row.unitPrice ? `$${row.unitPrice}` : '',
         row.amount ? `$${row.amount}` : ''
       ]),
 
@@ -98,65 +99,26 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
     // Optional: Basic column width adjustments for readability (mimics table layout)
     ws['!cols'] = [
       { wch: 40 }, // Description column wider
+      { wch: 10 }, // Qty
+      { wch: 15 }, // Unit Price
       { wch: 15 }  // Amount
     ];
 
     // Append the worksheet to the workbook
-    XLSX.utils.book_append_sheet(wb, ws, 'Estimate');
+    XLSX.utils.book_append_sheet(wb, ws, 'WorkOrder');
 
     // Generate and download the file
-    XLSX.writeFile(wb, `${projectNumber} Estimate.xlsx`);
+    XLSX.writeFile(wb, `${projectNumber} WorkOrder.xlsx`);
   };
 
-  const saveNotify = () => toast.success("Estimate Saved", {
-    position: "bottom-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: false,
-    progress: undefined,
-    theme: "dark",
-  });
-  const updateNotify = () => toast.success("Estimate Updated!", {
-    position: "bottom-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: false,
-    progress: undefined,
-    theme: "dark",
-  });
-  const errorNotify = (message) => toast.error(`Error Saving Estimate: ${message}`, {
-    position: "bottom-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: false,
-    progress: undefined,
-    theme: "dark",
-  });
-  const errorUpdateNotify = (message) => toast.error(`Error Updating Estimate: ${message}`, {
-    position: "bottom-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: false,
-    progress: undefined,
-    theme: "dark",
-  });
-
-  const [inputFields, setInputFields] = useState([ {description: '', amount: ''},
-    {description: '', amount: ''},
-    {description: '', amount: ''},
-    {description: '', amount: ''},
-    {description: '', amount: ''},
-    {description: '', amount: ''},
-    {description: '', amount: ''},
-    {description: '', amount: ''}
+  const [inputFields, setInputFields] = useState([ {description: '', qty: '', unitPrice: '', amount: ''},
+    {description: '', qty: '', unitPrice: '', amount: ''},
+    {description: '', qty: '', unitPrice: '', amount: ''},
+    {description: '', qty: '', unitPrice: '', amount: ''},
+    {description: '', qty: '', unitPrice: '', amount: ''},
+    {description: '', qty: '', unitPrice: '', amount: ''},
+    {description: '', qty: '', unitPrice: '', amount: ''},
+    {description: '', qty: '', unitPrice: '', amount: ''}
   ])
 
   const [freeInputFields, setFreeInputFields] = useState([ {freeText: ''},
@@ -164,7 +126,51 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
     {freeText: ''}
   ])
 
+  const saveNotify = () => toast.success("Work Order Saved", {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
+  const updateNotify = () => toast.success("Work Order Updated!", {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
+  const errorNotify = (message) => toast.error(`Error Saving Work Order: ${message}`, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
+  const errorUpdateNotify = (message) => toast.error(`Error Updating Work Order: ${message}`, {
+    position: "bottom-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "dark",
+  });
+
   useEffect(() => {
+    inputFields?.forEach((row) => {
+      row.amount = row.qty * row.unitPrice
+    })
     setSubTotal((inputFields.reduce((a,v) => a = a + v.amount, 0)))
     setTotal((inputFields.reduce((a,v) => a = a + v.amount, +tax)))
     setBalance((inputFields.reduce((a,v) => a = a + v.amount, +tax - deposit)))
@@ -184,6 +190,7 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
 
   const handleProjectChange = (e) => {
     setProjectNumber(e.target.value);
+    let description = '';
     projectList?.forEach((proj) => {
       if (proj.projectNumber === e.target.value){
         customerList?.forEach((cust) => {
@@ -194,34 +201,49 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
             setPhone(cust.phone);
             setEmail(cust.email);
           }
+          description = proj.description;
           setProjectDescription(proj.description);
         })
       }
     })
 
-    if( invoiceData.find(inv => inv.projectNumber === e.target.value ) ) {
-      invoiceData?.forEach((inv) => {
-        if (inv.projectNumber === e.target.value){
-          setActualAddress(inv.address);
-          setDate(inv.date);
-          setInputFields(inv.inputFields); 
-          setFreeInputFields(inv.freeInputFields);
-          setSubTotal(inv.subTotal);
-          setTax(inv.tax);
-          setTotal(inv.total);
-          setDeposit(inv.deposit);
-          setBalance(inv.balance);
+    if( !estimateData.find(proj => proj.projectNumber === e.target.value ) ) {
+      setInputFields([{description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'}]);
+      setFreeInputFields([{freeText: ''},
+      {freeText: ''},
+      {freeText: ''}]);
+      setDate('');
+      setSubTotal('');
+      setTax('0')
+      setTotal('')
+      setDeposit('0')
+      setBalance('')
+      sqFtData?.forEach((sqft) => {
+        if (sqft.projectNumber === e.target.value){
+          setInputFields([{description: `${description}`, qty: `${sqft.grandTotal}`, unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'}]);
         }
       })
-    } else if ( estimateData.find(est => est.projectNumber === e.target.value ) ) {
+    } else {
       estimateData?.forEach((est) => {
         if (est.projectNumber === e.target.value){
-          const updatedInputFields = (est.inputFields || []).map((row, i) => ({
-            ...row,
-            amount: i === 0 ? est.total : ''
-          }));
-          setInputFields(updatedInputFields);
           setActualAddress(est.address);
+          setDate(est.date);
+          setInputFields(est.inputFields);
+          setFreeInputFields(est.freeInputFields);
           setSubTotal(est.subTotal);
           setTax(est.tax);
           setTotal(est.total);
@@ -229,29 +251,11 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
           setBalance(est.balance);
         }
       })
-    } else {
-      setInputFields([{description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'}]);
-      setFreeInputFields([{freeText: ''},
-      {freeText: ''},
-      {freeText: ''}]);
-      setActualAddress('');
-      setDate('');
-      setSubTotal('');
-      setTax('0');
-      setTotal('');
-      setDeposit('0');
-      setBalance('');
     }
   }
 
   const handleProjectLoad = (projNumber) => {
+    let description = '';
     projectList?.forEach((proj) => {
       if (proj.projectNumber === projNumber){
         customerList?.forEach((cust) => {
@@ -262,36 +266,49 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
             setPhone(cust.phone);
             setEmail(cust.email);
           }
+          setDate(proj.startDate);
+          description = proj.description;
           setProjectDescription(proj.description);
         })
       }
     })
-
-    if( invoiceData.find(inv => inv.projectNumber === projNumber ) ) {
-      invoiceData?.forEach((inv) => {
-        if (inv.projectNumber === projNumber){
-          setActualAddress(inv.address);
-          setDate(inv.date);
-          setInputFields(inv.inputFields);
-          setFreeInputFields(inv.freeInputFields);
-          setSubTotal(inv.subTotal);
-          setTax(inv.tax);
-          setTotal(inv.total);
-          setDeposit(inv.deposit);
-          setBalance(inv.balance);
+    if( !estimateData.find(proj => proj.projectNumber === projNumber ) ) {
+      setInputFields([{description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'},
+      {description: '', qty: '', unitPrice: '', amount: '0'}]);
+      setFreeInputFields([{freeText: ''},
+      {freeText: ''},
+      {freeText: ''}]);
+      setDate('');
+      setSubTotal('0');
+      setTax('0')
+      setTotal('0')
+      setDeposit('0')
+      setBalance('0')
+      sqFtData?.forEach((sqft) => {
+        if (sqft.projectNumber === projNumber){
+          setInputFields([{description: `${description}`, qty: `${sqft.grandTotal}`, unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'},
+            {description: '', qty: '', unitPrice: '', amount: '0'}]);
         }
       })
-    } else if ( estimateData.find(est => est.projectNumber === projNumber ) ) {
+    } else {
       estimateData?.forEach((est) => {
         if (est.projectNumber === projNumber){
-          const updatedInputFields = (est.inputFields || []).map((row, i) => ({
-            ...row,
-            amount: i === 0 ? est.total : ''
-          }));
-          setInputFields(updatedInputFields);
-          setFreeInputFields(est.freeInputFields);
           setActualAddress(est.address);
-          setDate('');
+          setDate(est.date);
+          setInputFields(est.inputFields);
+          setFreeInputFields(est.freeInputFields);
           setSubTotal(est.subTotal);
           setTax(est.tax);
           setTotal(est.total);
@@ -299,29 +316,10 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
           setBalance(est.balance);
         }
       })
-    } else {
-      setInputFields([{description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'},
-      {description: '', amount: '0'}]);
-      setFreeInputFields([{freeText: ''},
-      {freeText: ''},
-      {freeText: ''}]);
-      setActualAddress('');
-      setDate('');
-      setSubTotal('');
-      setTax('');
-      setTotal('');
-      setDeposit('');
-      setBalance('');
     }
   }
 
-  const saveInvoice = async (e) => {
+  const saveEstimate = async (e) => {
     e.preventDefault();
     try {
       if (projectNumber === '') {
@@ -333,57 +331,32 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
       if (actualAddress === '') {
         throw new Error('Must select an Address')
       }
-      const req = {  
+      const req = { 
         method: 'POST',
         headers:{ 'Content-Type': 'application/json' },
         body: JSON.stringify({
           projectNumber: projectNumber,
-          invoiceNumber: 0,
           address: actualAddress,
-          date: date, 
+          date: date,
           inputFields: inputFields,
           freeInputFields: freeInputFields,
-          subTotal: subTotal, 
+          subTotal: subTotal,
           tax: tax,
-          total: total, 
+          total: total,
           deposit: deposit,
           balance: balance
         })
       };
-      const res = await fetch('http://localhost:4000/invoice', req);
+      const res = await fetch('http://localhost:4000/estimate', req);
       const data = await res.json();
-      setInvoiceData((prevInv) => [...prevInv,data])
+      setEstimateData((prevEst) => [...prevEst,data])
       saveNotify();
-
-      let id = '';
-      let updatedProject = {};
-      let reqProj = '';
-      projectList?.forEach((proj) => {
-        if (proj.projectNumber === projectNumber){
-          id = proj._id;
-          updatedProject = { _id: id, description: proj.description, customerName: proj.customerName, projectNumber: proj.projectNumber, 
-            invoiceNumber: 0, startDate: proj.startDate, endDate: proj.endDate};
-          reqProj = { 
-            method: 'PUT',
-            headers:{ 'Content-Type': 'application/json' },
-            body: JSON.stringify({ description: proj.description, 
-              customerName: proj.customerName, 
-              projectNumber: proj.projectNumber, 
-              invoiceNumber: 0, 
-              startDate: proj.startDate, 
-              endDate: proj.endDate
-            })
-          }
-        }
-      })
-      await fetch(`http://localhost:4000/projects/${id}`, reqProj);
-      setProjectList(projectList.map(project => project._id === id ? {...updatedProject } : project));
     } catch (err) {
       errorNotify(err);
     }
   }
 
-  const updateInvoice = async (id) => {
+  const updateEstimate = async (id) => {
     try {
       if (projectNumber === '') {
         throw new Error('Must have Project Number')
@@ -396,7 +369,6 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
         headers:{ 'Content-Type': 'application/json' },
         body: JSON.stringify({
           projectNumber: projectNumber,
-          invoiceNumber: 0,
           address: actualAddress,
           date: date, 
           inputFields: inputFields,
@@ -408,36 +380,13 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
           balance: balance
         })
       };
-      await fetch(`http://localhost:4000/invoice/${id}`, req);
+      await fetch(`http://localhost:4000/estimate/${id}`, req);
 
-      const updatedInvoice = { _id: id, projectNumber: projectNumber, invoiceNumber: 0, date: date, inputFields: inputFields, 
+      const updatedEstimate = { _id: id, projectNumber: projectNumber, date: date, inputFields: inputFields, 
         freeInputFields: freeInputFields, subTotal: subTotal, tax: tax, total: total, deposit: deposit, balance: balance};
 
-      setInvoiceData(invoiceData.map(inv => inv._id === id ? { ...updatedInvoice } : inv));
+      setEstimateData(estimateData.map(est => est._id === id ? { ...updatedEstimate } : est));
       updateNotify();
-
-      let updatedProject = {};
-      let reqProj = '';
-      projectList?.forEach((proj) => {
-        if (proj.projectNumber === projectNumber){
-          id = proj._id;
-          updatedProject = { _id: id, description: proj.description, customerName: proj.customerName, projectNumber: proj.projectNumber, 
-            invoiceNumber: 0, startDate: proj.startDate, endDate: proj.endDate};
-          reqProj = { 
-            method: 'PUT',
-            headers:{ 'Content-Type': 'application/json' },
-            body: JSON.stringify({ description: proj.description, 
-              customerName: proj.customerName, 
-              projectNumber: proj.projectNumber, 
-              invoiceNumber: 0, 
-              startDate: proj.startDate, 
-              endDate: proj.endDate
-            })
-          }
-        }
-      })
-      await fetch(`http://localhost:4000/projects/${id}`, reqProj);
-      setProjectList(projectList.map(project => project._id === id ? {...updatedProject } : project));
     } catch (err) {
       errorUpdateNotify(err.message);
     }
@@ -459,26 +408,7 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
-
-  useEffect(() => {
-    if (!projectNumber) return;
-    const est = estimateData.find(e => e.projectNumber === projectNumber);
-    if (est) {
-      const updatedInputFields = (est.inputFields || []).map((row, i) => ({
-        ...row,
-        amount: i === 0 ? est.total : ''
-      }));
-      setActualAddress(est.address || '');
-      setDate(est.date || '');
-      setInputFields(updatedInputFields);
-      setFreeInputFields(est.freeInputFields || []);
-      setSubTotal(est.subTotal || '');
-      setTax(est.tax || '0');
-      setTotal(est.total || '');
-      setDeposit(est.deposit || '0');
-      setBalance(est.balance || '');
-    }
-  }, [estimateData, projectNumber]);
+    
 
   return (
     <main className='Estimate'>
@@ -496,14 +426,14 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
       </button>
       <PDFExport ref={pdfExportComponent} 
         paperSize="Letter" 
-        fileName={`${projectNumber} Estimate`}
+        fileName={`${projectNumber} WorkOrder`}
         scale={.65}
         margin={20}>
-
+      
       <div className='EstimateHeading'>
         {/* <img src={logo} className="CompanyLogo" alt="logo" /> */}
         <span className="leftTitle">Beta Granite Solutions</span>
-        <span className="rightTitle"> Estimate </span> <br></br>
+        <span className="rightTitle"> Work Order </span> <br></br>
         <span className="leftSubTitle">Phone: (281) 900-3285 / (346) 446-8884</span>
         <span className="rightSubTitle">
           <label>Date: </label>
@@ -530,9 +460,9 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
 
       <br></br><br></br>
 
-      <div className='InvoiceCustomer'>
+      <div className='EstimateCustomer'>
         <b>Customer: </b> {`${name}`} <br></br>
-        <b>Address:</b> 
+        <b>Address: </b> 
         <select
           name='Address'
           value={actualAddress}
@@ -541,17 +471,23 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
                 <option value={add.address} key={add.address}>{add.address}</option>
             ))}
         </select><br></br>
-        <b>Phone:</b> {`${phone}`} <br></br>
-        <b>Email:</b> {`${email}`}
+        <b>Phone: </b> {`${phone}`} <br></br>
+        <b>Email: </b> {`${email}`}
       </div>
+
+      <br></br>
       
-      <br></br> <h2 className='InvoiceDescription'>Project: {projectDescription}</h2> <br></br>
+      <h2 className='EstimateDescription'> Project: {projectDescription}</h2>
+
+      <br></br>
           
-      <div className='InvoiceTable'>
+      <div className='EstimateTable'>
         <table>
           <tbody>
             <tr>
               <th>Description</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
               <th>Amount</th>
             </tr>
             {inputFields.map((input, index) => {
@@ -568,6 +504,18 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
                       ))
                     }
                   </select></td>
+                  <td><input
+                    name='qty'
+                    type="number"
+                    value={input.qty}
+                    onChange={(e) => handleChange(index, e)}
+                  /></td>
+                  <td className='dollar'><input
+                    name='unitPrice'
+                    type="number"
+                    value={input.unitPrice}
+                    onChange={(e) => handleChange(index, e)}
+                  /></td>
                   <td className='dollar'><input
                     name='amount'
                     type="display"
@@ -575,7 +523,6 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
                     readOnly
                   /></td>
                 </tr>
-                
               )
             })}
             {freeInputFields.map((input, index) => {
@@ -594,10 +541,10 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
             })}
           </tbody>
         </table>
-        {!(invoiceData.find(proj => proj.projectNumber === projectNumber)) 
-        ? <button className="saveButton" onClick={(e) => saveInvoice(e)}>Save Estimate</button> 
-        : invoiceData.map(proj => (proj.projectNumber === projectNumber) ?
-        <button className="editButton" key={proj._id} onClick={() => updateInvoice(proj._id)}>Update Estimate</button> : "")}
+        {!(estimateData.find(proj => proj.projectNumber === projectNumber)) 
+        ? <button className="saveButton" onClick={(e) => saveEstimate(e)}>Save Work Order</button> 
+        : estimateData.map(proj => (proj.projectNumber === projectNumber) ?
+        <button className="editButton" key={proj._id} onClick={() => updateEstimate(proj._id)}>Update Work Order</button> : "")}
         <ToastContainer
           position="bottom-center"
           autoClose={5000}
@@ -614,7 +561,7 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
 
       <br></br>
 
-      <div className='InvoiceFooter'>
+      <div className='EstimateFooter'>
         <span className='rightFooter'>
           <label> Subtotal:&ensp;</label>
           $<input
@@ -653,12 +600,12 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
           /><br></br>
 
           <label> Balance:&ensp;</label>
-          $<input
-            name='balance'
-            type="display"
-            placeholder="Balance"
-            value={balance}
-            readOnly
+            $<input
+              name='balance'
+              type="display"
+              placeholder="Balance"
+              value={balance}
+              readOnly
           /><br></br>
         </span>
         1. Electrical will be done by customer <br></br>
@@ -681,4 +628,4 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
   )
 }
 
-export default Estimate
+export default WorkOrder

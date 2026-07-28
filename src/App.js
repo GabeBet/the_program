@@ -12,6 +12,7 @@ import AddProject from "./ProjectComponents/AddProject";
 import ProjectPage from "./ProjectComponents/ProjectPage";
 import EditProject from "./ProjectComponents/EditProject";
 import DescriptionListEditor from "./DescriptionListEditor";
+import WorkOrder from "./WorkOrder";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import BankStatements from "./ProjectComponents/BankStatements";
@@ -55,68 +56,6 @@ function App() {
   const [invoiceData, setInvoiceData] = useState([]);
 
   const [bankData, setBankData] = useState([]);
-
-  // const [descriptionList] = useState([
-  //   "Bath Tub Cut Out",
-  //   "Console Table",
-  //   "Bathroom Countertop", 
-  //   "Built in Cabinet",
-  //   "Closet Top",
-  //   "Coffee Table",
-  //   "Conference Table",
-  //   "Cook Top Cut-Out",
-  //   "Cost of Material",
-  //   "Countertops",
-  //   "Decking",
-  //   "Drop in Sink (D.I.S.)",
-  //   "Dry Bar Countertop",
-  //   "Fabrication / Installation",
-  //   "Fabrication / Installation - Ogee Edge",
-  //   "Fabrication / Installation Shower Wall Straight",
-  //   "Fabrication / Installation -Straight Edge",
-  //   "Fabrication/Installation - Miter Edge",
-  //   "Fabrication/Installation - Other Edge",
-  //   "Fabrication/Installation/Material",
-  //   "Farm Sink Cut-Out",
-  //   "Fireplace",
-  //   "Kitchen & Vanity Countertops",
-  //   "Kitchen / Bathroom",
-  //   "Kitchen / Full B.S",
-  //   "Kitchen Island",
-  //   "Kitchen Pantry",
-  //   "Outdoor Kitchen",
-  //   "Pool Bar",
-  //   "Master Bathroom",
-  //   "Kitchen Countertops",
-  //   "Kitchen Sink",
-  //   "Waterfall",
-  //   "Labor Cut and Polish Countertop",
-  //   "Labor Cut -Out and Polish Outdoor Grill",
-  //   "Material Pick Up",
-  //   "MATERIAL TO BE USED",
-  //   "Outdoor Grill Cut-Out",
-  //   "Outlets Cut-Out",
-  //   "Oval Table",
-  //   "Oversize Pieces",
-  //   "Plumbing",
-  //   "Powder Room",
-  //   "Sealer Aplication",
-  //   "Stainless Steel Kitchen Sink- Double Bowl",
-  //   "Stainless Steel Kitchen Sink- Single Bowl",
-  //   "Tear Out Existing Back Splash",
-  //   "Tear Out Existing Countertops",
-  //   "Tile Backsplash",
-  //   "Trip Charge",
-  //   "Undermount Cut-Out Bar Sink",
-  //   "Undermount Cut-Out Island Sink",
-  //   "Undermount Cut-Out Kitchen Sink", 
-  //   "Undermount Cut-Out Utility Sink",
-  //   "Undermount Cut-Out Vanity Sink",
-  //   "Utility Top",
-  //   "Vanity Sink - Cut-Out",
-  //   "Vanity Sink - Oval",
-  //   "Vanity Sink Rectangle"
-  // ]);
 
   const [projDescriptionList, setProjDescriptionList] = useState([]);
   const [sqftDescriptionList, setSqftDescriptionList] = useState([]);
@@ -594,13 +533,24 @@ function App() {
             projectList={projectList}
             />} />
         </Route>
-        <Route path="estimate">
-          <Route index element={<Estimate 
+        <Route path="work-order">
+          <Route index element={<WorkOrder 
             estimateData={estimateData}
             setEstimateData={setEstimateData}
             sqFtData={sqFtData}
             descriptionList={estInvDescriptionList}
             projectList={projectList}
+            customerList={customerList}
+          />} />
+        </Route>
+        <Route path="estimate">
+          <Route index element={<Estimate 
+            invoiceData={invoiceData}
+            setInvoiceData={setInvoiceData}
+            estimateData={estimateData}
+            descriptionList={estInvDescriptionList}
+            projectList={projectList}
+            setProjectList={setProjectList}
             customerList={customerList}
           />} />
         </Route>

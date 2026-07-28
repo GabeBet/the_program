@@ -80,30 +80,28 @@ body {
 }
 
 .Nav li {
-  padding: .5rem;
-}
-
-.Nav li:hover, 
-.Nav li:focus {
-  padding: .5rem;
+  padding: 0;
 }
 
 .Nav li a {
+  display: block;
+  padding: .5rem;
   color: #fff;
   text-decoration: none;
 }
 
-.Nav li:hover, 
-.Nav li:focus, 
-.Nav li:hover a, 
-.Nav li:focus a  {
+.Nav li:hover a,
+.Nav li:focus a {
   background-color: #eee;
   color: #333;
+  cursor: pointer;
 }
 
-.Nav li:hover a, 
-.Nav li:focus a {
-  cursor: pointer;
+.Nav a.active {
+  display: block;
+  padding: .5rem;
+  background-color: #eee;
+  color: #333;
 }
 
 .Projects, .Customers, .SqFt, .ErrorPage, .CustomerPage, .ProjectPage, .BankStatements, .DescriptionListEditor {
@@ -530,4 +528,22 @@ button:hover {
 .DescriptionListEditor ul:hover {
   cursor: pointer;
   color:red;
+}
+
+.descriptionCell {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.descriptionCell select {
+  flex: 1 1 60%;
+  min-width: 0;
+}
+
+.descriptionCell input[type='text'] {
+  flex: 1 1 40%;
+  min-width: 0;
+  width: auto;
+  max-width: none;
 }
