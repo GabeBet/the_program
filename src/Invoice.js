@@ -486,6 +486,17 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
     }
   }, [estimateData, projectNumber]);
 
+  const formatAmount = (val) => {
+    const num = parseFloat(val);
+    return isNaN(num) ? '0.00' : num.toFixed(2);
+  };
+
+  const formatDate = (isoDate) => {
+    if (!isoDate) return '';
+    const [year, month, day] = isoDate.split('-');
+    return `${month}/${day}/${year}`;
+  };
+
   return (
     <main className='Invoice'>
       <button
@@ -511,12 +522,17 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         <span className="leftTitle">Beta Granite Solutions</span> <span className="rightTitle"> Invoice </span> 
         <br></br>
         <span className="leftSubTitle">Phone: (281) 900-3285 / (346) 446-8884</span> <span className="rightSubTitle">Date:&ensp;
-          <input
-            id='invoiceDate'
-            type='date'
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          /></span> 
+          <span className='dateGroup'>
+            <input
+              id='invoiceDate'
+              className='dateInput'
+              type='date'
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <span className='formattedDate'>{formatDate(date)}</span>
+          </span>
+        </span>
         <span className="rightSubTitle">Project: &ensp;
           <select
             name='projectNumber'
@@ -578,10 +594,10 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
                       ))
                     }
                   </select></td>
-                  <td className='dollar'><input
+                  <td className='amount'><input
                     name='amount'
                     type="display"
-                    value={input.amount}
+                    value={formatAmount(input.amount)}
                     readOnly
                   /></td>
                 </tr>
@@ -675,9 +691,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         1. Electrical will be done by customer <br></br>
         2. 50% Deposit due at time of agreement <br></br>
         3. Balance due at time of completion <br></br>
-        4. Edge - Straight <br></br>
-        5. Sink, Faucets, and other items to be mounted in the countertop need to be at job site at time of installation to make cutouts <br></br>
-        6. Additional trips will incure extra charges <br></br><br></br><br></br><br></br>
+        4. Sink, Faucets, and other items to be mounted in the countertop need to be at job site at time of installation to make cutouts <br></br>
+        5. Additional trips will incure extra charges <br></br><br></br><br></br><br></br>
         <div className='centerFooter'>
           Make all checks payable to <b>Beta Granite Solutions</b> <br></br> 3511 Maverly Crest Ct Katy, TX 77494 <br></br>
           If you have any questions about this invoice, please contact <br></br> 

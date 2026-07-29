@@ -408,7 +408,12 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
-    
+
+  const formatDate = (isoDate) => {
+    if (!isoDate) return '';
+    const [year, month, day] = isoDate.split('-');
+    return `${month}/${day}/${year}`;
+  };
 
   return (
     <main className='Estimate'>
@@ -437,12 +442,16 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
         <span className="leftSubTitle">Phone: (281) 900-3285 / (346) 446-8884</span>
         <span className="rightSubTitle">
           <label>Date: </label>
-          <input
-            id='EstimateDate'
-            type='date'
-            required
-            value={date}
-            onChange={(e) => setDate(e.target.value)}/>
+          <span className='dateGroup'>
+            <input
+              id='EstimateDate'
+              className='dateInput'
+              type='date'
+              required
+              value={date}
+              onChange={(e) => setDate(e.target.value)}/>
+            <span className='formattedDate'>{formatDate(date)}</span>
+          </span>
         </span> <br></br>
         <span className='rightSubTitle'>
           <label>Project: </label>

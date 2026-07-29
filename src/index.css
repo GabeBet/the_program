@@ -452,6 +452,20 @@ button:hover {
   content: '$';
 }
 
+.amount{
+  position:relative;
+}
+
+.amount input{
+  padding-left: 15px;
+}
+
+.amount:after{
+  position: absolute;
+  left: 6px;
+  top: 5px;
+}
+
 .rightFooter input{
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
@@ -546,4 +560,25 @@ button:hover {
   min-width: 0;
   width: auto;
   max-width: none;
+}
+
+.dateGroup {
+  position: relative;
+  display: inline-block;
+}
+
+.formattedDate {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.k-pdf-export .dateInput {
+  opacity: 0;
+}
+
+.k-pdf-export .formattedDate {
+  opacity: 1;
 }
