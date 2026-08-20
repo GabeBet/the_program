@@ -692,7 +692,8 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
         2. 50% Deposit due at time of agreement <br></br>
         3. Balance due at time of completion <br></br>
         4. Sink, Faucets, and other items to be mounted in the countertop need to be at job site at time of installation to make cutouts <br></br>
-        5. Additional trips will incure extra charges <br></br><br></br><br></br><br></br>
+        5. Additional trips will incure extra charges <br></br>
+        6. If paying by credit card, a 3.5% fee will be applied to the final total <br></br><br></br><br></br><br></br>
         <div className='centerFooter'>
           Make all checks payable to <b>Beta Granite Solutions</b> <br></br> 3511 Maverly Crest Ct Katy, TX 77494 <br></br>
           If you have any questions about this invoice, please contact <br></br> 
