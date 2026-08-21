@@ -33,6 +33,10 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
   };
 
   const exportExcelWithComponent = () => {
+    const toExcelNumber = (value) => (
+      value === '' || value === null || value === undefined ? '' : Number(value)
+    );
+
     // Prepare data for Excel export, mirroring the PDF structure
     const data = [
       // Heading Section
@@ -58,9 +62,9 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
       // Table Rows (from inputFields)
       ...inputFields.map(row => [
         row.description || '',
-        row.qty || '',
-        row.unitPrice ? `$${row.unitPrice}` : '',
-        row.amount ? `$${row.amount}` : ''
+        toExcelNumber(row.qty),
+        toExcelNumber(row.unitPrice),
+        toExcelNumber(row.amount)
       ]),
 
       // Free Text Rows (from freeInputFields)
@@ -69,11 +73,11 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
       [], // Empty row for spacing
 
       // Totals Section
-      ['', '', 'Subtotal:', `$${subTotal}`],
-      ['', '', 'Tax:', `$${tax}`],
-      ['', '', 'Total:', `$${total}`],
-      ['', '', 'Deposit:', `$${deposit}`],
-      ['', '', 'Balance:', `$${balance}`],
+      ['', '', 'Subtotal:', toExcelNumber(subTotal)],
+      ['', '', 'Tax:', toExcelNumber(tax)],
+      ['', '', 'Total:', toExcelNumber(total)],
+      ['', '', 'Deposit:', toExcelNumber(deposit)],
+      ['', '', 'Balance:', toExcelNumber(balance)],
       [], // Empty row for spacing
 
       // Footer Text (static, as in PDF)
@@ -95,6 +99,12 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
     // Create a new workbook and worksheet
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.aoa_to_sheet(data); // Convert array of arrays to worksheet
+
+    Object.keys(ws).forEach((cell) => {
+      if (/^[CD]\d+$/.test(cell) && typeof ws[cell].v === 'number') {
+        ws[cell].z = '$#,##0.00';
+      }
+    });
 
     // Optional: Basic column width adjustments for readability (mimics table layout)
     ws['!cols'] = [
