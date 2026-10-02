@@ -429,6 +429,26 @@ button:hover {
   max-width: none;
 }
 
+.EstimateTable .removeFreeFieldButton,
+.InvoiceTable .removeFreeFieldButton {
+  height: 1.875rem;
+  margin: 0;
+}
+
+.EstimateTable .freeInputLine,
+.InvoiceTable .freeInputLine {
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.EstimateTable .freeInputLine .freeText,
+.InvoiceTable .freeInputLine .freeText {
+  flex: 1;
+  min-width: 0;
+  width: 0;
+}
+
 .SqFt input {
   width: 100%;
 }

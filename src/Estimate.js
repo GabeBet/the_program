@@ -161,7 +161,6 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
 
   const [freeInputFields, setFreeInputFields] = useState([ {freeText: ''},
     {freeText: ''},
-    {freeText: ''},
     {freeText: ''}
   ])
 
@@ -181,6 +180,15 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
     let data = [...freeInputFields];
     data[index][e.target.name] = e.target.value;
     setFreeInputFields(data);
+  }
+
+  const addFreeField = (e) => {
+    e.preventDefault();
+    setFreeInputFields([...freeInputFields, {freeText: ''}]);
+  }
+
+  const removeFreeField = (index) => {
+    setFreeInputFields(freeInputFields.filter((_, fieldIndex) => fieldIndex !== index));
   }
 
   const handleProjectChange = (e) => {
@@ -240,7 +248,6 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
       {description: '', amount: '0'},
       {description: '', amount: '0'}]);
       setFreeInputFields([{freeText: ''},
-      {freeText: ''},
       {freeText: ''},
       {freeText: ''}]);
       setActualAddress('');
@@ -311,7 +318,6 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
       {description: '', amount: '0'},
       {description: '', amount: '0'}]);
       setFreeInputFields([{freeText: ''},
-      {freeText: ''},
       {freeText: ''},
       {freeText: ''}]);
       setActualAddress('');
@@ -600,16 +606,24 @@ const Estimate = ( { invoiceData, setInvoiceData, estimateData, descriptionList,
             return (
               <tr key={index}>
                 <td colSpan="4">
-                  <input className='freeText'
-                    name='freeText'
-                    type='text'
-                    value={input.freeText}
-                    onChange={(e) => handleFreeChange(index, e)}>
-                  </input>
+                  <div className="freeInputLine">
+                    <input className='freeText'
+                      name='freeText'
+                      type='text'
+                      value={input.freeText}
+                      onChange={(e) => handleFreeChange(index, e)}>
+                    </input>
+                    <button type="button" className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base removeFreeFieldButton" onClick={() => removeFreeField(index)}>Remove</button>
+                  </div>
                 </td>
               </tr>
               )
             })}
+            <tr>
+              <td colSpan="4">
+                <button type="button" className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onClick={addFreeField}>Add Line</button>
+              </td>
+            </tr>
           </tbody>
         </table>
         {!(invoiceData.find(proj => proj.projectNumber === projectNumber)) 
