@@ -133,6 +133,7 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
 
   const [freeInputFields, setFreeInputFields] = useState([ {freeText: ''},
     {freeText: ''},
+    {freeText: ''},
     {freeText: ''}
   ])
 
@@ -228,6 +229,7 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
       {description: '', qty: '', unitPrice: '', amount: '0'}]);
       setFreeInputFields([{freeText: ''},
       {freeText: ''},
+      {freeText: ''},
       {freeText: ''}]);
       setDate('');
       setSubTotal('');
@@ -292,6 +294,7 @@ const WorkOrder = ( { estimateData, setEstimateData, sqFtData, descriptionList, 
       {description: '', qty: '', unitPrice: '', amount: '0'},
       {description: '', qty: '', unitPrice: '', amount: '0'}]);
       setFreeInputFields([{freeText: ''},
+      {freeText: ''},
       {freeText: ''},
       {freeText: ''}]);
       setDate('');

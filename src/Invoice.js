@@ -163,6 +163,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
 
   const [freeInputFields, setFreeInputFields] = useState([ {freeText: ''},
     {freeText: ''},
+    {freeText: ''},
     {freeText: ''}
   ])
 
@@ -242,6 +243,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       {description: '', amount: '0'}]);
       setFreeInputFields([{freeText: ''},
       {freeText: ''},
+      {freeText: ''},
       {freeText: ''}]);
       setInvoiceNumber('');
       setActualAddress('');
@@ -311,6 +313,7 @@ const Invoice = ( { invoiceData, setInvoiceData, estimateData, descriptionList, 
       {description: '', amount: '0'},
       {description: '', amount: '0'}]);
       setFreeInputFields([{freeText: ''},
+      {freeText: ''},
       {freeText: ''},
       {freeText: ''}]);
       setInvoiceNumber('');
